@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>AI Risk Assessment Prototype</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg: #f8fafc;
+            --text: #1e293b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #wizard-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .progress-bg {
+            background: #e2e8f0;
+            height: 8px;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        #progress-bar {
+            background: var(--primary);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .domain-tag {
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        h2 {
+            margin: 0.5rem 0 1.5rem 0;
+            font-size: 1.25rem;
+            line-height: 1.6;
+        }
+
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+        }
+
+        button {
+            padding: 0.75rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            cursor: pointer;
+            background: white;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: #f1f5f9;
+            border-color: var(--primary);
+        }
+
+        .btn-submit {
+            background: var(--primary);
+            color: white;
+            margin-top: 1rem;
+            width: 100%;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="wizard-container">
+        <div class="progress-bg">
+            <div id="progress-bar"></div>
+        </div>
+        <div id="quiz-ui">
+            <span id="domain-text" class="domain-tag"></span>
+            <h2 id="question-text">Loading questions...</h2>
+            <div class="btn-group">
+                <button onclick="recordAnswer('Yes')">Yes</button>
+                <button onclick="recordAnswer('Partial')">Partial</button>
+                <button onclick="recordAnswer('No')">No</button>
+            </div>
+        </div>
+        <div id="result-ui" style="display:none;">
+            <h2>Assessment Complete!</h2>
+            <div id="report-content">
+                <p>Calculating your AI Risk Profile...</p>
+            </div>
+            <button class="btn-submit" style="display:block;" onclick="location.reload()">Start New Assessment</button>
+        </div>
+    </div>
+
+    <script src="Script.js"></script>
+</body>
+
+</html>
+
+<div id="results-page" style="display:none;">
+    <h2 id="risk-summary-header">Risk Profile Results</h2>
+    <div id="overall-assessment" class="summary-box"></div>
+
+    <h3>Critical Gaps Identified:</h3>
+    <ul id="risk-list"></ul>
+
+    <h3>Actionable Recommendations:</h3>
+    <div id="rec-box"></div>
+
+    <button onclick="window.print()">Download Report as PDF</button>
+</div>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Enterprise AI Risk Diagnostic</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <div id="app">
+        <div id="welcome-screen">
+            <h1>AI Risk Diagnostic Tool</h1>
+            <p>Assess your company's AI posture in 10 minutes. No login required.</p>
+            <button onclick="startAssessment()" class="btn-start">Start Assessment</button>
+        </div>
+
+        <div id="quiz-screen" style="display:none;">
+            <div class="progress-container">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
+            <span id="domain-label"></span>
+            <h2 id="question-text"></h2>
+            <div class="btn-group">
+                <button onclick="submitAnswer('Yes')" class="btn-yes">Yes / Implemented</button>
+                <button onclick="submitAnswer('Partial')" class="btn-partial">Partial / In Progress</button>
+                <button onclick="submitAnswer('No')" class="btn-no">No / Not Started</button>
+            </div>
+        </div>
+
+        <div id="result-screen" style="display:none;">
+            <h1>Executive AI Risk Profile</h1>
+            <div id="summary-box"></div>
+            <div id="risk-list">
+                <p>Analyzing triggers and generating report...</p>
+            </div>
+            <button onclick="window.print()" class="btn-print">Download as PDF</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
