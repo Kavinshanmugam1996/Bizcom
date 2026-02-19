@@ -17,3 +17,4 @@ weight = df[df['Question_ID'] == 'AI-001']['Weight'].values[0]
 print(weight)
 
 
+
