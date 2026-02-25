@@ -1,0 +1,23 @@
+# Bizcom Server Restart Instructions
+
+To restart the server, you have two options:
+
+### Option 1: Use the Batch File (Recommended)
+Simply run the following file from your terminal or double-click it in File Explorer:
+`run_server.bat`
+
+This script will automatically:
+1. Stop any process already running on port 8000.
+2. Start the FastAPI server using the project's virtual environment.
+
+### Option 2: Manual Commands
+If you prefer to run the commands manually in PowerShell/Terminal, use:
+
+1. Kill existing process on port 8000:
+   `for /f "tokens=5" %a in ('netstat -aon ^| findstr :8000 ^| findstr LISTENING') do taskkill /f /pid %a`
+
+2. Start the server:
+   `.venv\Scripts\python.exe main.py`
+
+---
+The server will be available at: http://127.0.0.1:8000/

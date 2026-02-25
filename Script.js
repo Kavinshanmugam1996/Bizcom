@@ -311,10 +311,13 @@ function App() {
     async function downloadPDF() {
         setPdfGenerating(true);
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/generate-pdf-from-profile', {
+            const response = await fetch('/api/generate-pdf-from-profile', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(profile)
+                body: JSON.stringify({
+                    ...profile,
+                    score: profile.total
+                })
             });
 
             if (response.ok) {

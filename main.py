@@ -1,10 +1,11 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.responses import FileResponse, StreamingResponse, HTMLResponse
 import io
 import pandas as pd
 import os
 import html
+import re
 from pydantic import BaseModel
 from typing import List
 from reportlab.lib import colors
@@ -34,25 +35,25 @@ SCRIPT_FILE = os.path.join(BASE_DIR, "Script.js")
 async def read_root():
     """Serve the app with Script.js inlined so Babel can compile it."""
     if not os.path.exists(INDEX_FILE) or not os.path.exists(SCRIPT_FILE):
-        return {"message": "Welcome! Please make sure index.html and Script.js exist."}
+        return HTMLResponse(content="<h1>Welcome!</h1><p>Please make sure index.html and Script.js exist.</p>")
     
-    with open(INDEX_FILE, "r") as f:
+    with open(INDEX_FILE, "r", encoding='utf-8') as f:
         html_content = f.read()
-    with open(SCRIPT_FILE, "r") as f:
+    with open(SCRIPT_FILE, "r", encoding='utf-8') as f:
         script_content = f.read()
     
-    # Replace the external script tag with an inline script tag
-    html_content = html_content.replace(
-        '<script type="text/babel" src="/Script.js"></script>',
-        f'<script type="text/babel">\n{script_content}\n</script>'
-    )
-    # Also handle single-quoted version just in case
-    html_content = html_content.replace(
-        "<script type='text/babel' src='/Script.js'></script>",
-        f'<script type="text/babel">\n{script_content}\n</script>'
-    )
+    # Inline the script for Babel compilation
+    script_tag_pattern = re.compile(r'<script\s+type=["\']text/babel["\']\s+src=["\']/Script\.js["\']></script>', re.IGNORECASE)
+    inlined_script = f'<script type="text/babel">\n{script_content}\n</script>'
     
-    from fastapi.responses import HTMLResponse
+    target_tag = script_tag_pattern.search(html_content)
+    if target_tag:
+        # Use simple string replace on the matched part to avoid re.sub backreference issues
+        html_content = html_content.replace(target_tag.group(0), inlined_script)
+    else:
+        # Fallback: append before </body> if tag not found
+        html_content = html_content.replace('</body>', f'{inlined_script}\n</body>')
+    
     return HTMLResponse(content=html_content)
 
 @app.get("/Script.js")
@@ -275,8 +276,8 @@ async def download_report(user_responses: List[UserResponse]):
 
 class RiskProfile(BaseModel):
     score: float
-    label: str
-    summary: str
+    label: str = ""
+    summary: str = ""
     detailed_risks: List[dict] = []
     recommendations: List[dict] = []
     # Tier info from frontend
@@ -299,7 +300,6 @@ async def generate_pdf_from_profile(profile: RiskProfile):
     story.append(Spacer(1, 12))
 
     # Score & Tier
-    # Use data from frontend if available, otherwise fallback
     tier_text = profile.tier if profile.tier else profile.label
     score_text = f"Risk Score: {profile.score}% - {tier_text}"
     
@@ -307,19 +307,20 @@ async def generate_pdf_from_profile(profile: RiskProfile):
     story.append(Spacer(1, 12))
 
     # Executive Summary
+    summary_text = profile.description if profile.description else profile.summary
     story.append(Paragraph("Executive Summary:", styles['Heading3']))
-    story.append(Paragraph(profile.description if profile.description else profile.summary, styles['Normal']))
+    story.append(Paragraph(html.escape(summary_text) if summary_text else "No summary provided.", styles['Normal']))
     story.append(Spacer(1, 12))
 
-    # Key Findings (from frontend profile)
+    # Key Findings
     if profile.findings:
         story.append(Paragraph("Key Findings:", styles['Heading3']))
         for finding in profile.findings:
-            text = f"• {html.escape(finding)}"
+            text = f"• {html.escape(str(finding))}"
             story.append(Paragraph(text, styles['Normal']))
             story.append(Spacer(1, 6))
         story.append(Spacer(1, 12))
-    elif profile.detailed_risks: # Fallback to old structure
+    elif profile.detailed_risks: # Fallback to detailed_risks
         story.append(Paragraph("Key Findings:", styles['Heading3']))
         for risk in profile.detailed_risks:
             domain = html.escape(str(risk.get('domain', '')))
@@ -329,19 +330,16 @@ async def generate_pdf_from_profile(profile: RiskProfile):
             story.append(Spacer(1, 6))
         story.append(Spacer(1, 12))
 
-    # Recommendations
-    if profile.actions:
+    # Recommendations / Actions
+    actions = profile.actions if profile.actions else []
+    if not actions and profile.recommendations:
+        actions = [r['text'] for r in profile.recommendations if 'text' in r]
+
+    if actions:
         story.append(Paragraph("Recommended Actions:", styles['Heading3']))
-        for action in profile.actions:
-             text = f"• {html.escape(action)}"
+        for action in actions:
+             text = f"• {html.escape(str(action))}"
              story.append(Paragraph(text, styles['Normal']))
-             story.append(Spacer(1, 6))
-    elif profile.recommendations: # Fallback
-        story.append(Paragraph("Recommendations:", styles['Heading3']))
-        unique_recs = set(r['text'] for r in profile.recommendations)
-        for rec in unique_recs:
-             clean_rec = html.escape(str(rec))
-             story.append(Paragraph(f"• {clean_rec}", styles['Normal']))
              story.append(Spacer(1, 6))
 
     doc.build(story)
@@ -354,5 +352,5 @@ async def generate_pdf_from_profile(profile: RiskProfile):
 
 if __name__ == "__main__":
     import uvicorn
-    print("🚀 Loading AI Risk Database...")
+    print("Loading AI Risk Database...")
     uvicorn.run(app, host="127.0.0.1", port=8000)
