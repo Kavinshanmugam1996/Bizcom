@@ -246,9 +246,17 @@ function GoldBtn({ onClick, disabled, children, outline = false }) {
 
 // ─── MAIN APP ─────────────────────────────────────────────────────────────────
 function App() {
-    // Phases: "intro" → "profile" → "inventory" → "quiz" → "result"
-    const [phase,   setPhase]   = useState("intro");
+    // Phases: "login" → "intro" → "profile" → "inventory" → "quiz" → "result"
+    const initialToken = localStorage.getItem("bizcom_token") || null;
+    const [token, setToken] = useState(initialToken);
+    const [phase,   setPhase]   = useState(initialToken ? "intro" : "login");
     const [animIn,  setAnimIn]  = useState(true);
+
+    // Auth
+    const [loginEmail, setLoginEmail] = useState("");
+    const [loginPass, setLoginPass] = useState("");
+    const [loginError, setLoginError] = useState("");
+    const [loggingIn, setLoggingIn] = useState(false);
 
     // Step 1 — Company Profile
     const [company, setCompany] = useState({
@@ -289,7 +297,7 @@ function App() {
         try {
             const res = await fetch("/api/questions/filtered", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
                 body: JSON.stringify({ selected_groups: groups }),
             });
             if (!res.ok) throw new Error(`Server error ${res.status}`);
@@ -345,7 +353,7 @@ function App() {
         try {
             const res = await fetch("/api/generate-report", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
                 body: JSON.stringify({
                     company,
                     inventory,
@@ -382,7 +390,7 @@ function App() {
 
             const res = await fetch("/api/download-report", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
                 body: JSON.stringify({
                     company, inventory, responses,
                     score:       profile.total,
@@ -435,7 +443,7 @@ function App() {
                         <span key={t} style={{ fontSize: 11, color: B.grey, background: `${B.white}08`, border: `1px solid ${B.navyLight}`, borderRadius: 100, padding: "5px 14px", letterSpacing: "0.05em" }}>{t}</span>
                     ))}
                 </div>
-                <GoldBtn onClick={() => goTo("profile")}>Begin Assessment →</GoldBtn>
+                <GoldBtn onClick={() => token ? goTo("profile") : goTo("login")}>Begin Assessment →</GoldBtn>
                 <p style={{ color: "#3A5069", fontSize: 11, marginTop: 14, letterSpacing: "0.05em" }}>All responses are private · No data stored</p>
             </div>
 
@@ -457,6 +465,67 @@ function App() {
                                 <div style={{ fontSize: 11, color: B.greyDark, lineHeight: 1.6 }}>{desc}</div>
                             </div>
                         ))}
+                    </div>
+                </div>
+            </div>
+            <Footer />
+        </div>
+    );
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // LOGIN
+    // ══════════════════════════════════════════════════════════════════════════
+    async function doLogin() {
+        if (!loginEmail || !loginPass) {
+            setLoginError("Please enter email and password.");
+            return;
+        }
+        setLoggingIn(true);
+        setLoginError("");
+        try {
+            const res = await fetch("/api/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: loginEmail, password: loginPass })
+            });
+            if (!res.ok) throw new Error("Invalid email or password");
+            const data = await res.json();
+            localStorage.setItem("bizcom_token", data.access_token);
+            setToken(data.access_token);
+            goTo("intro");
+        } catch(e) {
+            setLoginError(e.message);
+        }
+        setLoggingIn(false);
+    }
+
+    if (phase === "login") return (
+        <div style={{ minHeight: "100vh", background: B.offWhite, display: "flex", flexDirection: "column", fontFamily: "sans-serif" }}>
+            <NavBar step={null} />
+            <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "40px 20px" }}>
+                <div style={{ maxWidth: 420, width: "100%", opacity: animIn ? 1 : 0, transform: animIn ? "translateY(0)" : "translateY(14px)", transition: "opacity 0.26s, transform 0.26s" }}>
+                    <div style={{ background: B.white, border: `1px solid ${B.lightGrey}`, borderRadius: 14, padding: "40px", boxShadow: "0 8px 32px rgba(11,29,51,0.08)", textAlign: "center" }}>
+                        <div style={{ width: 48, height: 48, background: `${B.gold}22`, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px" }}>
+                            <span style={{ fontSize: 24 }}>🔒</span>
+                        </div>
+                        <h2 style={{ fontSize: 24, fontWeight: 700, color: B.navy, margin: "0 0 8px" }}>Assessor Login</h2>
+                        <p style={{ fontSize: 13, color: B.greyDark, marginBottom: 28 }}>Secure authentication for AI Risk Governance</p>
+                        
+                        {loginError && <div style={{ background: "#FEE2E2", color: "#991B1B", padding: "10px", borderRadius: 6, fontSize: 13, marginBottom: 20 }}>{loginError}</div>}
+                        
+                        <div style={{ textAlign: "left", marginBottom: 16 }}>
+                            <FieldRow label="Email Address">
+                                <Input value={loginEmail} onChange={setLoginEmail} placeholder="you@bizcomgrp.com" type="email" />
+                            </FieldRow>
+                        </div>
+                        <div style={{ textAlign: "left", marginBottom: 28 }}>
+                            <FieldRow label="Password">
+                                <Input value={loginPass} onChange={setLoginPass} placeholder="••••••••" type="password" />
+                            </FieldRow>
+                        </div>
+                        <GoldBtn onClick={doLogin} disabled={loggingIn}>
+                            {loggingIn ? "Authenticating..." : "Sign In →"}
+                        </GoldBtn>
                     </div>
                 </div>
             </div>

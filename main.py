@@ -1,12 +1,16 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse, HTMLResponse
+from fastapi.security import OAuth2PasswordBearer
 from functools import lru_cache
 import io
 import pandas as pd
 import os
 import html
 import re
+import hashlib
+import jwt
+from datetime import datetime, timedelta
 from pydantic import BaseModel
 from typing import List, Optional
 from reportlab.lib import colors
@@ -33,9 +37,83 @@ DATA_DIR    = os.path.join(BASE_DIR, "data")
 QUESTIONS_FILE  = os.path.join(DATA_DIR, "questions_enriched.csv")
 RISKS_FILE      = os.path.join(DATA_DIR, "master_risk_db.csv")
 COMPLIANCE_FILE = os.path.join(DATA_DIR, "compliance_db.csv")
+USERS_FILE      = os.path.join(DATA_DIR, "users_db.csv")
 
 INDEX_FILE  = os.path.join(BASE_DIR, "index.html")
 SCRIPT_FILE = os.path.join(BASE_DIR, "Script.js")
+
+# ── AUTHENTICATION ────────────────────────────────────────────────────────────
+SECRET_KEY = "bizcom_secret_key_123"
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 24 * 60
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/login")
+
+class LoginRequest(BaseModel):
+    email: str
+    password: str
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    try:
+        salt, key = hashed_password.split(':')
+        new_key = hashlib.pbkdf2_hmac('sha256', plain_password.encode('utf-8'), salt.encode('utf-8'), 100000)
+        return new_key.hex() == key
+    except Exception:
+        return False
+
+def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.utcnow() + expires_delta
+    else:
+        expire = datetime.utcnow() + timedelta(minutes=15)
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
+
+def get_user_db():
+    if not os.path.exists(USERS_FILE):
+        return {}
+    df = pd.read_csv(USERS_FILE)
+    return {row['email']: row['hashed_password'] for _, row in df.iterrows()}
+
+async def get_current_user(token: str = Depends(oauth2_scheme)):
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        email: str = payload.get("sub")
+        if email is None:
+            raise credentials_exception
+    except jwt.PyJWTError:
+        raise credentials_exception
+    user_db = get_user_db()
+    if email not in user_db:
+        raise credentials_exception
+    return email
+
+@app.post("/api/login", response_model=Token)
+def login_for_access_token(req: LoginRequest):
+    user_db = get_user_db()
+    user_hashed_pw = user_db.get(req.email)
+    if not user_hashed_pw or not verify_password(req.password, user_hashed_pw):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect email or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": req.email}, expires_delta=access_token_expires
+    )
+    return {"access_token": access_token, "token_type": "bearer"}
 
 # ── COMPONENT GROUPS (your 13 tags) ──────────────────────────────────────────
 COMPONENT_GROUPS = [
@@ -190,19 +268,19 @@ async def serve_script():
 
 # ── COMPONENT GROUPS ENDPOINT ─────────────────────────────────────────────────
 @app.get("/api/component-groups")
-async def get_component_groups():
+async def get_component_groups(user: str = Depends(get_current_user)):
     """Return the 13 selectable AI component groups for the inventory screen."""
     return {"count": len(COMPONENT_GROUPS), "data": COMPONENT_GROUPS}
 
 # ── QUESTIONS ENDPOINTS ───────────────────────────────────────────────────────
 @app.get("/api/questions")
-async def get_all_questions():
+async def get_all_questions(user: str = Depends(get_current_user)):
     """Return all 122 questions (unfiltered)."""
     df = load_questions()
     return {"count": len(df), "data": df_to_json_safe(df)}
 
 @app.post("/api/questions/filtered")
-async def get_filtered_questions(payload: dict):
+async def get_filtered_questions(payload: dict, user: str = Depends(get_current_user)):
     """
     Return only questions matching the company's selected component groups.
     Body: { "selected_groups": ["LLM / Model Layer", "Vector Database", ...] }
@@ -228,13 +306,13 @@ async def get_filtered_questions(payload: dict):
 
 # ── RISKS ENDPOINT ────────────────────────────────────────────────────────────
 @app.get("/api/risks")
-async def get_all_risks():
+async def get_all_risks(user: str = Depends(get_current_user)):
     """Return all 240 risk entries from master_risk_db."""
     df = load_risks()
     return {"count": len(df), "data": df.to_dict(orient="records")}
 
 @app.get("/api/risks/{qid_code}")
-async def get_risks_for_question(qid_code: str):
+async def get_risks_for_question(qid_code: str, user: str = Depends(get_current_user)):
     """Return all risk entries for a specific question ID (e.g. AR_51)."""
     df = load_risks()
     # Use normalized 'qid_code' column
@@ -245,13 +323,13 @@ async def get_risks_for_question(qid_code: str):
 
 # ── COMPLIANCE ENDPOINT ───────────────────────────────────────────────────────
 @app.get("/api/compliance")
-async def get_all_compliance():
+async def get_all_compliance(user: str = Depends(get_current_user)):
     """Return all 122 compliance mappings (ISO 42001, NIST RMF, OWASP, EU AI Act)."""
     df = load_compliance()
     return {"count": len(df), "data": df.to_dict(orient="records")}
 
 @app.get("/api/compliance/{qid_code}")
-async def get_compliance_for_question(qid_code: str):
+async def get_compliance_for_question(qid_code: str, user: str = Depends(get_current_user)):
     """Return compliance mapping for a specific question."""
     df = load_compliance()
     # Use normalized 'qid_code' column for lookups (handles varied CSV headers)
@@ -349,7 +427,7 @@ def compute_ears_score(
     return max(0, min(100, score))  # Clamp between 0-100
 
 @app.post("/api/generate-report")
-async def generate_report(payload: AssessmentPayload):
+async def generate_report(payload: AssessmentPayload, user: str = Depends(get_current_user)):
     """
     Core scoring engine with TRIGGER POINT logic.
     Only "No" or "Partial" answers trigger risk and compliance assessment.
@@ -776,7 +854,7 @@ def build_pdf(payload: PDFReportPayload, report_data: dict) -> io.BytesIO:
 
 # ── REPORT + PDF ENDPOINTS ────────────────────────────────────────────────────
 @app.post("/api/download-report")
-async def download_report(payload: PDFReportPayload):
+async def download_report(payload: PDFReportPayload, user: str = Depends(get_current_user)):
     """
     Generate and download the full PDF report.
     Accepts the complete payload including company, inventory, responses, and tier info.
