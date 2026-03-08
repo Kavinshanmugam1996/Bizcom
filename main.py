@@ -2,6 +2,7 @@ from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse, HTMLResponse
 from fastapi.security import OAuth2PasswordBearer
+from fastapi.staticfiles import StaticFiles
 from functools import lru_cache
 import io
 import pandas as pd
@@ -49,6 +50,14 @@ USERS_FILE      = os.path.join(DATA_DIR, "users_db.csv")
 
 INDEX_FILE  = os.path.join(BASE_DIR, "index.html")
 SCRIPT_FILE = os.path.join(BASE_DIR, "Script.js")
+LOGO_FILE   = os.path.join(BASE_DIR, "logo.png")
+
+# ── STATIC ASSETS ─────────────────────────────────────────────────────────────
+@app.get("/logo.png")
+async def get_logo():
+    if os.path.exists(LOGO_FILE):
+        return FileResponse(LOGO_FILE, media_type="image/png")
+    raise HTTPException(status_code=404, detail="Logo file not found in directory")
 
 # ── AUTHENTICATION ────────────────────────────────────────────────────────────
 # CRITICAL: In AWS production, you MUST set the JWT_SECRET_KEY environment variable.
