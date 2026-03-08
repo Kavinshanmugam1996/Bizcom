@@ -84,6 +84,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
+@lru_cache(maxsize=1)
 def get_user_db():
     if not os.path.exists(USERS_FILE):
         return {}
