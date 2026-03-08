@@ -65,22 +65,28 @@ When an assessor submits answers ("Yes", "Partial", "No", "N/A"), the backend pr
 ### 4.1 Core Risk Calculation Formula:
 **`Risk Score = (W × I × P × μ × e^(1−V)) / MaxRisk × 100`**
 
-**Variable Breakdown:**
-- **W (Weight)**: Importance of the question (Default 1.0 to 2.0).
-- **I (Impact)**: Severity of the consequence if the control fails.
-- **P (Probability)**: Likelihood of the risk manifesting.
-- **V (Visibility)**: Organizational awareness of the risk (0 to 1). High visibility lowers the overall calculated risk.
-- **μ (Control Effectiveness)**: The crucial multiplier dictated by the user's answer:
-  - **"Yes"** (Controls strictly in place) → **μ = 0.05** *(Shrinks risk to a 5% residual).*
-  - **"Partial"** (Incomplete controls) → **μ = 0.50** *(Risk is cut in half).*
-  - **"No"** (No controls) → **μ = 1.00** *(Absorbs maximum possible risk exposure).*
+**Variable Breakdown & CSV Sourcing:**
+- **W (Weight)**: Defines the baseline importance or strictness of the question. 
+  - *Source:* Loaded directly from the `total_weight` column in `questions_enriched.csv` (typically ranges from `1.0` to `2.0`).
+- **I (Impact)**: The business or legal severity of the consequence if the specific control fails.
+  - *Source:* Averaged from the `I (Impact)` column of all associated risk records in `master_risk_db.csv` mapped to the question ID. (Usually `1.0` to `5.0`).
+- **P (Probability)**: The mathematical likelihood of the risk manifesting.
+  - *Source:* Averaged from the `P (Probability)` column in `master_risk_db.csv`. (Usually `1.0` to `5.0`).
+- **V (Visibility)**: The organizational capability to detect the risk if it occurs (Scale of `0.0` to `1.0`). Mathematically, higher visibility *lowers* the severity multiplier because the failure won't go unnoticed.
+  - *Source:* Averaged from the `V (Visibility)` column in `master_risk_db.csv`.
+- **MaxRisk**: The absolute worst-case scenario theoretical score if no controls were in place (`μ = 1.00`).
+  - *Source:* Derived from the `max_risk_score` column in `questions_enriched.csv` (Default: `10.0`).
 
-*Note: The platform is built around Exceptions. A "Yes" response effectively nullifies the risk multiplier, thus preventing a "Trigger Point". High "No" counts skyrocket the relative Risk Exposure Percentage.*
+**The Crucial Multiplier: `μ` (Control Effectiveness)**
+This is dynamically dictated by the assessor's answer during the quiz, acting as a massive penalty or reduction:
+- **"Yes"** (Controls strictly in place) → **`μ = 0.05`**. *(The mathematical formula violently shrinks the risk exposure down to a 5% residual level. Because the risk is so low, it is NOT flagged as a "Trigger Point").*
+- **"Partial"** (Incomplete controls) → **`μ = 0.50`**. *(Risk severity is cut directly in half, but structural vulnerabilities remain. Flagged as a Trigger Point).*
+- **"No"** (No controls) → **`μ = 1.00`**. *(The multiplier is fully preserved, and the organization absorbs the maximum possible risk exposure. Flagged as a Trigger Point).*
 
 ### 4.2 Total Exposure & Governance Score:
-Once all questions are individually scored, the algorithm aggregates them at both the Component-level and the Total Profile-level:
-1. **Risk Exposure %** = `(Total Accumulated Risk Score / Absolute Max Possible Risk Score) × 100`
-2. **Governance Match Score** = `100 - Risk Exposure %`
+Once all questions are individually run through the `e^(1-V)` E.A.R.S equation, the algorithm aggregates the theoretical `MaxRisk` bounds against the actually `EarnedRisk` scores:
+1. **Total Risk Exposure %** = `(Sum of all Earned Risk Scores / Sum of all Max Possible Risk Scores) × 100`
+2. **Governance Match Score** = `100 - Total Risk Exposure %`
 
 ---
 
