@@ -11,7 +11,7 @@ import re
 import hashlib
 import jwt
 from datetime import datetime, timedelta
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import List, Optional
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
@@ -19,13 +19,21 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, Tabl
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch
 from reportlab.lib.enums import TA_CENTER, TA_LEFT
+from dotenv import load_dotenv
+
+# Load environment variables from .env file if it exists
+load_dotenv()
 
 app = FastAPI(title="Bizcom AI Risk Assessment API", version="2.0.0")
 
 # ── CORS ──────────────────────────────────────────────────────────────────────
+# For AWS deployment, set ALLOWED_ORIGINS in the environment (e.g. "https://bizcomgrp.com,https://app.bizcomgrp.com")
+origins_str = os.getenv("ALLOWED_ORIGINS", "*")
+allowed_origins = [origin.strip() for origin in origins_str.split(",")] if origins_str != "*" else ["*"]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=allowed_origins,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -43,7 +51,8 @@ INDEX_FILE  = os.path.join(BASE_DIR, "index.html")
 SCRIPT_FILE = os.path.join(BASE_DIR, "Script.js")
 
 # ── AUTHENTICATION ────────────────────────────────────────────────────────────
-SECRET_KEY = "bizcom_secret_key_123"
+# CRITICAL: In AWS production, you MUST set the JWT_SECRET_KEY environment variable.
+SECRET_KEY = os.getenv("JWT_SECRET_KEY", "fallback_insecure_dev_key_123")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 24 * 60
 
@@ -340,29 +349,29 @@ async def get_compliance_for_question(qid_code: str, user: str = Depends(get_cur
 
 # ── PYDANTIC MODELS ───────────────────────────────────────────────────────────
 class CompanyProfile(BaseModel):
-    company_name: str
-    industry: str
-    company_size: str
-    regulatory_region: str
-    ai_maturity_level: str
-    assessor_name: str
-    assessor_email: str
-    assessor_role: Optional[str] = ""
+    company_name: str = Field(..., max_length=200)
+    industry: str = Field(..., max_length=100)
+    company_size: str = Field(..., max_length=50)
+    regulatory_region: str = Field(..., max_length=100)
+    ai_maturity_level: str = Field(..., max_length=100)
+    assessor_name: str = Field(..., max_length=150)
+    assessor_email: str = Field(..., max_length=150)
+    assessor_role: Optional[str] = Field(default="", max_length=150)
 
 class AIInventoryItem(BaseModel):
-    system_name: str
-    description: str
-    component_group: str
-    vendor_or_inhouse: str
-    vendor_name: Optional[str] = ""
-    deployment_status: str
-    data_sensitivity: str
-    business_criticality: str
+    system_name: str = Field(..., max_length=200)
+    description: str = Field(..., max_length=2000)
+    component_group: str = Field(..., max_length=100)
+    vendor_or_inhouse: str = Field(..., max_length=100)
+    vendor_name: Optional[str] = Field(default="", max_length=200)
+    deployment_status: str = Field(..., max_length=100)
+    data_sensitivity: str = Field(..., max_length=100)
+    business_criticality: str = Field(..., max_length=100)
 
 class UserResponse(BaseModel):
-    question_id: str          # e.g. "AR_51"
-    component_group: str
-    answer: str               # "Yes" | "Partial" | "No" | "NA"
+    question_id: str = Field(..., max_length=50)
+    component_group: str = Field(..., max_length=100)
+    answer: str = Field(..., max_length=20)
     weight: Optional[float] = 1.0
     max_risk_score: Optional[float] = 0.0
 

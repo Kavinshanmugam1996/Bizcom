@@ -4,3 +4,7 @@ pandas
 openpyxl
 python-multipart
 reportlab
+PyJWT
+passlib
+bcrypt
+python-dotenv
