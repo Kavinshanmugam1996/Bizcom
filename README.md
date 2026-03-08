@@ -58,28 +58,45 @@ Every request to a data endpoint is intercepted by FastAPI's `Depends` dependenc
 
 ---
 
-## 🧮 4. The E.A.R.S. Risk Scoring Engine
+## 🧮 4. The E.A.R.S. Risk Scoring Engine & Final Results
 
-When an assessor submits answers ("Yes", "Partial", "No", "N/A"), the backend processes the data utilizing `compute_ears_score()`. 
+When an assessor submits answers ("Yes", "Partial", "No", "N/A"), the backend processes the data utilizing `compute_ears_score()`. The risk exposure is calculated mathematically based on the exact impact of your controls, rather than arbitrary flat scores.
 
-**The Mathematical Formula:**
-`Score / MaxRisk = (W × I × P × μ × e^(1−V)) / MaxRisk`
+### 4.1 Core Risk Calculation Formula:
+**`Risk Score = (W × I × P × μ × e^(1−V)) / MaxRisk × 100`**
 
 **Variable Breakdown:**
-- **W (Weight)**: Importance of the question (Default 1.0).
+- **W (Weight)**: Importance of the question (Default 1.0 to 2.0).
 - **I (Impact)**: Severity of the consequence if the control fails.
 - **P (Probability)**: Likelihood of the risk manifesting.
-- **μ (Control Effectiveness)**: Dictated by the user's answer.
-  - "Yes" → 0.05 (Controls are in place, residual risk is miniscule).
-  - "Partial" → 0.50 (Controls exist but are incomplete).
-  - "No" → 1.00 (Total exposure, no controls).
-- **V (Visibility)**: Organizational awareness of the risk.
+- **V (Visibility)**: Organizational awareness of the risk (0 to 1). High visibility lowers the overall calculated risk.
+- **μ (Control Effectiveness)**: The crucial multiplier dictated by the user's answer:
+  - **"Yes"** (Controls strictly in place) → **μ = 0.05** *(Shrinks risk to a 5% residual).*
+  - **"Partial"** (Incomplete controls) → **μ = 0.50** *(Risk is cut in half).*
+  - **"No"** (No controls) → **μ = 1.00** *(Absorbs maximum possible risk exposure).*
 
-*Note: The platform is built specifically around Exceptions. A "Yes" response effectively nullifies the risk multiplier, thus preventing a "Trigger Point". High "No" counts skyrocket the relative Risk Exposure Percentage.*
+*Note: The platform is built around Exceptions. A "Yes" response effectively nullifies the risk multiplier, thus preventing a "Trigger Point". High "No" counts skyrocket the relative Risk Exposure Percentage.*
+
+### 4.2 Total Exposure & Governance Score:
+Once all questions are individually scored, the algorithm aggregates them at both the Component-level and the Total Profile-level:
+1. **Risk Exposure %** = `(Total Accumulated Risk Score / Absolute Max Possible Risk Score) × 100`
+2. **Governance Match Score** = `100 - Risk Exposure %`
 
 ---
 
-## 🌐 5. RESTful API Blueprint
+## 📊 5. The Final Dashboard Results View
+
+When passing into the final **Result Phase** of the React application, exactly four major analytic sections are rendered utilizing the data from the scoring engine:
+
+1. **Governance Match Score:** The large hero metric (0-100%). For example, if your "No" answers generated 32% of the maximum possible risk exposure, your overall Governance Match Score will display as **68 / 100**.
+2. **Risk Tier & Level:** A qualitative classification (e.g., "Governance Mature" vs "Critical Exposure") mapped directly to your score cohort, complete with a descriptive tagline.
+3. **Component Breakdown (Radar Chart):** A dynamic SVG Recharts visualization. It actively maps your Governance Match Score *specifically isolated to individual AI components* (e.g., showing excellent scores in "Prompt Engineering" but poor scores in "Vector Databases").
+4. **Key Mitigation Priorities:** An interactive list of specific "Triggered Risks." It filters out all the "Yes" answers and provides a prioritized, actionable list of only the "No" and "Partial" vulnerabilities sorted by mathematical severity. Each card explicitly tags which compliance framework is breached (ISO 42001, NIST RMF, EU AI Act) due to that specific gap.
+
+
+---
+
+## 🌐 6. RESTful API Blueprint
 
 - `POST /api/login` → Validates `LoginRequest` (email/pw) returning `{ access_token, token_type }`.
 - `GET /api/component-groups` *(Protected)* → Returns the 13 selectable AI tags.
@@ -90,7 +107,7 @@ When an assessor submits answers ("Yes", "Partial", "No", "N/A"), the backend pr
 
 ---
 
-## ⚙️ 6. Quickstart / Setup Guide
+## ⚙️ 7. Quickstart / Setup Guide
 
 ### Phase 1: Environment Preparation
 
