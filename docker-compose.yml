@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  bizcom-api:
+    build: .
+    container_name: bizcom-production
+    ports:
+      - "8000:8000"
+    environment:
+      - ALLOWED_ORIGINS=*
+      # In production, replace the default key via the terminal or a .env file:
+      - JWT_SECRET_KEY=fallback_insecure_dev_key_123
+    restart: always

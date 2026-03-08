@@ -1,0 +1,15 @@
+version: 1.0
+runtime: python3
+build:
+  commands:
+    build:
+      - pip install -r requirements.txt
+run:
+  command: gunicorn main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
+  network:
+    port: 8000
+    env: APP_PORT
+  env:
+    - name: ALLOWED_ORIGINS
+      value: "*"
+    # Remember to set your JWT_SECRET_KEY securely in the AWS console, NOT in this file.
