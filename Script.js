@@ -542,8 +542,11 @@ function App() {
                     <div style={{ width: "100%", maxWidth: "346px" }}>
                         
                         {/* Logo Block */}
-                        <div style={{ textAlign: "center", marginBottom: "30px" }}>
-                            <img src="/bizcom_bizcom (1).png" alt="Bizcom" style={{ width: "186px", height: "auto" }} onError={(e) => { e.target.style.display='none'; }} />
+                        <div style={{ textAlign: "center", marginBottom: "30px", display: "flex", justifyContent: "center", alignItems: "center", gap: "8px" }}>
+                            <div style={{ width: "32px", height: "32px", background: "#46ABD7", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                <span style={{ color: "white", fontWeight: "bold", fontFamily: "sans-serif", fontSize: "18px" }}>B</span>
+                            </div>
+                            <span style={{ fontFamily: "'JUST Sans', sans-serif", fontWeight: 800, fontSize: "28px", color: "#46ABD7", letterSpacing: "-0.04em" }}>Bizcom</span>
                         </div>
                         
                         {/* H6 Login Title */}
