@@ -500,36 +500,137 @@ function App() {
     }
 
     if (phase === "login") return (
-        <div style={{ minHeight: "100vh", background: B.offWhite, display: "flex", flexDirection: "column", fontFamily: "sans-serif" }}>
-            <NavBar step={null} />
-            <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "40px 20px" }}>
-                <div style={{ maxWidth: 420, width: "100%", opacity: animIn ? 1 : 0, transform: animIn ? "translateY(0)" : "translateY(14px)", transition: "opacity 0.26s, transform 0.26s" }}>
-                    <div style={{ background: B.white, border: `1px solid ${B.lightGrey}`, borderRadius: 14, padding: "40px", boxShadow: "0 8px 32px rgba(11,29,51,0.08)", textAlign: "center" }}>
-                        <div style={{ width: 48, height: 48, background: `${B.gold}22`, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px" }}>
-                            <span style={{ fontSize: 24 }}>🔒</span>
-                        </div>
-                        <h2 style={{ fontSize: 24, fontWeight: 700, color: B.navy, margin: "0 0 8px" }}>Assessor Login</h2>
-                        <p style={{ fontSize: 13, color: B.greyDark, marginBottom: 28 }}>Secure authentication for AI Risk Governance</p>
-                        
-                        {loginError && <div style={{ background: "#FEE2E2", color: "#991B1B", padding: "10px", borderRadius: 6, fontSize: 13, marginBottom: 20 }}>{loginError}</div>}
-                        
-                        <div style={{ textAlign: "left", marginBottom: 16 }}>
-                            <FieldRow label="Email Address">
-                                <Input value={loginEmail} onChange={setLoginEmail} placeholder="you@bizcomgrp.com" type="email" />
-                            </FieldRow>
-                        </div>
-                        <div style={{ textAlign: "left", marginBottom: 28 }}>
-                            <FieldRow label="Password">
-                                <Input value={loginPass} onChange={setLoginPass} placeholder="••••••••" type="password" />
-                            </FieldRow>
-                        </div>
-                        <GoldBtn onClick={doLogin} disabled={loggingIn}>
-                            {loggingIn ? "Authenticating..." : "Sign In →"}
-                        </GoldBtn>
-                    </div>
+        <div style={{ minHeight: "100vh", display: "flex", flexDirection: "row", fontFamily: "'Roboto', sans-serif" }}>
+            {/* Left Promotional Background Panel */}
+            <div style={{ 
+                flex: "1 1 60%", background: "#FAFAFB", position: "relative", overflow: "hidden", 
+                display: "flex", flexDirection: "column", justifyContent: "center", padding: "0 8%",
+                borderRight: "1px solid rgba(0,0,0,0.05)"
+            }}>
+                {/* Abstract Vector Decorations inferred from the raw CSS */}
+                <div style={{ position: "absolute", left: "-5%", bottom: "-10%", width: "50%", height: "60%", background: "#2359DF", opacity: 0.03, borderRadius: "50%", transform: "rotate(25deg)" }} />
+                <div style={{ position: "absolute", right: "10%", top: "-5%", width: "40%", height: "50%", border: "2px solid #C1DDEE", borderRadius: "50%", opacity: 0.3 }} />
+                
+                {/* Embedded Graphic / Vector abstractions (Red/Blue elements in the bottom corner) */}
+                <div style={{ position: "absolute", left: "20px", bottom: "0", display: "flex", gap: "10px", opacity: 0.8 }}>
+                    <div style={{ width: "100px", height: "180px", background: "#D81212" }} />
+                    <div style={{ width: "100px", height: "160px", background: "#46ABD7" }} />
+                </div>
+
+                <div style={{ position: "relative", zIndex: 1, paddingBottom: "100px" }}>
+                    <h1 style={{ 
+                        fontFamily: "'JUST Sans', sans-serif", fontWeight: 700, fontSize: "clamp(32px, 4vw, 48px)", 
+                        lineHeight: "126%", letterSpacing: "-0.04em", color: "#46ABD7", margin: "0 0 24px", maxWidth: "530px" 
+                    }}>
+                        Assign Risk. Ensure Trust. Govern AI with Confidence.
+                    </h1>
+                    <p style={{ 
+                        fontFamily: "'JUST Sans', sans-serif", fontWeight: 400, fontSize: "clamp(18px, 2vw, 25px)", 
+                        lineHeight: "139%", letterSpacing: "-0.02em", color: "#000000", margin: 0, maxWidth: "540px" 
+                    }}>
+                        Helping You Meet The Regulatory Compliance Challenges of Today & Tomorrow
+                    </p>
                 </div>
             </div>
-            <Footer />
+
+            {/* Right Login Form Wrapper */}
+            <div style={{ 
+                flex: "1 1 40%", minWidth: "400px", background: "#FFFFFF", 
+                display: "flex", flexDirection: "column", position: "relative" 
+            }}>
+                <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "40px" }}>
+                    <div style={{ width: "100%", maxWidth: "346px" }}>
+                        
+                        {/* Logo Block */}
+                        <div style={{ textAlign: "center", marginBottom: "30px" }}>
+                            <img src="/bizcom_bizcom (1).png" alt="Bizcom" style={{ width: "186px", height: "auto" }} onError={(e) => { e.target.style.display='none'; }} />
+                        </div>
+                        
+                        {/* H6 Login Title */}
+                        <h2 style={{ 
+                            fontFamily: "'JUST Sans', sans-serif", fontWeight: 800, fontSize: "20px", lineHeight: "160%", 
+                            letterSpacing: "0.15px", textTransform: "uppercase", color: "rgba(0, 0, 0, 0.87)", 
+                            textAlign: "center", marginBottom: "40px", marginTop: "20px"
+                        }}>
+                            LOGIN
+                        </h2>
+
+                        {loginError && <div style={{ background: "#FEE2E2", color: "#991B1B", padding: "10px", borderRadius: 4, fontFamily: "'Roboto', sans-serif", fontSize: 13, marginBottom: 20 }}>{loginError}</div>}
+                        
+                        <div style={{ display: "flex", flexDirection: "column", gap: 24, marginBottom: 12 }}>
+                            {/* Email Input */}
+                            <div style={{ 
+                                border: "1px solid rgba(0, 0, 0, 0.23)", borderRadius: "4px", padding: "16px 12px", 
+                                height: "56px", display: "flex", alignItems: "center", boxSizing: "border-box" 
+                            }}>
+                                <input 
+                                    value={loginEmail} 
+                                    onChange={e => setLoginEmail(e.target.value)} 
+                                    placeholder="Email Address" 
+                                    type="email" 
+                                    style={{ 
+                                        width: "100%", border: "none", outline: "none", fontFamily: "'JUST Sans', sans-serif", 
+                                        fontWeight: 300, fontSize: "16px", color: "rgba(0, 0, 0, 0.87)", background: "transparent" 
+                                    }}
+                                />
+                            </div>
+                            
+                            {/* Password Input */}
+                            <div style={{ 
+                                border: "1px solid rgba(0, 0, 0, 0.23)", borderRadius: "4px", padding: "16px 12px", 
+                                height: "56px", display: "flex", alignItems: "center", boxSizing: "border-box" 
+                            }}>
+                                <input 
+                                    value={loginPass} 
+                                    onChange={e => setLoginPass(e.target.value)} 
+                                    placeholder="Password" 
+                                    type="password" 
+                                    style={{ 
+                                        width: "100%", border: "none", outline: "none", fontFamily: "'JUST Sans', sans-serif", 
+                                        fontWeight: 300, fontSize: "16px", color: "rgba(0, 0, 0, 0.87)", background: "transparent" 
+                                    }}
+                                />
+                            </div>
+                        </div>
+
+                        {/* Forgot Password Link */}
+                        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "40px" }}>
+                            <span style={{ 
+                                fontFamily: "'Roboto', sans-serif", fontWeight: 500, fontSize: "14px", 
+                                color: "#717474", cursor: "pointer", letterSpacing: "0.1px" 
+                            }}>
+                                Forgot your password?
+                            </span>
+                        </div>
+
+                        {/* Login Button */}
+                        <button 
+                            onClick={doLogin} 
+                            disabled={loggingIn}
+                            style={{ 
+                                width: "100%", height: "42px", background: "#46ABD7", border: "none", borderRadius: "4px",
+                                boxShadow: "0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px rgba(0, 0, 0, 0.14), 0px 1px 5px rgba(0, 0, 0, 0.12)",
+                                color: "rgba(255, 255, 255, 0.87)", fontFamily: "'JUST Sans', sans-serif", fontWeight: 500, fontSize: "15px", 
+                                letterSpacing: "0.46px", textTransform: "uppercase", cursor: loggingIn ? "not-allowed" : "pointer",
+                                opacity: loggingIn ? 0.8 : 1, transition: "opacity 0.2s ease"
+                            }}
+                        >
+                            {loggingIn ? "AUTHENTICATING..." : "LOGIN"}
+                        </button>
+                    </div>
+                </div>
+
+                {/* Footer Terms & Policy */}
+                <div style={{ 
+                    position: "absolute", bottom: "24px", width: "100%", display: "flex", 
+                    justifyContent: "center", alignItems: "center", gap: "24px", 
+                    fontFamily: "'Roboto', sans-serif", fontSize: "14px", color: "rgba(0, 0, 0, 0.87)", letterSpacing: "0.15px" 
+                }}>
+                    <span style={{ cursor: "pointer", opacity: 0.8, transition: "opacity 0.2s" }} onMouseOver={e => e.target.style.opacity = 1} onMouseOut={e => e.target.style.opacity = 0.8}>Terms and conditions</span>
+                    <span style={{ width: "5px", height: "5px", background: "#000000", borderRadius: "50%" }} />
+                    <span style={{ cursor: "pointer", opacity: 0.8, transition: "opacity 0.2s" }} onMouseOver={e => e.target.style.opacity = 1} onMouseOut={e => e.target.style.opacity = 0.8}>Privacy policy</span>
+                </div>
+            </div>
         </div>
     );
 
