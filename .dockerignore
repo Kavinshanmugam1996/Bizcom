@@ -1,0 +1,22 @@
+# Version control
+.git
+.gitignore
+
+# Environment configurations files (security)
+.env
+*.env
+.env.*
+
+# Python caches and environments
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+env/
+.env_dir/
+Pipfile.lock
+
+# Operating System Files
+.DS_Store
+Thumbs.db
