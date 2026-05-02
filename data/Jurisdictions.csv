@@ -1,0 +1,191 @@
+QID,Jurisdiction
+AR_US_FED_01,"USA - Federal (Title VII Civil Rights Act 1964, employment discrimination)"
+AR_US_FED_02,"USA - Federal (Equal Credit Opportunity Act, Regulation B, fair lending)"
+AR_US_FED_03,"USA - Federal (Fair Credit Reporting Act 15 USC 1681, consumer reports)"
+AR_US_FED_04,"USA - Federal (FTC Act Section 5, unfair or deceptive practices)"
+AR_US_FED_05,"USA - Federal (HIPAA Privacy Rule 45 CFR Part 160 and 164, healthcare)"
+AR_US_FED_06,"USA - Federal (Americans with Disabilities Act 42 USC 12101, disability discrimination)"
+AR_US_FED_07,"USA - Federal (Age Discrimination in Employment Act 29 USC 621, employment)"
+AR_US_FED_08,"USA - Federal (Fair Housing Act 42 USC 3601, housing discrimination)"
+AR_US_FED_09,"USA - Federal (HIPAA Security Rule 45 CFR 164.308-316, healthcare security)"
+AR_US_FED_10,"USA - Federal (FDA Software as Medical Device, 21 CFR Parts 814/820, medical AI)"
+AR_TX_01,"USA - Texas (Texas Data Privacy and Security Act, effective July 2024)"
+AR_TX_02,"USA - Texas (Texas Data Privacy and Security Act, sensitive data consent)"
+AR_TX_03,"USA - Texas (Capture or Use of Biometric Identifier Act, Tex Bus & Com § 503.001)"
+AR_TX_04,"USA - Texas (Texas Data Privacy and Security Act, data protection assessments)"
+AR_ON_PHIPA_01,"Canada - Ontario (Personal Health Information Protection Act 2004, healthcare AI)"
+AR_ON_PHIPA_02,"Canada - Ontario (Personal Health Information Protection Act, patient access rights)"
+AR_ON_PHIPA_03,"Canada - Ontario (Personal Health Information Protection Act, agent agreements)"
+AR_QC_FRENCH_01,"Canada - Quebec (Charter of the French Language, Bill 96, language requirements)"
+AR_QC_FRENCH_02,"Canada - Quebec (Charter of the French Language, Bill 96, AI language capability)"
+AR_NY_DFS_01,"USA - New York (DFS Cybersecurity Regulation 23 NYCRR 500, financial services)"
+AR_NY_DFS_02,"USA - New York (DFS Cybersecurity Regulation 23 NYCRR 500.11, vendor management)"
+AR_EU_DSA_01,"European Union (Digital Services Act Article 27, recommender systems)"
+AR_EU_DSA_02,"European Union (Digital Services Act Articles 33-35, Very Large Online Platforms)"
+AR_EU_DSA_03,"European Union (Digital Services Act Article 26, online advertising transparency)"
+AR_EU_MDR_01,"European Union (Medical Device Regulation 2017/745, AI medical devices)"
+AR_EU_MDR_02,"European Union (Medical Device Regulation 2017/745, quality management)"
+AR_EU_MIFID_01,"European Union (MiFID II Directive 2014/65, algorithmic trading)"
+AR_EU_DATA_ACT_01,"European Union (Data Act, data access and portability)"
+AR_EU_ACCESSIBILITY_01,"European Union (European Accessibility Act Directive 2019/882, accessibility)"
+AR_CA_FED_OSFI_01,"Canada - Federal (OSFI Guideline E-23 Model Risk Management, financial services)"
+AR_CA_FED_ACCESSIBILITY_01,"Canada - Federal (Accessible Canada Act 2019, accessibility for persons with disabilities)"
+AR_CA_FED_EMPLOYMENT_01,"Canada - Federal (Employment Equity Act 1995, designated groups employment)"
+AR_CA_ST_FEHA_01,"USA - California (Fair Employment and Housing Act, employment discrimination)"
+AR_CA_ST_AB2013_01,"USA - California (AB 2013 Warehouse Quotas Act, productivity monitoring)"
+AR_CO_EQUAL_PAY_01,"USA - Colorado (Equal Pay for Equal Work Act, compensation transparency)"
+AR_BC_HUMAN_RIGHTS_01,"Canada - British Columbia (Human Rights Code, discrimination in AI systems)"
+AR_NY_ST_HUMAN_RIGHTS_01,"USA - New York (NY State Human Rights Law, broader protections)"
+AR_EU_GDPR_ARTICLE22_01,"European Union (GDPR Article 22, automated decision-making rights)"
+AR_EU_PRIVACY_BY_DESIGN_01,"European Union (GDPR Article 25, privacy-by-design and by-default)"
+AR_EU_EQUALITY_DIRECTIVE_01,"European Union (EU Equality Directives, comprehensive anti-discrimination)"
+AR_BC_01,"Canada - British Columbia (PIPA, private sector)"
+AR_BC_02,"Canada - British Columbia (PIPA, private sector)"
+AR_BC_03,"Canada - British Columbia (PIPA, private sector)"
+AR_BC_04,"Canada - British Columbia (PIPA, private sector)"
+AR_BC_05,"Canada - British Columbia (PIPA, private sector)"
+AR_BC_06,"Canada - British Columbia (PIPA, private sector)"
+AR_BC_07,"Canada - British Columbia (PIPA, private sector)"
+AR_BC_08,"Canada - British Columbia (PIPA, private sector)"
+AR_BC_09,"Canada - British Columbia (PIPA, private sector)"
+AR_BC_10,"Canada - British Columbia (PIPA, private sector)"
+AR_CA_01,Canada - Federal (PIPEDA)
+AR_CA_02,Canada - Federal (PIPEDA)
+AR_CA_03,Canada - Federal (PIPEDA)
+AR_CA_04,Canada - Federal (PIPEDA)
+AR_CA_05,"Canada - Federal (PIPEDA, proposed AIDA)"
+AR_CA_06,Canada - Federal (PIPEDA)
+AR_CA_07,Canada - Federal (PIPEDA)
+AR_CA_08,Canada - Federal (PIPEDA)
+AR_CA_09,Canada - Federal (PIPEDA)
+AR_CA_10,Canada - Federal (Treasury Board Directive)
+AR_CA_11,Canada - Federal (PIPEDA)
+AR_CA_12,"Canada - Federal (PIPEDA, proposed AIDA)"
+AR_CA_13,Canada - Federal (PIPEDA)
+AR_CA_14,Canada - Federal (PIPEDA)
+AR_CA_15,Canada - Federal (PIPEDA)
+AR_CA_16,Canada - Federal (PIPEDA)
+AR_CA_17,"Canada - Federal (OSFI, financial services)"
+AR_CA_18,Canada - Federal (PIPEDA)
+AR_CA_19,Canada - Federal (PIPEDA)
+AR_CA_20,Canada - Federal (PIPEDA)
+AR_CA_ST_01,USA - California (CPRA/CCPA)
+AR_CA_ST_02,USA - California (CPRA/CCPA)
+AR_CA_ST_03,USA - California (CPRA/CCPA)
+AR_CA_ST_04,USA - California (CPRA/CCPA)
+AR_CA_ST_05,USA - California (CPRA/CCPA)
+AR_CA_ST_06,USA - California (CPRA/CCPA)
+AR_CA_ST_07,"USA - California (CPRA/CCPA, proposed DADS Act)"
+AR_CA_ST_08,USA - California (CPRA/CCPA)
+AR_CA_ST_09,USA - California (CPRA/CCPA)
+AR_CA_ST_10,USA - California (CPRA/CCPA)
+AR_CO_01,"USA - Colorado (Colorado AI Act, algorithmic discrimination)"
+AR_CO_02,"USA - Colorado (Colorado AI Act, algorithmic discrimination)"
+AR_CO_03,"USA - Colorado (Colorado AI Act, algorithmic discrimination)"
+AR_CO_04,"USA - Colorado (Colorado Privacy Act, Colorado AI Act)"
+AR_CO_05,"USA - Colorado (Colorado AI Act, algorithmic discrimination)"
+AR_CO_06,"USA - Colorado (Colorado AI Act, algorithmic discrimination)"
+AR_CO_07,"USA - Colorado (Colorado AI Act, algorithmic discrimination)"
+AR_CO_08,"USA - Colorado (Colorado Privacy Act, Colorado AI Act)"
+AR_CO_09,"USA - Colorado (Colorado Privacy Act, Colorado AI Act)"
+AR_CO_10,"USA - Colorado (Colorado AI Act, algorithmic discrimination)"
+AR_EU_01,European Union (EU AI Act)
+AR_EU_02,European Union (EU AI Act)
+AR_EU_03,European Union (EU AI Act)
+AR_EU_04,European Union (EU AI Act)
+AR_EU_05,European Union (EU AI Act)
+AR_EU_06,European Union (EU AI Act)
+AR_EU_07,European Union (EU AI Act)
+AR_EU_08,European Union (EU AI Act)
+AR_EU_09,"European Union (EU AI Act, GDPR)"
+AR_EU_10,"European Union (EU AI Act, GDPR)"
+AR_EU_11,"European Union (EU AI Act, GPAI obligations)"
+AR_EU_12,European Union (EU AI Act)
+AR_EU_13,European Union (EU AI Act)
+AR_EU_14,European Union (EU AI Act)
+AR_EU_15,"European Union (EU AI Act, GDPR)"
+AR_EU_16,European Union (EU AI Act)
+AR_EU_17,"European Union (EU AI Act, Charter of Fundamental Rights)"
+AR_EU_18,"European Union (EU AI Act, GDPR)"
+AR_EU_19,"European Union (EU AI Act, Charter of Fundamental Rights)"
+AR_EU_20,"European Union (EU AI Act, GDPR)"
+AR_NY_01,"USA - New York (NYC Local Law 144, employment AI)"
+AR_NY_02,"USA - New York (NYC Local Law 144, employment AI)"
+AR_NY_03,"USA - New York (SHIELD Act, data security and breach notification)"
+AR_NY_04,"USA - New York (SHIELD Act, data security and breach notification)"
+AR_NY_05,"USA - New York (NYC Local Law 144, employment AI)"
+AR_NY_06,"USA - New York (NYC Local Law 144, employment AI)"
+AR_NY_07,"USA - New York (SHIELD Act, data security and breach notification)"
+AR_NY_08,"USA - New York (SHIELD Act, data security and breach notification)"
+AR_NY_09,USA - New York (employment and privacy laws)
+AR_NY_10,"USA - New York (NYC Local Law 144, employment AI)"
+AR_ON_01,"Canada - Ontario (FIPPA, public sector)"
+AR_ON_02,"Canada - Ontario (FIPPA, public sector)"
+AR_ON_03,"Canada - Ontario (FIPPA, public sector)"
+AR_ON_04,"Canada - Ontario (FIPPA, public sector)"
+AR_ON_05,"Canada - Ontario (FIPPA, public sector)"
+AR_ON_06,"Canada - Ontario (FIPPA, public sector)"
+AR_ON_07,"Canada - Ontario (FIPPA, public sector)"
+AR_ON_08,"Canada - Ontario (FIPPA, public sector)"
+AR_ON_09,"Canada - Ontario (FIPPA, public sector)"
+AR_ON_10,"Canada - Ontario (FIPPA, public sector)"
+AR_QC_01,Canada - Quebec (Bill 64)
+AR_QC_02,Canada - Quebec (Bill 64)
+AR_QC_03,Canada - Quebec (Bill 64)
+AR_QC_04,"Canada - Quebec (Bill 64, Charter of Human Rights and Freedoms)"
+AR_QC_05,Canada - Quebec (Bill 64)
+AR_QC_06,Canada - Quebec (Bill 64)
+AR_QC_07,Canada - Quebec (Bill 64)
+AR_QC_08,Canada - Quebec (Bill 64)
+AR_QC_09,"Canada - Quebec (Bill 64, Charter of the French Language)"
+AR_QC_10,Canada - Quebec (Bill 64)
+AR_TX_01_v2,USA - Texas (TX Data Privacy and Security Act)
+AR_TX_02_v2,USA - Texas (TX Data Privacy and Security Act)
+AR_TX_03_v2,USA - Texas (TX Data Privacy and Security Act)
+AR_TX_04_v2,USA - Texas (TX Data Privacy and Security Act)
+AR_TX_05,USA - Texas (TX Data Privacy and Security Act)
+AR_TX_06,USA - Texas (TX Data Privacy and Security Act)
+AR_TX_07,USA - Texas (TX Data Privacy and Security Act)
+AR_TX_08,USA - Texas (TX Data Privacy and Security Act)
+AR_TX_09,USA - Texas (TX Data Privacy and Security Act)
+AR_TX_10,USA - Texas (TX Data Privacy and Security Act)
+AR_US_01,"USA - Federal (FTC Act, consumer protection)"
+AR_US_02,"USA - Federal (EEOC, Title VII, employment)"
+AR_US_03,"USA - Federal (ECOA, FCRA, consumer finance)"
+AR_US_04,USA - Federal (multi-statute compliance)
+AR_US_05,"USA - Federal (FDA, healthcare regulation)"
+AR_US_06,"USA - Federal (Constitutional law, government AI)"
+AR_US_07,"USA - Federal (GLBA, financial services)"
+AR_US_08,"USA - Federal (ECOA, FCRA, consumer finance)"
+AR_US_09,"USA - Federal (FTC Act, consumer protection)"
+AR_US_10,"USA - Federal (ADA, accessibility)"
+AR_US_11,USA - Federal (multi-statute compliance)
+AR_US_12,USA - Federal (multi-statute compliance)
+AR_US_13,"USA - Federal (Fair Housing Act, HUD)"
+AR_US_14,USA - Federal (multi-statute compliance)
+AR_US_15,USA - Federal (multi-statute compliance)
+AR_US_16,USA - Federal (multi-statute compliance)
+AR_US_17,USA - Federal (multi-statute compliance)
+AR_US_18,"USA - Federal (FTC Act, consumer protection)"
+AR_US_19,"USA - Federal (Section 508, government procurement)"
+AR_US_20,USA - Federal (multi-statute compliance)
+AR_ISO_01,Global - ISO/IEC 42001 AI Management System
+AR_ISO_02,Global - ISO/IEC 42001 AI Management System
+AR_ISO_03,Global - ISO/IEC 42001 AI Management System
+AR_ISO_04,Global - ISO/IEC 42001 AI Management System
+AR_ISO_05,Global - ISO/IEC 42001 AI Management System
+AR_ISO_06,Global - ISO/IEC 42001 AI Management System
+AR_ISO_07,Global - ISO/IEC 42001 AI Management System
+AR_ISO_08,Global - ISO/IEC 42001 AI Management System
+AR_ISO_09,Global - ISO/IEC 42001 AI Management System
+AR_ISO_10,Global - ISO/IEC 42001 AI Management System
+AR_ISO_11,Global - ISO/IEC 42001 AI Management System
+AR_ISO_12,Global - ISO/IEC 42001 AI Management System
+AR_ISO_13,Global - ISO/IEC 42001 AI Management System
+AR_ISO_14,Global - ISO/IEC 42001 AI Management System
+AR_ISO_15,Global - ISO/IEC 42001 AI Management System
+AR_ISO_16,Global - ISO/IEC 42001 AI Management System
+AR_ISO_17,Global - ISO/IEC 42001 AI Management System
+AR_ISO_18,Global - ISO/IEC 42001 AI Management System
+AR_ISO_19,Global - ISO/IEC 42001 AI Management System
+AR_ISO_20,Global - ISO/IEC 42001 AI Management System

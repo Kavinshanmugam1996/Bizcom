@@ -1,0 +1,4297 @@
+QID,Option_Order,Answer_Option
+AR_01,1,Yes - Secure token refresh used
+AR_01,2,Partial - Token refresh partially used
+AR_01,3,No - Static credentials used
+AR_01,4,Not Applicable - No long-running agents
+AR_02,1,Yes - AI anomaly rules configured
+AR_02,2,Partial - Only general monitoring
+AR_02,3,No - No monitoring for AI agents
+AR_02,4,Not Applicable - No AI agents present
+AR_03,1,Low (0-33%)
+AR_03,2,Moderate (34-66%)
+AR_03,3,High (67-100%)
+AR_03,4,Not Applicable
+AR_04,1,Low (0-33%)
+AR_04,2,Moderate (34-66%)
+AR_04,3,High (67-100%)
+AR_04,4,Not Applicable
+AR_05,1,Yes - Detects advanced leakage risks
+AR_05,2,Partial - Basic output filtering
+AR_05,3,No - No output filtering
+AR_05,4,Not Applicable - No external outputs
+AR_06,1,"Yes - Secure storage, no exposure"
+AR_06,2,Partial - Partially protected
+AR_06,3,No - Credentials exposed
+AR_06,4,Not Applicable - No external credentials
+AR_07,1,Yes - Strong SSRF protection
+AR_07,2,Partial - Limited protection
+AR_07,3,No - No protection
+AR_07,4,Not Applicable - No external API calls
+AR_08,1,Yes - Context-based access control
+AR_08,2,Partial - Mixed control (context + static)
+AR_08,3,No - Static access only
+AR_08,4,Not Applicable - No API usage
+AR_09,1,Yes - Strong integrity checks
+AR_09,2,Partial - Basic validation only
+AR_09,3,No - No validation
+AR_09,4,Not Applicable - No external tools
+AR_10,1,Yes - Human traffic prioritized
+AR_10,2,Partial - Partial prioritization
+AR_10,3,No - No prioritization
+AR_10,4,Not Applicable - No workload difference
+AR_11,1,Yes - Dynamic cost-based limits with quotas
+AR_11,2,Partial - Basic limits without full cost control
+AR_11,3,No - Static or no rate limiting
+AR_11,4,Not Applicable - No token-based billing
+AR_12,1,Low (0-33%)
+AR_12,2,Moderate (34-66%)
+AR_12,3,High (67-100%)
+AR_12,4,Not Applicable
+AR_13,1,Yes - Full legal and consent validation
+AR_13,2,Partial - Partial metadata checks
+AR_13,3,No - No validation of rights/consent
+AR_13,4,Not Applicable - No external data ingestion
+AR_14,1,Yes - Full traceability to raw data
+AR_14,2,Partial - Limited traceability
+AR_14,3,No - No traceability
+AR_14,4,Not Applicable - No training data tracking needed
+AR_15,1,Yes - Strict schema with signed validation
+AR_15,2,Partial - Schema enforced without signatures
+AR_15,3,No - No schema enforcement
+AR_15,4,Not Applicable - No third-party data inputs
+AR_16,1,Yes - Append-only tamper-proof logs
+AR_16,2,Partial - Logs exist but not tamper-proof
+AR_16,3,No - No logging of changes
+AR_16,4,Not Applicable - No manual dataset changes
+AR_17,1,Yes - Strong enforced separation
+AR_17,2,Partial - Logical but not enforced separation
+AR_17,3,No - No separation
+AR_17,4,Not Applicable - No user input processing
+AR_18,1,Yes - Automated detection and blocking
+AR_18,2,Partial - Detection without full blocking
+AR_18,3,No - No jailbreak protection
+AR_18,4,Not Applicable - No user interaction
+AR_19,1,Yes - Auto fallback with safe responses
+AR_19,2,Partial - Partial fallback handling
+AR_19,3,No - No failure handling
+AR_19,4,Not Applicable - No real-time inference
+AR_20,1,Yes - Token-level DLP monitoring
+AR_20,2,Partial - Basic DLP scanning
+AR_20,3,No - No DLP controls
+AR_20,4,Not Applicable - No sensitive data handled
+AR_21,1,Yes - Local NER ensures full redaction
+AR_21,2,Partial - Redaction with external exposure
+AR_21,3,No - No PII redaction
+AR_21,4,Not Applicable - No PII processed
+AR_22,1,Yes - Automated mitigation and response
+AR_22,2,Partial - Manual or delayed response
+AR_22,3,No - No residual risk handling
+AR_22,4,Not Applicable - No sensitive data
+AR_23,1,Yes - Strict network separation enforced
+AR_23,2,Partial - Partial separation
+AR_23,3,No - No separation
+AR_23,4,Not Applicable - No LLM network segregation needed
+AR_24,1,Yes - Full sanitization before input
+AR_24,2,Partial - Basic sanitization only
+AR_24,3,No - No sanitization
+AR_24,4,Not Applicable - No RAG used
+AR_25,1,Yes - Metrics tracked with defined actions
+AR_25,2,Partial - Metrics tracked without clear action
+AR_25,3,No - No metrics or response plan
+AR_25,4,Not Applicable - No detection system
+AR_26,1,Yes - Dynamic unsupervised calibration used
+AR_26,2,Partial - Mixed dynamic and static rules
+AR_26,3,No - Static rules only
+AR_26,4,Not Applicable - No anomaly detection
+AR_27,1,Yes - Automatic PII masking enforced
+AR_27,2,Partial - Partial redaction implemented
+AR_27,3,No - No PII protection
+AR_27,4,Not Applicable - No external data inputs
+AR_28,1,Yes - Fully isolated ephemeral sandbox
+AR_28,2,Partial - Partial isolation implemented
+AR_28,3,No - No sandbox isolation
+AR_28,4,Not Applicable - No web scraping
+AR_29,1,Yes - DLP blocks classified data pasting
+AR_29,2,Partial - Limited DLP coverage
+AR_29,3,No - No DLP controls
+AR_29,4,Not Applicable - No web-based AI access
+AR_30,1,Low (0-33%)
+AR_30,2,Moderate (34-66%)
+AR_30,3,High (67-100%)
+AR_30,4,Not Applicable
+AR_31,1,Yes - Auto termination on anomalies
+AR_31,2,Partial - Monitoring without auto termination
+AR_31,3,No - No circuit breakers
+AR_31,4,Not Applicable - No AI agent sessions
+AR_32,1,Yes - TEEs protect model weights
+AR_32,2,Partial - Partial encryption only
+AR_32,3,No - No secure enclaves
+AR_32,4,Not Applicable - No encrypted weights needed
+AR_33,1,Yes - Hard geofencing enforced
+AR_33,2,Partial - Soft geofencing controls
+AR_33,3,No - No geofencing
+AR_33,4,Not Applicable - Single jurisdiction only
+AR_34,1,Yes - Identity-based HYOK/CMK encryption
+AR_34,2,Partial - Standard encryption only
+AR_34,3,No - No encryption
+AR_34,4,Not Applicable - No sensitive data storage
+AR_35,1,Yes - Object Lock strictly enforced
+AR_35,2,Partial - Retention without Object Lock
+AR_35,3,No - No immutability controls
+AR_35,4,Not Applicable - No cloud storage
+AR_36,1,Yes - Isolated with PIR protection
+AR_36,2,Partial - Isolated without PIR
+AR_36,3,No - No isolation
+AR_36,4,Not Applicable - No vector database
+AR_37,1,Yes - Strict separation with entropy monitoring
+AR_37,2,Partial - Separation without entropy checks
+AR_37,3,No - No separation enforced
+AR_37,4,Not Applicable - No data transformations
+AR_38,1,Yes - SMOTE strictly audited
+AR_38,2,Partial - Basic SMOTE validation
+AR_38,3,No - No SMOTE auditing
+AR_38,4,Not Applicable - No SMOTE used
+AR_39,1,Yes - Reversibility tested and prevented
+AR_39,2,Partial - Tested but not fully mitigated
+AR_39,3,No - No reversibility testing
+AR_39,4,Not Applicable - No PII in embeddings
+AR_40,1,Yes - Boolean flags for imputed values
+AR_40,2,Partial - Imputation tracked incompletely
+AR_40,3,No - No imputation tracking
+AR_40,4,Not Applicable - No missing data
+AR_41,1,Yes - Full deterministic reproducibility enforced
+AR_41,2,Partial - Partial reproducibility
+AR_41,3,No - No reproducibility
+AR_41,4,Not Applicable - No ETL pipeline
+AR_42,1,Yes - Adversarial input sanitization enforced
+AR_42,2,Partial - Basic sanitization only
+AR_42,3,No - No sanitization
+AR_42,4,Not Applicable - No external inputs
+AR_43,1,Yes - Automated MI score verification
+AR_43,2,Partial - Manual verification only
+AR_43,3,No - No MI verification
+AR_43,4,Not Applicable - No vectorization
+AR_44,1,Yes - Immutable RAG injection logs
+AR_44,2,Partial - Logs exist but mutable
+AR_44,3,No - No RAG logging
+AR_44,4,Not Applicable - No RAG usage
+AR_45,1,Yes - Real-time Kafka streaming
+AR_45,2,Partial - Near real-time updates
+AR_45,3,No - Batch scans only
+AR_45,4,Not Applicable - No data catalog
+AR_46,1,Yes - Auto revocation on reclassification
+AR_46,2,Partial - Manual revocation required
+AR_46,3,No - Static IAM policies
+AR_46,4,Not Applicable - No sensitivity tiers
+AR_47,1,Yes - Mandatory steward with review
+AR_47,2,Partial - Stewards without mandatory review
+AR_47,3,No - No data stewardship
+AR_47,4,Not Applicable - No high-risk models
+AR_48,1,Yes - Auto scanning for shadow PII
+AR_48,2,Partial - Manual scanning only
+AR_48,3,No - No PII discovery
+AR_48,4,Not Applicable - No PII present
+AR_49,1,Yes - Policies embedded and enforced
+AR_49,2,Partial - Policies documented not enforced
+AR_49,3,No - No usage policies
+AR_49,4,Not Applicable - No cross-system data
+AR_50,1,Yes - Continuous rolling baseline calibration
+AR_50,2,Partial - Periodic baseline updates
+AR_50,3,No - Static baselines only
+AR_50,4,Not Applicable - No drift detection
+AR_51,1,Yes - Automated litigation hold capability
+AR_51,2,Partial - Manual e-Discovery process
+AR_51,3,No - No e-Discovery capability
+AR_51,4,Not Applicable - No legal exposure
+AR_52,1,Yes - Quality gate prevents synthetic loops
+AR_52,2,Partial - Manual checks only
+AR_52,3,No - No loop prevention
+AR_52,4,Not Applicable - No synthetic data
+AR_53,1,Yes - Auto quarantine with cryptographic lock
+AR_53,2,Partial - Quarantine without crypto lock
+AR_53,3,No - No quarantine queue
+AR_53,4,Not Applicable - No quality monitoring
+AR_54,1,Yes - Dynamic Zero Trust with metadata
+AR_54,2,Partial - Basic access controls
+AR_54,3,No - Static access policies
+AR_54,4,Not Applicable - Single tenant only
+AR_55,1,Yes - Adversarial perturbations tested
+AR_55,2,Partial - Basic edge case testing
+AR_55,3,No - No adversarial testing
+AR_55,4,Not Applicable - No ETL pipeline
+AR_56,1,Yes - MAC enforced at OS/hypervisor
+AR_56,2,Partial - Application-level controls only
+AR_56,3,No - No MAC implementation
+AR_56,4,Not Applicable - No tagged data
+AR_57,1,Yes - Ephemeral keys per API call
+AR_57,2,Partial - Session-based keys
+AR_57,3,No - Static encryption keys
+AR_57,4,Not Applicable - No encryption needed
+AR_58,1,Yes - Active DLP masking proxy
+AR_58,2,Partial - Passive monitoring only
+AR_58,3,No - No DLP proxy
+AR_58,4,Not Applicable - No agent database access
+AR_59,1,Yes - Crypto PoW challenges enforced
+AR_59,2,Partial - Rate limiting only
+AR_59,3,No - No botnet protection
+AR_59,4,Not Applicable - No public API
+AR_60,1,Yes - Prompt firewall deployed
+AR_60,2,Partial - Basic input validation
+AR_60,3,No - No prompt inspection
+AR_60,4,Not Applicable - No external data sources
+AR_61,1,Yes - Minute-expiry geofenced tokens
+AR_61,2,Partial - Hour-expiry tokens
+AR_61,3,No - Long-lived tokens
+AR_61,4,Not Applicable - No API tokens
+AR_62,1,Yes - Auto rejection of invalid schemas
+AR_62,2,Partial - Manual validation
+AR_62,3,No - No schema validation
+AR_62,4,Not Applicable - No API endpoints
+AR_63,1,Low (0-33%)
+AR_63,2,Moderate (34-66%)
+AR_63,3,High (67-100%)
+AR_63,4,Not Applicable
+AR_64,1,Yes - Auto routing to HITL queue
+AR_64,2,Partial - Alerts without auto routing
+AR_64,3,No - No safe degradation
+AR_64,4,Not Applicable - No drift detection
+AR_65,1,Yes - Auto RCA to poisoned nodes
+AR_65,2,Partial - Manual RCA process
+AR_65,3,No - No RCA capability
+AR_65,4,Not Applicable - No hallucination tracking
+AR_66,1,Yes - Deterministic cycle detection enforced
+AR_66,2,Partial - Basic loop detection
+AR_66,3,No - No cycle detection
+AR_66,4,Not Applicable - No multi-agent chains
+AR_67,1,Yes - Automated TTL expiry flags
+AR_67,2,Partial - Manual expiry management
+AR_67,3,No - No TTL enforcement
+AR_67,4,Not Applicable - No temporal data
+AR_68,1,Yes - Strict intent-action matching
+AR_68,2,Partial - Basic action validation
+AR_68,3,No - No intent monitoring
+AR_68,4,Not Applicable - No autonomous actions
+AR_69,1,Yes - Automated hourly bias testing
+AR_69,2,Partial - Daily or weekly testing
+AR_69,3,No - No automated testing
+AR_69,4,Not Applicable - No pipeline updates
+AR_70,1,Yes - Integrated into central dashboard
+AR_70,2,Partial - Partial integration
+AR_70,3,No - Siloed monitoring tools
+AR_70,4,Not Applicable - No AI monitoring
+AR_71,1,Yes - Hardware mitigations deployed
+AR_71,2,Partial - Software mitigations only
+AR_71,3,No - No side-channel protection
+AR_71,4,Not Applicable - No GPU accelerators
+AR_72,1,Yes - Over 75% allocated to inference
+AR_72,2,Partial - 50-75% for inference
+AR_72,3,No - Under 50% for inference
+AR_72,4,Not Applicable - No inference workload
+AR_73,1,Yes - Sub-48hr alternative cluster ready
+AR_73,2,Partial - Failover possible but slow
+AR_73,3,No - No failover capability
+AR_73,4,Not Applicable - No GPU dependency
+AR_74,1,Yes - Hardware-level side-channel mitigations
+AR_74,2,Partial - Software monitoring only
+AR_74,3,No - No power-fluctuation protection
+AR_74,4,Not Applicable - No sensitive training data
+AR_75,1,Yes - Dynamic GPU sharing enabled
+AR_75,2,Partial - Some GPU sharing
+AR_75,3,No - Full GPU per job
+AR_75,4,Not Applicable - No GPU usage
+AR_76,1,Yes - Crypto signature verified on boot
+AR_76,2,Partial - Periodic verification only
+AR_76,3,No - No firmware verification
+AR_76,4,Not Applicable - No GPU/TPU infrastructure
+AR_77,1,Yes - Hard step limits enforced
+AR_77,2,Partial - Soft limits configured
+AR_77,3,No - No step boundaries
+AR_77,4,Not Applicable - No agent tool use
+AR_78,1,Yes - Separate optimized architectures
+AR_78,2,Partial - Shared with some optimization
+AR_78,3,No - Single architecture for both
+AR_78,4,Not Applicable - Only one workload type
+AR_79,1,Yes - RDMA for direct GPU access
+AR_79,2,Partial - RDMA for some workloads
+AR_79,3,No - No RDMA implementation
+AR_79,4,Not Applicable - No GPU storage transfers
+AR_80,1,Yes - Sub-60-second checkpoint ingestion
+AR_80,2,Partial - Ingestion with brief pauses
+AR_80,3,No - Long ingestion with disruption
+AR_80,4,Not Applicable - No checkpoint ingestion
+AR_81,1,Yes - Fully disaggregated storage
+AR_81,2,Partial - Partially disaggregated
+AR_81,3,No - Coupled storage and compute
+AR_81,4,Not Applicable - No scaling requirements
+AR_82,1,Yes - Unified Data Mesh implemented
+AR_82,2,Partial - Partial federation
+AR_82,3,No - No Data Mesh
+AR_82,4,Not Applicable - Single domain only
+AR_83,1,Yes - Auto egress termination on spikes
+AR_83,2,Partial - Alerts without auto termination
+AR_83,3,No - No billing alerts
+AR_83,4,Not Applicable - No cloud egress
+AR_84,1,Yes - NVMe-oF with auto tiering
+AR_84,2,Partial - NVMe-oF without auto tiering
+AR_84,3,No - No NVMe-oF
+AR_84,4,Not Applicable - No tiered storage needs
+AR_85,1,Yes - Auto placement by interconnect distance
+AR_85,2,Partial - Manual placement optimization
+AR_85,3,No - No placement optimization
+AR_85,4,Not Applicable - No distributed training
+AR_86,1,Yes - Admission controllers block non-compliant pods
+AR_86,2,Partial - Admission controls partially enforced
+AR_86,3,No - No admission controls
+AR_86,4,Not Applicable - No containerized AI
+AR_87,1,Yes - Immutable infrastructure enforced
+AR_87,2,Partial - Limited direct access allowed
+AR_87,3,No - Direct access permitted
+AR_87,4,Not Applicable - No production AI nodes
+AR_88,1,Yes - TEEs guarantee data-in-use privacy
+AR_88,2,Partial - Software-only isolation
+AR_88,3,No - No TEE protection
+AR_88,4,Not Applicable - No shared GPU infrastructure
+AR_89,1,Yes - Auto restart from checkpoints
+AR_89,2,Partial - Manual restart required
+AR_89,3,No - No checkpoint restart
+AR_89,4,Not Applicable - No job orchestration
+AR_90,1,Yes - TEEs enforced for workloads
+AR_90,2,Partial - Some workloads in TEEs
+AR_90,3,No - No TEE usage
+AR_90,4,Not Applicable - No cloud workloads
+AR_91,1,Yes - Auto blocks for missing tags
+AR_91,2,Partial - Manual compliance checks
+AR_91,3,No - No compliance blocks
+AR_91,4,Not Applicable - No compliance requirements
+AR_92,1,Yes - Dedicated kill switch per agent
+AR_92,2,Partial - Kill switch partially automated
+AR_92,3,No - No kill switch
+AR_92,4,Not Applicable - No AI agents
+AR_93,1,Yes - Immutable tamper-proof log vault
+AR_93,2,Partial - Logs with limited protection
+AR_93,3,No - Mutable logs
+AR_93,4,Not Applicable - No log retention
+AR_94,1,Yes - Default deny with whitelisting
+AR_94,2,Partial - Limited egress restrictions
+AR_94,3,No - Open egress allowed
+AR_94,4,Not Applicable - No GPU nodes
+AR_95,1,Yes - AI-WAF blocks semantic attacks
+AR_95,2,Partial - Traditional WAF only
+AR_95,3,No - No WAF protection
+AR_95,4,Not Applicable - No API gateway
+AR_96,1,Yes - Blue/Green with zero downtime
+AR_96,2,Partial - Deployment with some downtime
+AR_96,3,No - No deployment strategy
+AR_96,4,Not Applicable - No vector database
+AR_97,1,Yes - Auto sanitization before vectorization
+AR_97,2,Partial - Basic sanitization only
+AR_97,3,No - No sanitization
+AR_97,4,Not Applicable - No knowledge-base ingestion
+AR_98,1,Yes - k-anonymity or differential privacy applied
+AR_98,2,Partial - Limited anonymization applied
+AR_98,3,No - No anonymization
+AR_98,4,Not Applicable - No sensitive embeddings
+AR_99,1,Yes - TTL attributes enforce expiry
+AR_99,2,Partial - Manual expiry management
+AR_99,3,No - No TTL enforcement
+AR_99,4,Not Applicable - No temporal RAG data
+AR_100,1,Yes - Cryptographic RLS enforced
+AR_100,2,Partial - Basic access controls
+AR_100,3,No - No RLS policies
+AR_100,4,Not Applicable - Single user only
+AR_101,1,Yes - Physical namespace isolation enforced
+AR_101,2,Partial - Logical isolation only
+AR_101,3,No - No tenant isolation
+AR_101,4,Not Applicable - Single tenant only
+AR_102,1,Yes - Auto regression testing on prompts
+AR_102,2,Partial - Manual testing only
+AR_102,3,No - No regression testing
+AR_102,4,Not Applicable - No prompt templates
+AR_103,1,Yes - Auto fail-closed on violations
+AR_103,2,Partial - Alerts without enforced fail-closed
+AR_103,3,No - No safe failure mode
+AR_103,4,Not Applicable - No business rules
+AR_104,1,Low (0-33%)
+AR_104,2,Moderate (34-66%)
+AR_104,3,High (67-100%)
+AR_104,4,Not Applicable
+AR_105,1,Yes - Daily-rotated crypto identities
+AR_105,2,Partial - Static agent identities
+AR_105,3,No - Shared human credentials
+AR_105,4,Not Applicable - No AI agents
+AR_106,1,Yes - FPE for sensitive fields
+AR_106,2,Partial - Standard encryption only
+AR_106,3,No - No FPE
+AR_106,4,Not Applicable - No sensitive data processing
+AR_107,1,Yes - Active scanning and pruning
+AR_107,2,Partial - Manual reviews only
+AR_107,3,No - No relationship scanning
+AR_107,4,Not Applicable - No Knowledge Graphs
+AR_108,1,Yes - JIT tokens revoked post-inference
+AR_108,2,Partial - Session-based tokens
+AR_108,3,No - Long-lived tokens
+AR_108,4,Not Applicable - No backend access
+AR_109,1,Yes - Full traceability to model/human
+AR_109,2,Partial - Model traceability only
+AR_109,3,No - No modification traceability
+AR_109,4,Not Applicable - No AI modifications
+AR_110,1,Yes - Row limits enforced programmatically
+AR_110,2,Partial - Application-level limits only
+AR_110,3,No - No row limits
+AR_110,4,Not Applicable - No database access
+AR_111,1,Yes - Sliding-window rate limiters enforced
+AR_111,2,Partial - Basic rate limiting
+AR_111,3,No - No rate limiting
+AR_111,4,Not Applicable - No API access
+AR_112,1,Yes - Cryptographic shredding supported
+AR_112,2,Partial - Manual deletion only
+AR_112,3,No - No secure deletion
+AR_112,4,Not Applicable - No encrypted embeddings
+AR_113,1,Yes - Air-gapped with one-way sync
+AR_113,2,Partial - Logical separation only
+AR_113,3,No - Direct production access
+AR_113,4,Not Applicable - No production databases
+AR_114,1,Yes - FHE for encrypted inference
+AR_114,2,Partial - Partial encryption only
+AR_114,3,No - No FHE
+AR_114,4,Not Applicable - No encrypted inference needs
+AR_115,1,Yes - Auto scale-to-zero on anomalies
+AR_115,2,Partial - Alerts without auto scaling
+AR_115,3,No - No billing automation
+AR_115,4,Not Applicable - No cloud infrastructure
+AR_116,1,Yes - Shadow testing before rollout
+AR_116,2,Partial - Limited A/B testing
+AR_116,3,No - No shadow testing
+AR_116,4,Not Applicable - No model deployments
+AR_117,1,Yes - Intent classifiers validate alignment
+AR_117,2,Partial - Manual validation only
+AR_117,3,No - No alignment validation
+AR_117,4,Not Applicable - No multi-agent chains
+AR_118,1,Yes - Auto detection of rubber-stamping
+AR_118,2,Partial - Limited automated monitoring
+AR_118,3,No - No bias detection
+AR_118,4,Not Applicable - No human approval gates
+AR_119,1,Yes - Granular service isolation enforced
+AR_119,2,Partial - Service groups only
+AR_119,3,No - All-or-nothing shutdown
+AR_119,4,Not Applicable - Single AI service
+AR_120,1,Yes - Centralized landing zones enforced
+AR_120,2,Partial - Partial governance coverage
+AR_120,3,No - No centralized governance
+AR_120,4,Not Applicable - No cloud infrastructure
+AR_121,1,Yes - CSPM with auto remediation
+AR_121,2,Partial - Detection without auto remediation
+AR_121,3,No - No CSPM tools
+AR_121,4,Not Applicable - No cloud storage
+AR_122,1,Yes - SCPs block unapproved services
+AR_122,2,Partial - Advisory policies only
+AR_122,3,No - No SCPs
+AR_122,4,Not Applicable - No cloud organization
+AR_123,1,Yes - Formal escalation process exists
+AR_123,2,Partial - Informal escalation only
+AR_123,3,No - No escalation process
+AR_123,4,Not Applicable - No cloud infrastructure
+AR_124,1,Yes - Comprehensive physical security enforced
+AR_124,2,Partial - Basic physical security
+AR_124,3,No - No physical security
+AR_124,4,Not Applicable - No physical hardware
+AR_125,1,Yes - Continuous integrity checks enforced
+AR_125,2,Partial - Periodic checks only
+AR_125,3,No - No integrity checks
+AR_125,4,Not Applicable - No AI accelerators
+AR_126,1,Yes - Hardware memory encryption enabled
+AR_126,2,Partial - Software encryption only
+AR_126,3,No - No memory encryption
+AR_126,4,Not Applicable - No AI nodes
+AR_127,1,Yes - VEX framework prioritizes patches
+AR_127,2,Partial - CVSS-based prioritization only
+AR_127,3,No - No prioritization framework
+AR_127,4,Not Applicable - No patch management
+AR_128,1,Yes - IaC with auto scanning enforced
+AR_128,2,Partial - Version control without scanning
+AR_128,3,No - No IaC governance
+AR_128,4,Not Applicable - No IaC usage
+AR_129,1,Yes - Comprehensive privacy controls enforced
+AR_129,2,Partial - Basic privacy controls
+AR_129,3,No - No privacy controls
+AR_129,4,Not Applicable - No personal data
+AR_130,1,Yes - Real-time PII masking proxies
+AR_130,2,Partial - Static masking only
+AR_130,3,No - No masking proxies
+AR_130,4,Not Applicable - No PII in analytics
+AR_131,1,Yes - mTLS enforced for all services
+AR_131,2,Partial - mTLS for some services
+AR_131,3,No - No mTLS
+AR_131,4,Not Applicable - No microservices
+AR_132,1,Yes - Crypto hashes for joins
+AR_132,2,Partial - Hashing for some datasets
+AR_132,3,No - Plaintext joins
+AR_132,4,Not Applicable - No dataset joins
+AR_133,1,Yes - Physical geofencing enforced
+AR_133,2,Partial - Soft geofencing controls
+AR_133,3,No - No geofencing
+AR_133,4,Not Applicable - Single region only
+AR_134,1,Yes - Auto verification of labels
+AR_134,2,Partial - Manual verification only
+AR_134,3,No - No label verification
+AR_134,4,Not Applicable - No data lakes
+AR_135,1,1-2 (Low/Limited)
+AR_135,2,3 (Moderate)
+AR_135,3,4-5 (High/Strong)
+AR_135,4,Not Applicable
+AR_136,1,Yes - Strict VM-level microsegmentation
+AR_136,2,Partial - Network-level isolation only
+AR_136,3,No - No microsegmentation
+AR_136,4,Not Applicable - Single tenant only
+AR_137,1,Yes - Centralized gateway enforced
+AR_137,2,Partial - Multiple gateways exist
+AR_137,3,No - No API gateway
+AR_137,4,Not Applicable - No API access
+AR_138,1,Yes - Service Mesh with mTLS enforced
+AR_138,2,Partial - mTLS without Service Mesh
+AR_138,3,No - No Service Mesh
+AR_138,4,Not Applicable - No microservices
+AR_139,1,Yes - Comprehensive network security enforced
+AR_139,2,Partial - Basic firewall protection
+AR_139,3,No - No network security
+AR_139,4,Not Applicable - No network infrastructure
+AR_140,1,Yes - NTA detects slow exfiltration
+AR_140,2,Partial - Basic traffic monitoring
+AR_140,3,No - No NTA tools
+AR_140,4,Not Applicable - No development environments
+AR_141,1,Yes - Private fiber links enforced
+AR_141,2,Partial - Private connectivity partially used
+AR_141,3,No - Public internet transit
+AR_141,4,Not Applicable - No hybrid transfers
+AR_142,1,Yes - Comprehensive IAM with PAM/MFA
+AR_142,2,Partial - Basic IAM without PAM
+AR_142,3,No - No IAM framework
+AR_142,4,Not Applicable - No user access
+AR_143,1,Yes - PAM vault with recording/alerting
+AR_143,2,Partial - PAM with limited monitoring
+AR_143,3,No - No PAM controls
+AR_143,4,Not Applicable - No emergency access
+AR_144,1,Yes - Auto revocation within 60 minutes
+AR_144,2,Partial - Revocation within 24 hours
+AR_144,3,No - Manual revocation process
+AR_144,4,Not Applicable - No employee access
+AR_145,1,Yes - Hardware tokens mandated
+AR_145,2,Partial - Optional hardware tokens
+AR_145,3,No - Password-based authentication
+AR_145,4,Not Applicable - No write access
+AR_146,1,Yes - Caged with biometric access
+AR_146,2,Partial - Physical controls without biometrics
+AR_146,3,No - No physical caging
+AR_146,4,Not Applicable - No physical data centers
+AR_147,1,Yes - Strict tracking with crypto wipe
+AR_147,2,Partial - Tracking without crypto wipe
+AR_147,3,No - No asset tracking
+AR_147,4,Not Applicable - No physical GPUs
+AR_148,1,Yes - Change mgmt with drift detection
+AR_148,2,Partial - Change mgmt without automation
+AR_148,3,No - No change management
+AR_148,4,Not Applicable - No configuration changes
+AR_149,1,Yes - Crypto hashing for log integrity
+AR_149,2,Partial - Basic log protection
+AR_149,3,No - No log integrity controls
+AR_149,4,Not Applicable - No logs retained
+AR_150,1,Yes - SIEM aggregates all AI logs
+AR_150,2,Partial - SIEM aggregates some logs
+AR_150,3,No - No SIEM integration
+AR_150,4,Not Applicable - No centralized logging
+AR_151,1,Yes - Comprehensive ITOps workflows
+AR_151,2,Partial - Basic incident management
+AR_151,3,No - No ITOps workflows
+AR_151,4,Not Applicable - No AI infrastructure
+AR_152,1,Yes - Routine Chaos Engineering tests
+AR_152,2,Partial - Ad-hoc testing only
+AR_152,3,No - No resilience testing
+AR_152,4,Not Applicable - No production environment
+AR_153,1,Yes - Quarterly clean-room restoration tests
+AR_153,2,Partial - Annual or infrequent tests
+AR_153,3,No - No restoration testing
+AR_153,4,Not Applicable - No backups
+AR_154,1,Yes - SLOs halt development on violations
+AR_154,2,Partial - SLOs tracked without enforcement
+AR_154,3,No - No SLOs defined
+AR_154,4,Not Applicable - No production systems
+AR_155,1,Yes - Auto rejection for missing tags
+AR_155,2,Partial - Tags recommended not enforced
+AR_155,3,No - No tagging standards
+AR_155,4,Not Applicable - No cloud resources
+AR_156,1,1-2 (Low/Limited)
+AR_156,2,3 (Moderate)
+AR_156,3,4-5 (High/Strong)
+AR_156,4,Not Applicable
+AR_157,1,Yes - Spot instances for training
+AR_157,2,Partial - Some spot usage
+AR_157,3,No - On-demand instances only
+AR_157,4,Not Applicable - No cloud training
+AR_158,1,Yes - HPA hard-capped for cost control
+AR_158,2,Partial - Soft limits configured
+AR_158,3,No - No scaling caps
+AR_158,4,Not Applicable - No Kubernetes autoscaling
+AR_159,1,Yes - Granular tags enforced via IaC
+AR_159,2,Partial - Tags recommended not enforced
+AR_159,3,No - No tagging for chargebacks
+AR_159,4,Not Applicable - No chargebacks needed
+AR_160,1,Yes - Formal risk evaluation conducted
+AR_160,2,Partial - Informal assessments only
+AR_160,3,No - No risk evaluation
+AR_160,4,Not Applicable - No cloud investments
+AR_161,1,Yes - Board-approved policy with owner
+AR_161,2,Partial - Policy without board approval
+AR_161,3,No - No AI policy
+AR_161,4,Not Applicable - No AI usage
+AR_162,1,Yes - Comprehensive coverage across organization
+AR_162,2,Partial - Partial lifecycle coverage
+AR_162,3,No - Limited or no coverage
+AR_162,4,Not Applicable - No AI policy
+AR_163,1,Yes - Formal enforcement mechanisms effective
+AR_163,2,Partial - Mechanisms exist but inconsistent
+AR_163,3,No - No enforcement mechanisms
+AR_163,4,Not Applicable - No AI policy
+AR_164,1,Yes - Reviewed within past 12 months
+AR_164,2,Partial - Reviewed 12-24 months ago
+AR_164,3,No - Over 24 months or never
+AR_164,4,Not Applicable - No AI policy
+AR_165,1,Yes - Formal update process exists
+AR_165,2,Partial - Informal update process
+AR_165,3,No - No update process
+AR_165,4,Not Applicable - No AI policy
+AR_166,1,1-2 (Low/Limited)
+AR_166,2,3 (Moderate)
+AR_166,3,4-5 (High/Strong)
+AR_166,4,Not Applicable
+AR_167,1,Yes - Quarterly board briefings minuted
+AR_167,2,Partial - Annual or informal briefings
+AR_167,3,No - No board briefings
+AR_167,4,Not Applicable - No AI portfolio
+AR_168,1,Yes - Roles documented and assigned
+AR_168,2,Partial - Roles documented not assigned
+AR_168,3,No - No role documentation
+AR_168,4,Not Applicable - No AI systems
+AR_169,1,1-2 (Low/Limited)
+AR_169,2,3 (Moderate)
+AR_169,3,4-5 (High/Strong)
+AR_169,4,Not Applicable
+AR_170,1,Yes - Access controls for kill-switch enforced
+AR_170,2,Partial - Manual authorization process
+AR_170,3,No - No access controls
+AR_170,4,Not Applicable - No kill-switch mechanism
+AR_171,1,Yes - Formal competence assessment required
+AR_171,2,Partial - Informal assessment only
+AR_171,3,No - No competence assessment
+AR_171,4,Not Applicable - No AI roles
+AR_172,1,Yes - Auto routing to incident mgmt
+AR_172,2,Partial - Manual incident reporting
+AR_172,3,No - No incident routing
+AR_172,4,Not Applicable - No AI safety monitoring
+AR_173,1,Yes - Full segregation of duties
+AR_173,2,Partial - Limited segregation
+AR_173,3,No - No segregation
+AR_173,4,Not Applicable - No approval process
+AR_174,1,1-2 (Low/Limited)
+AR_174,2,3 (Moderate)
+AR_174,3,4-5 (High/Strong)
+AR_174,4,Not Applicable
+AR_175,1,1-2 (Low/Limited)
+AR_175,2,3 (Moderate)
+AR_175,3,4-5 (High/Strong)
+AR_175,4,Not Applicable
+AR_176,1,Yes - Backup personnel formally documented
+AR_176,2,Partial - Backup personnel partially documented
+AR_176,3,No - No backup personnel identified
+AR_176,4,Not Applicable - No governance functions
+AR_177,1,Yes - Auto-provisioned forensic environments
+AR_177,2,Partial - Forensic environments partially automated
+AR_177,3,No - No forensic environments
+AR_177,4,Not Applicable - No incident response
+AR_178,1,Yes - Policy integrated into procurement
+AR_178,2,Partial - Procurement integration partially enforced
+AR_178,3,No - No procurement integration
+AR_178,4,Not Applicable - No AI policy
+AR_179,1,Yes - Comprehensive audit documentation maintained
+AR_179,2,Partial - Limited documentation maintained
+AR_179,3,No - No audit documentation
+AR_179,4,Not Applicable - No AI systems
+AR_180,1,Yes - Mandatory training with assessments
+AR_180,2,Partial - Training without assessments
+AR_180,3,No - No AI training
+AR_180,4,Not Applicable - No AI usage
+AR_181,1,Yes - Mandatory specialized training required
+AR_181,2,Partial - Training partially enforced
+AR_181,3,No - No specialized training
+AR_181,4,Not Applicable - No production development
+AR_182,1,Yes - Training linked to access controls
+AR_182,2,Partial - Manual access reviews
+AR_182,3,No - No training-access linkage
+AR_182,4,Not Applicable - No AI tools
+AR_183,1,1-2 (Low/Limited)
+AR_183,2,3 (Moderate)
+AR_183,3,4-5 (High/Strong)
+AR_183,4,Not Applicable
+AR_184,1,Yes - Centralized version-controlled register
+AR_184,2,Partial - Incomplete or decentralized register
+AR_184,3,No - No AI register
+AR_184,4,Not Applicable - No AI systems
+AR_185,1,Yes - Resources mapped to lifecycle phases
+AR_185,2,Partial - Partial lifecycle mapping
+AR_185,3,No - No lifecycle mapping
+AR_185,4,Not Applicable - No AI resources
+AR_186,1,1-2 (Low/Limited)
+AR_186,2,3 (Moderate)
+AR_186,3,4-5 (High/Strong)
+AR_186,4,Not Applicable
+AR_187,1,Yes - Automated API discovery enforced
+AR_187,2,Partial - Verification partially automated
+AR_187,3,No - No decommissioning verification
+AR_187,4,Not Applicable - No model retirements
+AR_188,1,Yes - Crypto watermarks enforced
+AR_188,2,Partial - Metadata tracking without enforcement
+AR_188,3,No - No watermarking
+AR_188,4,Not Applicable - No training pipelines
+AR_189,1,Yes - Strict categorization and version control
+AR_189,2,Partial - Basic categorization without version control
+AR_189,3,No - No dataset segregation
+AR_189,4,Not Applicable - No multiple datasets
+AR_190,1,Yes - Parity mathematically measured and enforced
+AR_190,2,Partial - Measured without enforcement
+AR_190,3,No - No parity measurement
+AR_190,4,Not Applicable - No fairness requirements
+AR_191,1,Yes - DQI dashboard reviewed monthly
+AR_191,2,Partial - Dashboard without executive review
+AR_191,3,No - No DQI dashboard
+AR_191,4,Not Applicable - No AI data
+AR_192,1,Yes - Automated cryptographic shredding
+AR_192,2,Partial - Destruction partially automated
+AR_192,3,No - No secure destruction
+AR_192,4,Not Applicable - No retention requirements
+AR_193,1,Yes - Formal validation against ground-truth
+AR_193,2,Partial - Basic validation without ground-truth
+AR_193,3,No - No validation
+AR_193,4,Not Applicable - No synthetic data
+AR_194,1,Yes - Formal assessment with monitoring
+AR_194,2,Partial - Identified without full controls
+AR_194,3,No - No third-party assessment
+AR_194,4,Not Applicable - No third-party providers
+AR_195,1,Yes - Automated shadow AI detection
+AR_195,2,Partial - Detection partially automated
+AR_195,3,No - No shadow AI detection
+AR_195,4,Not Applicable - No AI inventory
+AR_196,1,Yes - Comprehensive external service documentation
+AR_196,2,Partial - Basic provider documentation
+AR_196,3,No - No external service documentation
+AR_196,4,Not Applicable - No external AI services
+AR_197,1,Yes - Comprehensive data protection controls
+AR_197,2,Partial - Limited protection controls
+AR_197,3,No - No protection controls
+AR_197,4,Not Applicable - No external data transmission
+AR_198,1,Yes - Signed SBOMs required
+AR_198,2,Partial - SBOMs requested not required
+AR_198,3,No - No SBOM requirements
+AR_198,4,Not Applicable - No third-party AI vendors
+AR_199,1,Yes - Licensing policy enforced
+AR_199,2,Partial - Licensing policy partially enforced
+AR_199,3,No - No licensing evaluation
+AR_199,4,Not Applicable - No open-source usage
+AR_200,1,Yes - Concentration risk formally assessed
+AR_200,2,Partial - Informal risk awareness
+AR_200,3,No - No concentration assessment
+AR_200,4,Not Applicable - No vendor dependency
+AR_201,1,Low (0-33%)
+AR_201,2,Moderate (34-66%)
+AR_201,3,High (67-100%)
+AR_201,4,Not Applicable
+AR_202,1,Yes - Hosting risks formally evaluated
+AR_202,2,Partial - Hosting identified without evaluation
+AR_202,3,No - No hosting evaluation
+AR_202,4,Not Applicable - No AI hosting
+AR_203,1,Yes - Documented and tested resilience strategy
+AR_203,2,Partial - Strategy documented not tested
+AR_203,3,No - No resilience strategy
+AR_203,4,Not Applicable - No critical AI services
+AR_204,1,Yes - Automated spending limits enforced
+AR_204,2,Partial - Alerts without hard limits
+AR_204,3,No - No spending controls
+AR_204,4,Not Applicable - No cloud infrastructure
+AR_205,1,Yes - Impacts measured and evaluated
+AR_205,2,Partial - Measured without evaluation
+AR_205,3,No - No environmental measurement
+AR_205,4,Not Applicable - No ESG targets
+AR_206,1,Yes - Auto revocation on role changes
+AR_206,2,Partial - Revocation partially automated
+AR_206,3,No - No automated revocation
+AR_206,4,Not Applicable - No designated owners
+AR_207,1,Yes - Sufficient personnel formally assigned
+AR_207,2,Partial - Partial coverage with gaps
+AR_207,3,No - No personnel assigned
+AR_207,4,Not Applicable - No governance functions
+AR_208,1,Yes - Crypto-secured HITL logs
+AR_208,2,Partial - Centralized without crypto protection
+AR_208,3,No - No HITL log protection
+AR_208,4,Not Applicable - No HITL approvals
+AR_209,1,Low (0-33%)
+AR_209,2,Moderate (34-66%)
+AR_209,3,High (67-100%)
+AR_209,4,Not Applicable
+AR_210,1,Yes - Assessment with remediation plan
+AR_210,2,Partial - Assessment without remediation
+AR_210,3,No - No competency assessment
+AR_210,4,Not Applicable - No governance functions
+AR_211,1,Yes - External resources formally documented
+AR_211,2,Partial - Informal tracking only
+AR_211,3,No - No external resource documentation
+AR_211,4,Not Applicable - No external resources
+AR_212,1,Yes - Formal change management enforced
+AR_212,2,Partial - Change management partially enforced
+AR_212,3,No - No change management
+AR_212,4,Not Applicable - No AI changes
+AR_213,1,Low (0-33%)
+AR_213,2,Moderate (34-66%)
+AR_213,3,High (67-100%)
+AR_213,4,Not Applicable
+AR_214,1,Yes - Automated gating enforced
+AR_214,2,Partial - Gating partially automated
+AR_214,3,No - No gating controls
+AR_214,4,Not Applicable - No production promotions
+AR_215,1,Yes - Formal categorization with criteria
+AR_215,2,Partial - Informal categorization
+AR_215,3,No - No impact categorization
+AR_215,4,Not Applicable - No AI systems
+AR_216,1,Yes - Comprehensive harm evaluation
+AR_216,2,Partial - Limited harm assessment
+AR_216,3,No - No harm evaluation
+AR_216,4,Not Applicable - No impact assessments
+AR_217,1,Yes - Comprehensive impact evaluation documented
+AR_217,2,Partial - Limited impact evaluation
+AR_217,3,No - No impact evaluation
+AR_217,4,Not Applicable - No AI systems
+AR_218,1,Low (0-33%)
+AR_218,2,Moderate (34-66%)
+AR_218,3,High (67-100%)
+AR_218,4,Not Applicable
+AR_219,1,Yes - Residual risks formally documented
+AR_219,2,Partial - Informal risk tracking
+AR_219,3,No - No residual risk documentation
+AR_219,4,Not Applicable - No risk mitigation
+AR_220,1,Yes - Periodic and event-triggered reviews
+AR_220,2,Partial - Periodic reviews only
+AR_220,3,No - No reassessment process
+AR_220,4,Not Applicable - No impact assessments
+AR_221,1,1-2 (Low/Limited)
+AR_221,2,3 (Moderate)
+AR_221,3,4-5 (High/Strong)
+AR_221,4,Not Applicable
+AR_222,1,Yes - Controlled repository with version control
+AR_222,2,Partial - Basic documentation storage
+AR_222,3,No - No controlled repository
+AR_222,4,Not Applicable - No impact assessments
+AR_223,1,Yes - Stakeholders formally consulted
+AR_223,2,Partial - Limited stakeholder engagement
+AR_223,3,No - No stakeholder consultation
+AR_223,4,Not Applicable - No impact assessments
+AR_224,1,Yes - Learnings systematically incorporated
+AR_224,2,Partial - Learnings partially incorporated
+AR_224,3,No - No learning incorporation
+AR_224,4,Not Applicable - No impact assessments
+AR_225,1,Yes - Formal comparison process enforced
+AR_225,2,Partial - Informal monitoring only
+AR_225,3,No - No impact comparison
+AR_225,4,Not Applicable - No deployments
+AR_226,1,Yes - Automated tools with validation
+AR_226,2,Partial - Tools without validation
+AR_226,3,No - No automated tools
+AR_226,4,Not Applicable - No vulnerable populations
+AR_227,1,Yes - Business impacts formally assessed
+AR_227,2,Partial - Limited impact assessment
+AR_227,3,No - No business impact assessment
+AR_227,4,Not Applicable - No AI systems
+AR_228,1,Yes - Jurisdictional impacts evaluated
+AR_228,2,Partial - Limited jurisdictional review
+AR_228,3,No - No jurisdictional assessment
+AR_228,4,Not Applicable - Single jurisdiction only
+AR_229,1,Yes - Automated compliance controls enforced
+AR_229,2,Partial - Manual compliance processes
+AR_229,3,No - No geofencing controls
+AR_229,4,Not Applicable - Single jurisdiction only
+AR_230,1,Yes - Auto-generated system cards presented
+AR_230,2,Partial - Static documentation only
+AR_230,3,No - No transparency labels
+AR_230,4,Not Applicable - No user-facing systems
+AR_231,1,Low (0-33%)
+AR_231,2,Moderate (34-66%)
+AR_231,3,High (67-100%)
+AR_231,4,Not Applicable
+AR_232,1,Yes - Entry/exit criteria enforced
+AR_232,2,Partial - Criteria defined not enforced
+AR_232,3,No - No stage criteria
+AR_232,4,Not Applicable - No lifecycle stages
+AR_233,1,Yes - Exception protocols formally defined
+AR_233,2,Partial - Exception protocols partially defined
+AR_233,3,No - No exception protocols
+AR_233,4,Not Applicable - No lifecycle controls
+AR_234,1,Low (0-33%)
+AR_234,2,Moderate (34-66%)
+AR_234,3,High (67-100%)
+AR_234,4,Not Applicable
+AR_235,1,Yes - Auto circuit breakers enforced
+AR_235,2,Partial - Circuit breakers partially implemented
+AR_235,3,No - No circuit breakers
+AR_235,4,Not Applicable - No training pipelines
+AR_236,1,Yes - Independent review with audits
+AR_236,2,Partial - Internal review only
+AR_236,3,No - No feature review
+AR_236,4,Not Applicable - No feature engineering
+AR_237,1,Yes - Full reproducibility enforced
+AR_237,2,Partial - Partial version control
+AR_237,3,No - No reproducibility
+AR_237,4,Not Applicable - No model development
+AR_238,1,Low (0-33%)
+AR_238,2,Moderate (34-66%)
+AR_238,3,High (67-100%)
+AR_238,4,Not Applicable
+AR_239,1,Yes - Comprehensive MLOps controls
+AR_239,2,Partial - Basic environment separation
+AR_239,3,No - No MLOps controls
+AR_239,4,Not Applicable - No ML operations
+AR_240,1,Yes - Continuous monitoring with alerts
+AR_240,2,Partial - Periodic monitoring only
+AR_240,3,No - No drift monitoring
+AR_240,4,Not Applicable - No production systems
+AR_241,1,Yes - Thresholds with auto interventions
+AR_241,2,Partial - Thresholds partially enforced
+AR_241,3,No - No threshold documentation
+AR_241,4,Not Applicable - No monitoring
+AR_242,1,Yes - Oversight roles with logging
+AR_242,2,Partial - Oversight roles partially enforced
+AR_242,3,No - No oversight roles
+AR_242,4,Not Applicable - No high-stakes systems
+AR_243,1,Yes - Strict retraining governance
+AR_243,2,Partial - Basic validation only
+AR_243,3,No - No retraining governance
+AR_243,4,Not Applicable - No automated retraining
+AR_244,1,Yes - Classification with horizon scanning
+AR_244,2,Partial - Classification without scanning
+AR_244,3,No - No formal classification
+AR_244,4,Not Applicable - No AI systems
+AR_245,1,Yes - Enhanced controls for high-risk
+AR_245,2,Partial - Some enhanced controls
+AR_245,3,No - No enhanced controls
+AR_245,4,Not Applicable - No high-risk systems
+AR_246,1,Yes - Documentation required with sign-off
+AR_246,2,Partial - Documentation without enforcement
+AR_246,3,No - No documentation requirements
+AR_246,4,Not Applicable - No deployments
+AR_247,1,Low (0-33%)
+AR_247,2,Moderate (34-66%)
+AR_247,3,High (67-100%)
+AR_247,4,Not Applicable
+AR_248,1,Yes - Impact assessment before updates
+AR_248,2,Partial - Update assessments partially performed
+AR_248,3,No - No update assessments
+AR_248,4,Not Applicable - No third-party models
+AR_249,1,Low (0-33%)
+AR_249,2,Moderate (34-66%)
+AR_249,3,High (67-100%)
+AR_249,4,Not Applicable
+AR_250,1,Yes - Comprehensive adversarial testing
+AR_250,2,Partial - Limited testing conducted
+AR_250,3,No - No adversarial testing
+AR_250,4,Not Applicable - No generative AI
+AR_251,1,Yes - Automated teardown in CI/CD
+AR_251,2,Partial - Teardown partially automated
+AR_251,3,No - No teardown processes
+AR_251,4,Not Applicable - No deployments
+AR_252,1,1-2 (Low/Limited)
+AR_252,2,3 (Moderate)
+AR_252,3,4-5 (High/Strong)
+AR_252,4,Not Applicable
+AR_253,1,Yes - Documentation standards formally defined
+AR_253,2,Partial - Informal documentation practices
+AR_253,3,No - No documentation standards
+AR_253,4,Not Applicable - No AI systems
+AR_254,1,Yes - Logging requirements formally defined
+AR_254,2,Partial - Basic logging without review
+AR_254,3,No - No logging requirements
+AR_254,4,Not Applicable - No AI systems
+AR_255,1,1-2 (Low/Limited)
+AR_255,2,3 (Moderate)
+AR_255,3,4-5 (High/Strong)
+AR_255,4,Not Applicable
+AR_256,1,Yes - Acquisition criteria formally defined
+AR_256,2,Partial - Acquisition criteria partially defined
+AR_256,3,No - No acquisition criteria
+AR_256,4,Not Applicable - No data acquisition
+AR_257,1,Yes - Quality requirements with validation
+AR_257,2,Partial - Requirements without validation
+AR_257,3,No - No quality requirements
+AR_257,4,Not Applicable - No AI data
+AR_258,1,Yes - Automated provenance tracking enforced
+AR_258,2,Partial - Provenance tracking partially automated
+AR_258,3,No - No provenance tracking
+AR_258,4,Not Applicable - No AI data
+AR_259,1,Yes - Preparation criteria with reproducibility
+AR_259,2,Partial - Preparation controls partially implemented
+AR_259,3,No - No preparation criteria
+AR_259,4,Not Applicable - No data preparation
+AR_260,1,1-2 (Low/Limited)
+AR_260,2,3 (Moderate)
+AR_260,3,4-5 (High/Strong)
+AR_260,4,Not Applicable
+AR_261,1,Yes - Poisoning detection controls implemented
+AR_261,2,Partial - Basic anomaly detection
+AR_261,3,No - No poisoning controls
+AR_261,4,Not Applicable - No training data
+AR_262,1,Low (0-33%)
+AR_262,2,Moderate (34-66%)
+AR_262,3,High (67-100%)
+AR_262,4,Not Applicable
+AR_263,1,Yes - Retention policy documented and enforced
+AR_263,2,Partial - Policy without enforcement
+AR_263,3,No - No retention policy
+AR_263,4,Not Applicable - No retention requirements
+AR_264,1,1-2 (Low/Limited)
+AR_264,2,3 (Moderate)
+AR_264,3,4-5 (High/Strong)
+AR_264,4,Not Applicable
+AR_265,1,Yes - Adversarial scenarios actively simulated
+AR_265,2,Partial - Limited scenario testing
+AR_265,3,No - No adversarial testing
+AR_265,4,Not Applicable - No drift monitoring
+AR_266,1,Yes - Auto circuit breakers configured
+AR_266,2,Partial - Manual quality gates
+AR_266,3,No - No circuit breakers
+AR_266,4,Not Applicable - No retraining pipelines
+AR_267,1,Yes - Transfers documented and reviewed
+AR_267,2,Partial - Documented without reviews
+AR_267,3,No - No transfer documentation
+AR_267,4,Not Applicable - No cross-border transfers
+AR_268,1,Yes - Minimization principles enforced
+AR_268,2,Partial - Minimization controls partially enforced
+AR_268,3,No - No minimization controls
+AR_268,4,Not Applicable - No data collection
+AR_269,1,Low (0-33%)
+AR_269,2,Moderate (34-66%)
+AR_269,3,High (67-100%)
+AR_269,4,Not Applicable
+AR_270,1,Yes - Comprehensive training data assessment
+AR_270,2,Partial - Basic vendor review
+AR_270,3,No - No risk assessment
+AR_270,4,Not Applicable - No third-party models
+AR_271,1,Yes - Subject rights impact assessed
+AR_271,2,Partial - Assessed without regular updates
+AR_271,3,No - No rights assessment
+AR_271,4,Not Applicable - No personal data
+AR_272,1,Yes - Purpose compatibility assessed
+AR_272,2,Partial - Compatibility assessment partially performed
+AR_272,3,No - No compatibility assessment
+AR_272,4,Not Applicable - No repurposed data
+AR_273,1,Yes - Access comprehensively logged and reviewed
+AR_273,2,Partial - Logging partially enforced
+AR_273,3,No - No access logging
+AR_273,4,Not Applicable - No AI data
+AR_274,1,Yes - Benchmark criteria formally defined
+AR_274,2,Partial - Benchmark criteria partially defined
+AR_274,3,No - No benchmark criteria
+AR_274,4,Not Applicable - No evaluation datasets
+AR_275,1,Yes - Comprehensive RAG governance controls
+AR_275,2,Partial - Basic RAG controls
+AR_275,3,No - No RAG governance
+AR_275,4,Not Applicable - No RAG systems
+AR_276,1,Yes - AI disclosure controls implemented
+AR_276,2,Partial - Disclosure controls partially enforced
+AR_276,3,No - No disclosure controls
+AR_276,4,Not Applicable - No user-facing AI
+AR_277,1,Yes - Boundaries defined and communicated
+AR_277,2,Partial - Boundaries partially defined
+AR_277,3,No - No defined boundaries
+AR_277,4,Not Applicable - No autonomous systems
+AR_278,1,1-2 (Low/Limited)
+AR_278,2,3 (Moderate)
+AR_278,3,4-5 (High/Strong)
+AR_278,4,Not Applicable
+AR_279,1,Yes - Formal IP policy defined
+AR_279,2,Partial - IP policy partially defined
+AR_279,3,No - No IP policy
+AR_279,4,Not Applicable - No AI development
+AR_280,1,Yes - Obligations identified with monitoring
+AR_280,2,Partial - Identified without continuous monitoring
+AR_280,3,No - No obligation identification
+AR_280,4,Not Applicable - Single jurisdiction only
+AR_281,1,Yes - Disclosure obligations fully defined
+AR_281,2,Partial - Obligations partially defined
+AR_281,3,No - No disclosure obligations
+AR_281,4,Not Applicable - No third-party models
+AR_282,1,Yes - Reporting mechanisms with protections
+AR_282,2,Partial - Mechanisms without full protections
+AR_282,3,No - No reporting mechanisms
+AR_282,4,Not Applicable - No AI systems
+AR_283,1,Yes - Explanations with UX testing
+AR_283,2,Partial - Explanations without UX testing
+AR_283,3,No - No explanation processes
+AR_283,4,Not Applicable - No high-stakes decisions
+AR_284,1,Yes - Formal communication plan maintained
+AR_284,2,Partial - Plan partially documented
+AR_284,3,No - No communication plan
+AR_284,4,Not Applicable - No AI systems
+AR_285,1,Yes - Reportability criteria formally defined
+AR_285,2,Partial - Criteria partially defined
+AR_285,3,No - No reportability criteria
+AR_285,4,Not Applicable - No external reporting
+AR_286,1,Yes - Comprehensive disclosure standards
+AR_286,2,Partial - Limited disclosure standards
+AR_286,3,No - No disclosure standards
+AR_286,4,Not Applicable - No user-facing systems
+AR_287,1,Yes - Training data disclosure standards
+AR_287,2,Partial - Limited disclosure standards
+AR_287,3,No - No disclosure standards
+AR_287,4,Not Applicable - No user-facing systems
+AR_288,1,Yes - Vulnerable groups with safeguards
+AR_288,2,Partial - Identified without full safeguards
+AR_288,3,No - No vulnerable group identification
+AR_288,4,Not Applicable - No vulnerable users
+AR_289,1,Yes - Auto linkage to model version
+AR_289,2,Partial - Manual version tracking
+AR_289,3,No - No version linkage
+AR_289,4,Not Applicable - No public documentation
+AR_290,1,Yes - Disclaimer bypass testing conducted
+AR_290,2,Partial - Limited adversarial testing
+AR_290,3,No - No disclaimer testing
+AR_290,4,Not Applicable - No legal disclaimers
+AR_291,1,Yes - Trend analysis with governance review
+AR_291,2,Partial - Analysis without governance integration
+AR_291,3,No - No trend analysis
+AR_291,4,Not Applicable - No incident reports
+AR_292,1,Yes - Pre-approved templates maintained
+AR_292,2,Partial - Templates without legal validation
+AR_292,3,No - No communication templates
+AR_292,4,Not Applicable - No incident communications
+AR_293,1,1-2 (Low/Limited)
+AR_293,2,3 (Moderate)
+AR_293,3,4-5 (High/Strong)
+AR_293,4,Not Applicable
+AR_294,1,Yes - Bias limitations disclosed and updated
+AR_294,2,Partial - Disclosed without regular updates
+AR_294,3,No - No bias disclosure
+AR_294,4,Not Applicable - No identified biases
+AR_295,1,Low (0-33%)
+AR_295,2,Moderate (34-66%)
+AR_295,3,High (67-100%)
+AR_295,4,Not Applicable
+AR_296,1,Yes - Consistency controls implemented
+AR_296,2,Partial - Controls partially implemented
+AR_296,3,No - No consistency controls
+AR_296,4,Not Applicable - Single disclosure channel
+AR_297,1,1-2 (Low/Limited)
+AR_297,2,3 (Moderate)
+AR_297,3,4-5 (High/Strong)
+AR_297,4,Not Applicable
+AR_298,1,Low (0-33%)
+AR_298,2,Moderate (34-66%)
+AR_298,3,High (67-100%)
+AR_298,4,Not Applicable
+AR_299,1,Yes - Formal appeals process exists
+AR_299,2,Partial - Appeals process partially documented
+AR_299,3,No - No appeals process
+AR_299,4,Not Applicable - No automated lockouts
+AR_300,1,Yes - RAI objectives with measurement
+AR_300,2,Partial - Objectives without measurement
+AR_300,3,No - No RAI objectives
+AR_300,4,Not Applicable - No AI systems
+AR_301,1,Low (0-33%)
+AR_301,2,Moderate (34-66%)
+AR_301,3,High (67-100%)
+AR_301,4,Not Applicable
+AR_302,1,Yes - Active monitoring with remediation
+AR_302,2,Partial - Monitoring without remediation process
+AR_302,3,No - No misuse monitoring
+AR_302,4,Not Applicable - No AI systems
+AR_303,1,Yes - Binding contractual requirements
+AR_303,2,Partial - Requirements partially enforced
+AR_303,3,No - No contractual requirements
+AR_303,4,Not Applicable - No third-party deployment
+AR_304,1,Yes - Behavioral analytics deployed
+AR_304,2,Partial - Limited analytics monitoring
+AR_304,3,No - No behavioral analytics
+AR_304,4,Not Applicable - No internal AI systems
+AR_305,1,Yes - SLA response times enforced
+AR_305,2,Partial - SLAs without enforcement
+AR_305,3,No - No response SLAs
+AR_305,4,Not Applicable - No human oversight
+AR_306,1,Low (0-33%)
+AR_306,2,Moderate (34-66%)
+AR_306,3,High (67-100%)
+AR_306,4,Not Applicable
+AR_307,1,Yes - Shadow AI detection deployed
+AR_307,2,Partial - Policy without detection
+AR_307,3,No - No shadow AI policy
+AR_307,4,Not Applicable - No AI usage
+AR_308,1,Low (0-33%)
+AR_308,2,Moderate (34-66%)
+AR_308,3,High (67-100%)
+AR_308,4,Not Applicable
+AR_309,1,Yes - Over 90% training completion
+AR_309,2,Partial - 50-90% completion
+AR_309,3,No - Under 50% completion
+AR_309,4,Not Applicable - No AI users
+AR_310,1,Yes - Over 90% documented
+AR_310,2,Partial - 50-90% documented
+AR_310,3,No - Under 50% documented
+AR_310,4,Not Applicable - No AI systems
+AR_311,1,Yes - Comprehensive tracking and investigation
+AR_311,2,Partial - Limited tracking
+AR_311,3,No - No tracking
+AR_311,4,Not Applicable - No incidents
+AR_312,1,Yes - Over 95% reviewed
+AR_312,2,Partial - 75-95% reviewed
+AR_312,3,No - Under 75% reviewed
+AR_312,4,Not Applicable - No oversight requirements
+AR_313,1,Yes - Real-time dashboards deployed
+AR_313,2,Partial - Periodic reporting only
+AR_313,3,No - No telemetry dashboards
+AR_313,4,Not Applicable - No Board reporting
+AR_314,1,Yes - Auto revocation configured
+AR_314,2,Partial - Manual revocation process
+AR_314,3,No - No automated revocation
+AR_314,4,Not Applicable - No AUP enforcement
+AR_315,1,Low (0-33%)
+AR_315,2,Moderate (34-66%)
+AR_315,3,High (67-100%)
+AR_315,4,Not Applicable
+AR_316,1,Low (0-33%)
+AR_316,2,Moderate (34-66%)
+AR_316,3,High (67-100%)
+AR_316,4,Not Applicable
+AR_317,1,Yes - Green workload scheduling automated
+AR_317,2,Partial - Manual green scheduling
+AR_317,3,No - No green scheduling
+AR_317,4,Not Applicable - No cloud training
+AR_318,1,Yes - Data currency verified
+AR_318,2,Partial - Partial verification
+AR_318,3,No - No data verification
+AR_318,4,Not Applicable - No model training
+AR_319,1,Yes - Regular definition reviews conducted
+AR_319,2,Partial - Periodic reviews only
+AR_319,3,No - No definition reviews
+AR_319,4,Not Applicable - No business definitions
+AR_320,1,Yes - Strict data leakage controls
+AR_320,2,Partial - Basic separation controls
+AR_320,3,No - No leakage controls
+AR_320,4,Not Applicable - No model training
+AR_321,1,Yes - Secure coding standards enforced
+AR_321,2,Partial - Standards partially enforced
+AR_321,3,No - No coding standards
+AR_321,4,Not Applicable - No AI-assisted development
+AR_322,1,Yes - AI controls regularly tested
+AR_322,2,Partial - Tests without effectiveness review
+AR_322,3,No - No control testing
+AR_322,4,Not Applicable - No AI code
+AR_323,1,Yes - Controlled release process enforced
+AR_323,2,Partial - Release process partially enforced
+AR_323,3,No - No release process
+AR_323,4,Not Applicable - No model deployments
+AR_324,1,Yes - Robust secret management enforced
+AR_324,2,Partial - Basic secret management
+AR_324,3,No - No secret management
+AR_324,4,Not Applicable - No AI APIs
+AR_325,1,Yes - Collusion patterns monitored
+AR_325,2,Partial - Limited pattern monitoring
+AR_325,3,No - No collusion monitoring
+AR_325,4,Not Applicable - No pricing AI
+AR_326,1,Yes - Labour practices explicitly addressed
+AR_326,2,Partial - Partially addressed
+AR_326,3,No - No labour practice review
+AR_326,4,Not Applicable - No AI vendors
+AR_327,1,Yes - Anti-spoofing controls enforced
+AR_327,2,Partial - Limited anti-spoofing controls
+AR_327,3,No - No anti-spoofing controls
+AR_327,4,Not Applicable - No verification processes
+AR_328,1,Yes - Context window isolated
+AR_328,2,Partial - Partial isolation controls
+AR_328,3,No - No isolation
+AR_328,4,Not Applicable - No RAG systems
+AR_329,1,Yes - Tamper-evident decision logs
+AR_329,2,Partial - Logs without tamper protection
+AR_329,3,No - No decision logs
+AR_329,4,Not Applicable - No AI decisions
+AR_330,1,Yes - Full source traceability enforced
+AR_330,2,Partial - Partial traceability
+AR_330,3,No - No source traceability
+AR_330,4,Not Applicable - No RAG systems
+AR_331,1,Yes - Documentation pack maintained
+AR_331,2,Partial - Incomplete documentation
+AR_331,3,No - No documentation pack
+AR_331,4,Not Applicable - No high-risk systems
+AR_332,1,Yes - Bias reviews conducted
+AR_332,2,Partial - Limited bias reviews
+AR_332,3,No - No bias reviews
+AR_332,4,Not Applicable - No pricing AI
+AR_333,1,Yes - Governance structure enforced
+AR_333,2,Partial - Structure without enforcement
+AR_333,3,No - No governance structure
+AR_333,4,Not Applicable - No AI systems
+AR_334,1,Low (0-33%)
+AR_334,2,Moderate (34-66%)
+AR_334,3,High (67-100%)
+AR_334,4,Not Applicable
+AR_335,1,Low (0-33%)
+AR_335,2,Moderate (34-66%)
+AR_335,3,High (67-100%)
+AR_335,4,Not Applicable
+AR_336,1,Yes - Third-party AI risks managed
+AR_336,2,Partial - Risks partially managed
+AR_336,3,No - No third-party risk management
+AR_336,4,Not Applicable - No third-party AI
+AR_337,1,Yes - Board sign-off on residual risk
+AR_337,2,Partial - Risk acknowledged not signed
+AR_337,3,No - No Board sign-off
+AR_337,4,Not Applicable - No tabletop exercises
+AR_338,1,Yes - Accessibility standards enforced
+AR_338,2,Partial - Standards partially enforced
+AR_338,3,No - No accessibility assessment
+AR_338,4,Not Applicable - No AI interfaces
+AR_339,1,Yes - Metrics reviewed with appeals
+AR_339,2,Partial - Reviews without appeals process
+AR_339,3,No - No metric reviews
+AR_339,4,Not Applicable - No AI metrics
+AR_340,1,Yes - Deception testing automated
+AR_340,2,Partial - Limited deception testing
+AR_340,3,No - No deception testing
+AR_340,4,Not Applicable - No AI interfaces
+AR_341,1,Yes - Crypto signatures on reports
+AR_341,2,Partial - Some reports signed
+AR_341,3,No - No cryptographic signing
+AR_341,4,Not Applicable - No audit artifacts
+AR_342,1,Yes - Adversarial retraining conducted
+AR_342,2,Partial - Periodic retraining
+AR_342,3,No - No adversarial retraining
+AR_342,4,Not Applicable - No deepfake detection
+AR_343,1,Yes - Business logic monitoring enforced
+AR_343,2,Partial - Limited logic monitoring
+AR_343,3,No - No logic monitoring
+AR_343,4,Not Applicable - No operational AI
+AR_344,1,Yes - Advanced abuse controls deployed
+AR_344,2,Partial - Basic abuse controls
+AR_344,3,No - No abuse controls
+AR_344,4,Not Applicable - No public APIs
+AR_345,1,Yes - Hardware tokens enforced
+AR_345,2,Partial - Biometrics with some tokens
+AR_345,3,No - Biometrics only
+AR_345,4,Not Applicable - No high-value transactions
+AR_346,1,Yes - RACI documentation maintained annually
+AR_346,2,Partial - RACI without annual review
+AR_346,3,No - No RACI documentation
+AR_346,4,Not Applicable - No AI systems
+AR_347,1,Yes - Formal benefit-cost analysis conducted
+AR_347,2,Partial - Analysis partially conducted
+AR_347,3,No - No benefit-cost analysis
+AR_347,4,Not Applicable - No AI investments
+AR_348,1,Yes - Workforce impacts assessed comprehensively
+AR_348,2,Partial - Assessed without retraining programs
+AR_348,3,No - No workforce assessment
+AR_348,4,Not Applicable - No workforce impact
+AR_349,1,Yes - Monitoring safeguards implemented
+AR_349,2,Partial - Safeguards partially implemented
+AR_349,3,No - No monitoring safeguards
+AR_349,4,Not Applicable - No employee monitoring
+AR_350,1,Yes - Threshold changes governed
+AR_350,2,Partial - Changes partially governed
+AR_350,3,No - No change governance
+AR_350,4,Not Applicable - No monitoring thresholds
+AR_351,1,Yes - Accessibility and bias scanning
+AR_351,2,Partial - Accessibility scanning only
+AR_351,3,No - No automated scanning
+AR_351,4,Not Applicable - No AI interfaces
+AR_352,1,Yes - Hard consent gate enforced
+AR_352,2,Partial - Soft consent mechanism
+AR_352,3,No - No consent gate
+AR_352,4,Not Applicable - No high-risk interactions
+AR_353,1,Yes - Auto escalation integrated
+AR_353,2,Partial - Manual escalation process
+AR_353,3,No - No automated triage
+AR_353,4,Not Applicable - No incident reporting
+AR_354,1,Yes - Commander has shutdown authority
+AR_354,2,Partial - Authority with approval required
+AR_354,3,No - No shutdown authority
+AR_354,4,Not Applicable - No Incident Commander
+AR_355,1,1-2 (Low/Limited)
+AR_355,2,3 (Moderate)
+AR_355,3,4-5 (High/Strong)
+AR_355,4,Not Applicable
+AR_356,1,Yes - Inventory integrated with EA/ITSM
+AR_356,2,Partial - Manual synchronization
+AR_356,3,No - No EA/ITSM integration
+AR_356,4,Not Applicable - No AI inventory
+AR_357,1,Low (0-33%)
+AR_357,2,Moderate (34-66%)
+AR_357,3,High (67-100%)
+AR_357,4,Not Applicable
+AR_358,1,Yes - Indemnification clauses verified
+AR_358,2,Partial - Partial contract review
+AR_358,3,No - No indemnification review
+AR_358,4,Not Applicable - No vendor contracts
+AR_359,1,Yes - Data residency enforced
+AR_359,2,Partial - Requirements partially enforced
+AR_359,3,No - No residency requirements
+AR_359,4,Not Applicable - Single jurisdiction only
+AR_360,1,Yes - Licensing register maintained annually
+AR_360,2,Partial - Register without annual review
+AR_360,3,No - No licensing register
+AR_360,4,Not Applicable - No third-party models
+AR_361,1,Yes - Single owner for multi-jurisdiction
+AR_361,2,Partial - Distributed ownership
+AR_361,3,No - No designated owner
+AR_361,4,Not Applicable - Single jurisdiction only
+AR_362,1,Yes - Retention compliance assessed
+AR_362,2,Partial - Partial compliance assessment
+AR_362,3,No - No retention assessment
+AR_362,4,Not Applicable - No regulated communications
+AR_363,1,Yes - Regulatory status documented
+AR_363,2,Partial - Status assessed not documented
+AR_363,3,No - No regulatory determination
+AR_363,4,Not Applicable - No medical AI
+AR_364,1,Low (0-33%)
+AR_364,2,Moderate (34-66%)
+AR_364,3,High (67-100%)
+AR_364,4,Not Applicable
+AR_365,1,Yes - IRR metrics with auto retraining
+AR_365,2,Partial - IRR without auto retraining
+AR_365,3,No - No IRR metrics
+AR_365,4,Not Applicable - No human reviewers
+AR_366,1,Yes - Dynamic ABAC enforced
+AR_366,2,Partial - Static access controls
+AR_366,3,No - No access controls
+AR_366,4,Not Applicable - No RAG systems
+AR_367,1,Yes - Auto ingestion into risk database
+AR_367,2,Partial - Manual post-mortem tracking
+AR_367,3,No - No centralized ingestion
+AR_367,4,Not Applicable - No drift incidents
+AR_368,1,Yes - Human validation with audit trail
+AR_368,2,Partial - Validation without audit trail
+AR_368,3,No - No validation requirements
+AR_368,4,Not Applicable - No financial AI
+AR_369,1,Yes - Real-time inventory integration
+AR_369,2,Partial - Periodic inventory sync
+AR_369,3,No - No inventory integration
+AR_369,4,Not Applicable - No recommender systems
+AR_370,1,Yes - Mandatory HITL for citations
+AR_370,2,Partial - Optional HITL review
+AR_370,3,No - No HITL requirement
+AR_370,4,Not Applicable - No AI-generated citations
+AR_371,1,Yes - SCA integrated into IDE
+AR_371,2,Partial - Manual SCA review
+AR_371,3,No - No IDE integration
+AR_371,4,Not Applicable - No AI code generation
+AR_372,1,Yes - Interaction quality monitored
+AR_372,2,Partial - Limited interaction monitoring
+AR_372,3,No - No quality monitoring
+AR_372,4,Not Applicable - No AI assistants
+AR_373,1,Yes - Legal document controls enforced
+AR_373,2,Partial - Controls partially enforced
+AR_373,3,No - No legal controls
+AR_373,4,Not Applicable - No legal AI drafting
+AR_374,1,Yes - Controlled update process enforced
+AR_374,2,Partial - Process partially automated
+AR_374,3,No - No update process
+AR_374,4,Not Applicable - No embedding updates
+AR_375,1,Yes - Latency monitoring with alerts
+AR_375,2,Partial - Monitoring without alerts
+AR_375,3,No - No latency monitoring
+AR_375,4,Not Applicable - No inference SLAs
+AR_376,1,Yes - Staleness and schema monitoring enforced
+AR_376,2,Partial - Monitoring partially implemented
+AR_376,3,No - No staleness monitoring
+AR_376,4,Not Applicable - No vector databases
+AR_377,1,Yes - IaC with drift alerts enforced
+AR_377,2,Partial - IaC without drift alerts
+AR_377,3,No - No IaC management
+AR_377,4,Not Applicable - No AI infrastructure
+AR_378,1,Yes - Ongoing residual risk monitoring
+AR_378,2,Partial - Periodic reviews only
+AR_378,3,No - One-time assessments only
+AR_378,4,Not Applicable - No AI controls
+AR_379,1,Yes - Routine privacy attack testing
+AR_379,2,Partial - Limited privacy testing
+AR_379,3,No - No privacy attack testing
+AR_379,4,Not Applicable - No sensitive data
+AR_380,1,Yes - Consent management auto-integrated
+AR_380,2,Partial - Manual consent processing
+AR_380,3,No - No consent integration
+AR_380,4,Not Applicable - No consent requirements
+AR_381,1,Yes - Automated forgetting enforced
+AR_381,2,Partial - Manual deletion procedures
+AR_381,3,No - No forgetting protocols
+AR_381,4,Not Applicable - No productivity telemetry
+AR_382,1,Yes - Privacy-by-design controls enforced
+AR_382,2,Partial - Controls partially implemented
+AR_382,3,No - No privacy-by-design controls
+AR_382,4,Not Applicable - No personal data
+AR_383,1,Yes - Security and accessibility enforced
+AR_383,2,Partial - Security without full accessibility
+AR_383,3,No - No kiosk controls
+AR_383,4,Not Applicable - No AI kiosks
+AR_384,1,Yes - Fallback strategy tested
+AR_384,2,Partial - Strategy documented not tested
+AR_384,3,No - No fallback strategy
+AR_384,4,Not Applicable - No critical dependencies
+AR_385,1,Yes - Circuit breakers hardcoded
+AR_385,2,Partial - Manual intervention protocols
+AR_385,3,No - No circuit breakers
+AR_385,4,Not Applicable - No pricing AI
+AR_386,1,Yes - Feedback monitoring with triggers
+AR_386,2,Partial - Monitoring without auto triggers
+AR_386,3,No - No feedback monitoring
+AR_386,4,Not Applicable - No market AI
+AR_387,1,Yes - Risk assessed with tested fallback
+AR_387,2,Partial - Assessed without tested fallback
+AR_387,3,No - No concentration assessment
+AR_387,4,Not Applicable - No critical use cases
+AR_388,1,Yes - Current register with updates
+AR_388,2,Partial - Register without regular updates
+AR_388,3,No - No AI risk register
+AR_388,4,Not Applicable - No AI risks
+AR_389,1,Yes - Policies reviewed for AI coverage
+AR_389,2,Partial - Partial policy review
+AR_389,3,No - No policy review
+AR_389,4,Not Applicable - No AI deployments
+AR_390,1,Yes - Commitment controls enforced
+AR_390,2,Partial - Controls partially enforced
+AR_390,3,No - No commitment controls
+AR_390,4,Not Applicable - No customer chatbots
+AR_391,1,Yes - Assets in controlled repositories
+AR_391,2,Partial - Storage without central register
+AR_391,3,No - No controlled storage
+AR_391,4,Not Applicable - No AI models
+AR_392,1,Yes - Testing in isolated sandboxes
+AR_392,2,Partial - Testing without full isolation
+AR_392,3,No - No sandbox testing
+AR_392,4,Not Applicable - No adversarial testing
+AR_393,1,Yes - Comprehensive patching process
+AR_393,2,Partial - Patching partially implemented
+AR_393,3,No - No patch management
+AR_393,4,Not Applicable - No AI components
+AR_394,1,Yes - Prompt protection with testing
+AR_394,2,Partial - Protection without injection testing
+AR_394,3,No - No prompt protection
+AR_394,4,Not Applicable - No system prompts
+AR_395,1,Yes - Hardware risks mitigated
+AR_395,2,Partial - Risks assessed not mitigated
+AR_395,3,No - No hardware risk evaluation
+AR_395,4,Not Applicable - No AI workloads
+AR_396,1,Yes - Data persistence controlled
+AR_396,2,Partial - Controls partially implemented
+AR_396,3,No - No persistence controls
+AR_396,4,Not Applicable - No sensitive artifacts
+AR_397,1,Yes - Comprehensive API protections
+AR_397,2,Partial - Basic API security
+AR_397,3,No - No API protections
+AR_397,4,Not Applicable - No AI APIs
+AR_398,1,Yes - Lifecycle management with scanning
+AR_398,2,Partial - Management without auto scanning
+AR_398,3,No - No lifecycle management
+AR_398,4,Not Applicable - No AI endpoints
+AR_399,1,Yes - Runtime hash validation enforced
+AR_399,2,Partial - Validation partially implemented
+AR_399,3,No - No hash validation
+AR_399,4,Not Applicable - No training pipelines
+AR_400,1,Yes - Abuse prevention controls enforced
+AR_400,2,Partial - Controls partially implemented
+AR_400,3,No - No abuse controls
+AR_400,4,Not Applicable - No AI channels
+AR_401,1,Yes - Staff usage controls enforced
+AR_401,2,Partial - Policies without technical controls
+AR_401,3,No - No usage restrictions
+AR_401,4,Not Applicable - No AI tools
+AR_402,1,Yes - CASB/SWG blocks unsanctioned AI
+AR_402,2,Partial - CASB without AI heuristics
+AR_402,3,No - No CASB/SWG controls
+AR_402,4,Not Applicable - No cloud access
+AR_403,1,Yes - Comprehensive user training provided
+AR_403,2,Partial - Training without challenge guidance
+AR_403,3,No - No user training
+AR_403,4,Not Applicable - No AI users
+AR_404,1,Yes - AI strategy linked to HR budgets
+AR_404,2,Partial - Informal workforce planning
+AR_404,3,No - No workforce linkage
+AR_404,4,Not Applicable - No workforce impact
+AR_405,1,Yes - Content controls with monitoring
+AR_405,2,Partial - Controls partially implemented
+AR_405,3,No - No content controls
+AR_405,4,Not Applicable - No public content AI
+AR_406,1,Yes - Skill preservation guardrails implemented
+AR_406,2,Partial - Guardrails partially implemented
+AR_406,3,No - No skill preservation approach
+AR_406,4,Not Applicable - No AI-assisted work
+AR_407,1,Yes - Stability assessed with contingency
+AR_407,2,Partial - Assessment without contingency
+AR_407,3,No - No stability assessment
+AR_407,4,Not Applicable - No critical AI vendors
+AR_408,1,Yes - Data custody mapped
+AR_408,2,Partial - Custody partially tracked
+AR_408,3,No - No custody mapping
+AR_408,4,Not Applicable - No AI vendors
+AR_409,1,Yes - Human accountability assigned
+AR_409,2,Partial - Accountability partially defined
+AR_409,3,No - No accountability assignment
+AR_409,4,Not Applicable - No AI decisions
+AR_410,1,Yes - Information barriers integrated
+AR_410,2,Partial - Barriers partially enforced
+AR_410,3,No - No barrier integration
+AR_410,4,Not Applicable - No conflict controls
+AR_411,1,Yes - Privacy mechanisms applied
+AR_411,2,Partial - Basic anonymization only
+AR_411,3,No - No privacy mechanisms
+AR_411,4,Not Applicable - No HR data training
+AR_412,1,Low (0-33%)
+AR_412,2,Moderate (34-66%)
+AR_412,3,High (67-100%)
+AR_412,4,Not Applicable
+AR_413,1,Yes - Explanations with liability protection
+AR_413,2,Partial - Explanations without liability clarity
+AR_413,3,No - No explanation capability
+AR_413,4,Not Applicable - No AI decisions
+AR_414,1,Yes - Demographic testing with remediation
+AR_414,2,Partial - Testing without remediation
+AR_414,3,No - No demographic testing
+AR_414,4,Not Applicable - No high-impact models
+AR_415,1,Yes - Systematic testing with escalation
+AR_415,2,Partial - Testing without escalation paths
+AR_415,3,No - No systematic testing
+AR_415,4,Not Applicable - No high-impact models
+AR_416,1,Yes - Real-time MNPI scanning enforced
+AR_416,2,Partial - Periodic scanning only
+AR_416,3,No - No MNPI scanning
+AR_416,4,Not Applicable - No financial personnel
+AR_417,1,Low (0-33%)
+AR_417,2,Moderate (34-66%)
+AR_417,3,High (67-100%)
+AR_417,4,Not Applicable
+AR_418,1,Yes - Board approval with reporting
+AR_418,2,Partial - Approval without regular reporting
+AR_418,3,No - No Board approval
+AR_418,4,Not Applicable - No AI strategy
+AR_419,1,Yes - Compensation tied to safety
+AR_419,2,Partial - Informal safety incentives
+AR_419,3,No - No safety linkage
+AR_419,4,Not Applicable - No AI executives
+AR_420,1,Yes - Approval with contractual protections
+AR_420,2,Partial - Approval without contracts
+AR_420,3,No - No training governance
+AR_420,4,Not Applicable - No model training
+AR_421,1,Yes - Automated forensic snapshots
+AR_421,2,Partial - Manual evidence collection
+AR_421,3,No - No forensic snapshots
+AR_421,4,Not Applicable - No critical incidents
+AR_422,1,Yes - Independent multi-perspective investigations
+AR_422,2,Partial - Limited investigation scope
+AR_422,3,No - No robotics investigations
+AR_422,4,Not Applicable - No robotics systems
+AR_423,1,Low (0-33%)
+AR_423,2,Moderate (34-66%)
+AR_423,3,High (67-100%)
+AR_423,4,Not Applicable
+AR_424,1,Yes - Responsibilities in legal instruments
+AR_424,2,Partial - Informal responsibility agreements
+AR_424,3,No - No legal documentation
+AR_424,4,Not Applicable - No shared responsibilities
+AR_425,1,Yes - Supplier assessment process enforced
+AR_425,2,Partial - Process partially implemented
+AR_425,3,No - No supplier assessment
+AR_425,4,Not Applicable - No AI suppliers
+AR_426,1,Yes - Governed supplier inventory maintained
+AR_426,2,Partial - Inventory without full obligations
+AR_426,3,No - No supplier inventory
+AR_426,4,Not Applicable - No AI suppliers
+AR_427,1,1-2 (Low/Limited)
+AR_427,2,3 (Moderate)
+AR_427,3,4-5 (High/Strong)
+AR_427,4,Not Applicable
+AR_428,1,Low (0-33%)
+AR_428,2,Moderate (34-66%)
+AR_428,3,High (67-100%)
+AR_428,4,Not Applicable
+AR_429,1,Yes - Subprocessor disclosure required
+AR_429,2,Partial - Disclosure partially enforced
+AR_429,3,No - No subprocessor requirements
+AR_429,4,Not Applicable - No AI suppliers
+AR_430,1,Yes - Change notification required
+AR_430,2,Partial - Notification partially enforced
+AR_430,3,No - No change notification
+AR_430,4,Not Applicable - No AI suppliers
+AR_431,1,Yes - Switching costs formally quantified
+AR_431,2,Partial - Costs informally considered
+AR_431,3,No - No cost quantification
+AR_431,4,Not Applicable - No fallback strategy
+AR_432,1,Yes - Concentration risk assessed
+AR_432,2,Partial - Risk identified not treated
+AR_432,3,No - No concentration assessment
+AR_432,4,Not Applicable - No supplier dependencies
+AR_433,1,1-2 (Low/Limited)
+AR_433,2,3 (Moderate)
+AR_433,3,4-5 (High/Strong)
+AR_433,4,Not Applicable
+AR_434,1,Yes - Disclosures proactively provided
+AR_434,2,Partial - Disclosures partially updated
+AR_434,3,No - No customer disclosures
+AR_434,4,Not Applicable - No customer-facing AI
+AR_435,1,Yes - Concern mechanism with human review
+AR_435,2,Partial - Mechanism without human review
+AR_435,3,No - No concern mechanism
+AR_435,4,Not Applicable - No customer-facing AI
+AR_436,1,1-2 (Low/Limited)
+AR_436,2,3 (Moderate)
+AR_436,3,4-5 (High/Strong)
+AR_436,4,Not Applicable
+AR_437,1,Yes - Over 90% assessed
+AR_437,2,Partial - 50-90% assessed
+AR_437,3,No - Under 50% assessed
+AR_437,4,Not Applicable - No AI suppliers
+AR_438,1,Yes - Over 90% reviewed
+AR_438,2,Partial - 50-90% reviewed
+AR_438,3,No - Under 50% reviewed
+AR_438,4,Not Applicable - No customer-facing AI
+AR_439,1,Yes - Comprehensive tracking and resolution
+AR_439,2,Partial - Limited tracking
+AR_439,3,No - No tracking
+AR_439,4,Not Applicable - No customer interactions
+AR_440,1,Yes - Continuous vendor monitoring
+AR_440,2,Partial - Periodic vendor reviews
+AR_440,3,No - No vendor monitoring
+AR_440,4,Not Applicable - No AI vendors
+AR_441,1,Yes - Strong governance state
+AR_441,2,Partial - Acceptable with gaps
+AR_441,3,No - Weak governance state
+AR_441,4,Not Applicable - No relationships
+AR_442,1,Yes - Comprehensive agent inventory
+AR_442,2,Partial - Partial agent inventory
+AR_442,3,No - No agent inventory
+AR_442,4,Not Applicable - No AI agents
+AR_443,1,Yes - Agents classified by deployment
+AR_443,2,Partial - Partial classification
+AR_443,3,No - No deployment classification
+AR_443,4,Not Applicable - No AI agents
+AR_444,1,Yes - Owners assigned to all agents
+AR_444,2,Partial - Owners partially assigned
+AR_444,3,No - No owner assignments
+AR_444,4,Not Applicable - No AI agents
+AR_445,1,Yes - Access fully mapped
+AR_445,2,Partial - Access partially mapped
+AR_445,3,No - No access mapping
+AR_445,4,Not Applicable - No production agents
+AR_446,1,Yes - Autonomy levels categorized
+AR_446,2,Partial - Partial categorization
+AR_446,3,No - No autonomy categorization
+AR_446,4,Not Applicable - No AI agents
+AR_447,1,Yes - Platform scope identified
+AR_447,2,Partial - Partial scope tracking
+AR_447,3,No - No platform tracking
+AR_447,4,Not Applicable - No AI agents
+AR_448,1,Yes - Data sensitivity linked
+AR_448,2,Partial - Partial sensitivity linking
+AR_448,3,No - No sensitivity linking
+AR_448,4,Not Applicable - No AI agents
+AR_449,1,Yes - Purpose and scope defined
+AR_449,2,Partial - Purpose partially defined
+AR_449,3,No - No purpose definition
+AR_449,4,Not Applicable - No AI agents
+AR_450,1,Yes - Agent sources distinguished
+AR_450,2,Partial - Partial source tracking
+AR_450,3,No - No source distinction
+AR_450,4,Not Applicable - No AI agents
+AR_451,1,Yes - Platform list maintained
+AR_451,2,Partial - Incomplete platform list
+AR_451,3,No - No platform list
+AR_451,4,Not Applicable - No AI agents
+AR_452,1,1-2 (Low/Limited)
+AR_452,2,3 (Moderate)
+AR_452,3,4-5 (High/Strong)
+AR_452,4,Not Applicable
+AR_453,1,Yes - Risk-based restrictions enforced
+AR_453,2,Partial - Restrictions partially enforced
+AR_453,3,No - No risk restrictions
+AR_453,4,Not Applicable - No AI agents
+AR_454,1,Yes - Unsanctioned agents prohibited
+AR_454,2,Partial - Policy without enforcement
+AR_454,3,No - No deployment restrictions
+AR_454,4,Not Applicable - No AI agents
+AR_455,1,Yes - Approved credentials required
+AR_455,2,Partial - Credentials partially managed
+AR_455,3,No - No credential requirements
+AR_455,4,Not Applicable - No production agents
+AR_456,1,Yes - Least privilege enforced
+AR_456,2,Partial - Least privilege partially enforced
+AR_456,3,No - No privilege restrictions
+AR_456,4,Not Applicable - No AI agents
+AR_457,1,Yes - JIT permissions enforced
+AR_457,2,Partial - JIT partially implemented
+AR_457,3,No - No JIT permissions
+AR_457,4,Not Applicable - No sensitive agent access
+AR_458,1,Yes - Tamper-evident logging enforced
+AR_458,2,Partial - Basic logging only
+AR_458,3,No - No agent logging
+AR_458,4,Not Applicable - No production agents
+AR_459,1,Yes - Adequate log retention enforced
+AR_459,2,Partial - Limited log retention
+AR_459,3,No - No log retention
+AR_459,4,Not Applicable - No agent logs
+AR_460,1,Yes - Continuous behavioral monitoring
+AR_460,2,Partial - Periodic monitoring only
+AR_460,3,No - No behavioral monitoring
+AR_460,4,Not Applicable - No production agents
+AR_461,1,Yes - Auto blocking enforced
+AR_461,2,Partial - Manual review required
+AR_461,3,No - No auto blocking
+AR_461,4,Not Applicable - No policy enforcement
+AR_462,1,Yes - Auto remediation available
+AR_462,2,Partial - Manual remediation only
+AR_462,3,No - No remediation actions
+AR_462,4,Not Applicable - No incident response
+AR_463,1,Yes - Policy guardrails enforced
+AR_463,2,Partial - Guardrails partially documented
+AR_463,3,No - No policy guardrails
+AR_463,4,Not Applicable - No AI agents
+AR_464,1,Yes - Stronger controls for action agents
+AR_464,2,Partial - Controls partially differentiated
+AR_464,3,No - No differentiated controls
+AR_464,4,Not Applicable - No action agents
+AR_465,1,Yes - Approval required for high-impact
+AR_465,2,Partial - Approval partially enforced
+AR_465,3,No - No approval requirements
+AR_465,4,Not Applicable - No high-impact actions
+AR_466,1,Yes - Comprehensive pre-production testing
+AR_466,2,Partial - Limited security testing
+AR_466,3,No - No agent testing
+AR_466,4,Not Applicable - No agent deployments
+AR_467,1,Yes - Periodic agent re-evaluation
+AR_467,2,Partial - One-time assessment only
+AR_467,3,No - No agent evaluation
+AR_467,4,Not Applicable - No production agents
+AR_468,1,Yes - Deterministic-first approach enforced
+AR_468,2,Partial - Mixed decision approaches
+AR_468,3,No - No deterministic priority
+AR_468,4,Not Applicable - No agent decisions
+AR_469,1,Yes - Runtime policy checks enforced
+AR_469,2,Partial - Static policy controls
+AR_469,3,No - No policy checks
+AR_469,4,Not Applicable - No sensitive data
+AR_470,1,Yes - Integrated identity and data controls
+AR_470,2,Partial - Controls partially integrated
+AR_470,3,No - No integrated controls
+AR_470,4,Not Applicable - No sensitive data
+AR_471,1,Yes - Same standards for all agents
+AR_471,2,Partial - Standards partially applied
+AR_471,3,No - No vendor agent standards
+AR_471,4,Not Applicable - No vendor agents
+AR_472,1,Yes - Independent oversight for multi-platform
+AR_472,2,Partial - Partial oversight
+AR_472,3,No - No independent oversight
+AR_472,4,Not Applicable - Single platform only
+AR_473,1,Yes - Agent interaction controls enforced
+AR_473,2,Partial - Controls partially enforced
+AR_473,3,No - No interaction controls
+AR_473,4,Not Applicable - No multi-agent systems
+AR_474,1,Yes - Tool restrictions enforced
+AR_474,2,Partial - Restrictions partially enforced
+AR_474,3,No - No tool restrictions
+AR_474,4,Not Applicable - No agent tool use
+AR_475,1,Yes - Agent incident process defined
+AR_475,2,Partial - Process partially documented
+AR_475,3,No - No incident process
+AR_475,4,Not Applicable - No AI agents
+AR_476,1,Yes - Joint stakeholder approval required
+AR_476,2,Partial - Partial stakeholder involvement
+AR_476,3,No - No joint approval
+AR_476,4,Not Applicable - No high-impact agents
+AR_477,1,Yes - Role-specific training required
+AR_477,2,Partial - Training partially enforced
+AR_477,3,No - No training requirements
+AR_477,4,Not Applicable - No agent roles
+AR_478,1,Yes - Guardian agents with dedicated controls
+AR_478,2,Partial - Guardian agents partially controlled
+AR_478,3,No - Guardian agents trusted by default
+AR_478,4,Not Applicable - No guardian agents
+AR_479,1,Yes - Guardian agents sandboxed
+AR_479,2,Partial - Partial sandboxing
+AR_479,3,No - No guardian sandboxing
+AR_479,4,Not Applicable - No guardian agents
+AR_480,1,Yes - Guardian I/O filtered
+AR_480,2,Partial - Filtering partially implemented
+AR_480,3,No - No guardian filtering
+AR_480,4,Not Applicable - No guardian agents
+AR_481,1,Yes - Guardian actions immutably logged
+AR_481,2,Partial - Logged without immutability
+AR_481,3,No - No guardian logging
+AR_481,4,Not Applicable - No guardian agents
+AR_482,1,Yes - Lock-in risk reviewed
+AR_482,2,Partial - Informal lock-in consideration
+AR_482,3,No - No lock-in review
+AR_482,4,Not Applicable - No vendor dependencies
+AR_1001,1,Yes - Token expiry strategy defined
+AR_1001,2,Partial - Strategy partially defined
+AR_1001,3,No - No token strategy
+AR_1001,4,Not Applicable - No long-running tasks
+AR_1002,1,Yes - Humans and agents distinguished
+AR_1002,2,Partial - Partial distinction
+AR_1002,3,No - No distinction
+AR_1002,4,Not Applicable - No federation
+AR_1003,1,Yes - Scoped permissions enforced
+AR_1003,2,Partial - Scoped permissions partially enforced
+AR_1003,3,No - Unrestricted model access
+AR_1003,4,Not Applicable - Single model only
+AR_1004,1,Yes - System vs user injection analysis
+AR_1004,2,Partial - Basic injection detection
+AR_1004,3,No - No injection analysis
+AR_1004,4,Not Applicable - No prompt shield
+AR_1010,1,Yes - Token-type rate limiting enforced
+AR_1010,2,Partial - Partial token differentiation
+AR_1010,3,No - No token differentiation
+AR_1010,4,Not Applicable - No rate limiting
+AR_1011,1,Yes - Global quotas with fairness
+AR_1011,2,Partial - Global quotas without fairness
+AR_1011,3,No - No global quotas
+AR_1011,4,Not Applicable - No rate limiting
+AR_1012,1,Yes - Dynamic cost-based rate limits
+AR_1012,2,Partial - Static rate limits
+AR_1012,3,No - No rate limiting
+AR_1012,4,Not Applicable - Single model only
+AR_1013,1,Yes - Automated rights verification
+AR_1013,2,Partial - Manual rights verification
+AR_1013,3,No - No rights verification
+AR_1013,4,Not Applicable - No data ingestion
+AR_1014,1,Yes - Crypto-verifiable data provenance
+AR_1014,2,Partial - Basic provenance tracking
+AR_1014,3,No - No data provenance
+AR_1014,4,Not Applicable - No model training
+AR_1015,1,Yes - Automated license verification
+AR_1015,2,Partial - Manual license checks
+AR_1015,3,No - No license verification
+AR_1015,4,Not Applicable - No third-party data
+AR_1016,1,Yes - Comprehensive modification audit trail
+AR_1016,2,Partial - Partial audit trail
+AR_1016,3,No - No audit trail
+AR_1016,4,Not Applicable - No data modifications
+AR_1017,1,Yes - Enforced instruction separation
+AR_1017,2,Partial - Logical separation not enforced
+AR_1017,3,No - No separation
+AR_1017,4,Not Applicable - No user input
+AR_1019,1,Yes - Safe failure protocol defined
+AR_1019,2,Partial - Protocol partially defined
+AR_1019,3,No - No failure protocol
+AR_1019,4,Not Applicable - No bouncers
+AR_1020,1,Yes - Input monitored for exfiltration
+AR_1020,2,Partial - Limited input monitoring
+AR_1020,3,No - No exfiltration monitoring
+AR_1020,4,Not Applicable - No sensitive inputs
+AR_1021,1,Yes - Prompt minimization applied
+AR_1021,2,Partial - Minimization partially applied
+AR_1021,3,No - No prompt minimization
+AR_1021,4,Not Applicable - No user prompts
+AR_1023,1,Yes - Token-level trust distinction
+AR_1023,2,Partial - Logical distinction only
+AR_1023,3,No - No trust distinction
+AR_1023,4,Not Applicable - No user input
+AR_1024,1,Yes - External instruction detection
+AR_1024,2,Partial - Limited external detection
+AR_1024,3,No - No external detection
+AR_1024,4,Not Applicable - No external sources
+AR_1026,1,Yes - Detection rates documented with behavior
+AR_1026,2,Partial - Rates documented without behavior
+AR_1026,3,No - No detection documentation
+AR_1026,4,Not Applicable - No detectors
+AR_1027,1,Low (0-33%)
+AR_1027,2,Moderate (34-66%)
+AR_1027,3,High (67-100%)
+AR_1027,4,Not Applicable
+AR_1028,1,Yes - Automated PII redaction buffer
+AR_1028,2,Partial - Manual PII redaction
+AR_1028,3,No - No privacy buffer
+AR_1028,4,Not Applicable - No PII processing
+AR_1029,1,Yes - Inspection proxy deployed
+AR_1029,2,Partial - Limited proxy inspection
+AR_1029,3,No - No inspection proxy
+AR_1029,4,Not Applicable - No agent data fetching
+AR_1030,1,Yes - Secondary ingestion visibility
+AR_1030,2,Partial - Limited visibility
+AR_1030,3,No - No secondary visibility
+AR_1030,4,Not Applicable - No secondary ingestion
+AR_1031,1,Yes - Auto quarantine for schema violations
+AR_1031,2,Partial - Alerts without quarantine
+AR_1031,3,No - No schema validation
+AR_1031,4,Not Applicable - No data ingestion
+AR_1032,1,Yes - Volume circuit breakers enforced
+AR_1032,2,Partial - Manual intervention required
+AR_1032,3,No - No circuit breakers
+AR_1032,4,Not Applicable - No ingestion streams
+AR_1034,1,Yes - Identity-based decryption enforced
+AR_1034,2,Partial - Partial identity controls
+AR_1034,3,No - No identity-based decryption
+AR_1034,4,Not Applicable - No encrypted storage
+AR_1035,1,Yes - WORM storage enforced
+AR_1035,2,Partial - Version control without WORM
+AR_1035,3,No - No immutable storage
+AR_1035,4,Not Applicable - No training sets
+AR_1036,1,Yes - Vector DB logically separated
+AR_1036,2,Partial - Partial separation
+AR_1036,3,No - No separation
+AR_1036,4,Not Applicable - No vector database
+AR_1037,1,Yes - Strict train/test separation
+AR_1037,2,Partial - Partial separation
+AR_1037,3,No - No separation
+AR_1037,4,Not Applicable - No data transformations
+AR_1038,1,Yes - Automated fairness audits
+AR_1038,2,Partial - Manual fairness reviews
+AR_1038,3,No - No fairness audits
+AR_1038,4,Not Applicable - No data transformations
+AR_1040,1,Yes - Imputation metadata tagged
+AR_1040,2,Partial - Partial metadata tagging
+AR_1040,3,No - No imputation tagging
+AR_1040,4,Not Applicable - No missing values
+AR_1041,1,Yes - Crypto-linked ETL versions
+AR_1041,2,Partial - Version tracking without crypto
+AR_1041,3,No - No ETL versioning
+AR_1041,4,Not Applicable - No ETL pipelines
+AR_1043,1,Yes - Entropy monitoring enforced
+AR_1043,2,Partial - Periodic entropy checks
+AR_1043,3,No - No entropy monitoring
+AR_1043,4,Not Applicable - No dimensionality reduction
+AR_1044,1,Yes - Auto traceability to raw data
+AR_1044,2,Partial - Model version traceability only
+AR_1044,3,No - No output traceability
+AR_1044,4,Not Applicable - No model training
+AR_1045,1,Yes - Auto staleness detection
+AR_1045,2,Partial - Manual staleness checks
+AR_1045,3,No - No staleness detection
+AR_1045,4,Not Applicable - No data catalog
+AR_1046,1,Yes - Purpose hard-coded in metadata
+AR_1046,2,Partial - Purpose documented separately
+AR_1046,3,No - No purpose tracking
+AR_1046,4,Not Applicable - No datasets
+AR_1047,1,Yes - Stewards with quality alerts
+AR_1047,2,Partial - Stewards without alerts
+AR_1047,3,No - No data stewards
+AR_1047,4,Not Applicable - No data assets
+AR_1048,1,Yes - AI-powered shadow PII detection
+AR_1048,2,Partial - Manual PII tagging
+AR_1048,3,No - No shadow PII detection
+AR_1048,4,Not Applicable - No data catalog
+AR_1049,1,Yes - Policies embedded and enforced
+AR_1049,2,Partial - Policies documented not enforced
+AR_1049,3,No - No usage policies
+AR_1049,4,Not Applicable - No usage restrictions
+AR_1050,1,Yes - Real-time drift alerts
+AR_1050,2,Partial - Periodic drift checks
+AR_1050,3,No - No drift alerts
+AR_1050,4,Not Applicable - No production models
+AR_1051,1,Yes - 72-hour data lineage proof
+AR_1051,2,Partial - Lineage available with delays
+AR_1051,3,No - No data lineage
+AR_1051,4,Not Applicable - No regulatory requirements
+AR_1053,1,Yes - Mandatory review for exceptions
+AR_1053,2,Partial - Optional review process
+AR_1053,3,No - No exception review
+AR_1053,4,Not Applicable - No high-risk models
+AR_1054,1,Yes - Dynamic access policies
+AR_1054,2,Partial - Static policies with some checks
+AR_1054,3,No - Static username-based policies
+AR_1054,4,Not Applicable - No access policies
+AR_1055,1,Yes - Adversarial bias testing conducted
+AR_1055,2,Partial - Basic bias testing
+AR_1055,3,No - No bias testing
+AR_1055,4,Not Applicable - No quality rules
+AR_1056,1,Yes - Tags persist across systems
+AR_1056,2,Partial - Tags partially persist
+AR_1056,3,No - Tags do not persist
+AR_1056,4,Not Applicable - No data tags
+AR_1057,1,Yes - Identity-based decryption enforced
+AR_1057,2,Partial - Pre-decryption with access controls
+AR_1057,3,No - Plaintext storage
+AR_1057,4,Not Applicable - No encrypted data
+AR_1058,1,Yes - Agent-specific least-privilege keys
+AR_1058,2,Partial - Agent keys without row restrictions
+AR_1058,3,No - Shared agent credentials
+AR_1058,4,Not Applicable - No AI agents
+AR_1059,1,Yes - Auto scraping detection and blocking
+AR_1059,2,Partial - Detection without auto blocking
+AR_1059,3,No - No scraping detection
+AR_1059,4,Not Applicable - No APIs
+AR_1060,1,Yes - API-level prompt firewall
+AR_1060,2,Partial - Limited prompt inspection
+AR_1060,3,No - No prompt firewall
+AR_1060,4,Not Applicable - No API prompts
+AR_1061,1,Yes - Short-lived geofenced tokens
+AR_1061,2,Partial - Short-lived tokens without geofencing
+AR_1061,3,No - Long-lived tokens
+AR_1061,4,Not Applicable - No API tokens
+AR_1062,1,Yes - Automated zombie API scanning
+AR_1062,2,Partial - Manual API audits
+AR_1062,3,No - No zombie API scanning
+AR_1062,4,Not Applicable - No APIs
+AR_1063,1,Yes - Egress monitoring with blocking
+AR_1063,2,Partial - Monitoring without blocking
+AR_1063,3,No - No egress monitoring
+AR_1063,4,Not Applicable - No external transfers
+AR_1064,1,Yes - Automated input drift alerts
+AR_1064,2,Partial - Periodic drift checks
+AR_1064,3,No - No drift alerts
+AR_1064,4,Not Applicable - No production models
+AR_1065,1,Yes - Correlation to upstream errors
+AR_1065,2,Partial - Limited correlation capability
+AR_1065,3,No - No error correlation
+AR_1065,4,Not Applicable - No monitoring
+AR_1066,1,Yes - Real-time velocity monitoring
+AR_1066,2,Partial - Periodic velocity checks
+AR_1066,3,No - No velocity monitoring
+AR_1066,4,Not Applicable - No agents
+AR_1067,1,Yes - Data recency alerts configured
+AR_1067,2,Partial - Manual recency checks
+AR_1067,3,No - No recency alerts
+AR_1067,4,Not Applicable - No vector database
+AR_1068,1,Yes - Agent intent monitoring enforced
+AR_1068,2,Partial - Limited intent monitoring
+AR_1068,3,No - No intent monitoring
+AR_1068,4,Not Applicable - No autonomous agents
+AR_1077,1,Yes - Auto loop termination enforced
+AR_1077,2,Partial - Manual intervention required
+AR_1077,3,No - No loop detection
+AR_1077,4,Not Applicable - No AI agents
+AR_1082,1,Yes - Unified searchable namespace
+AR_1082,2,Partial - Partial namespace integration
+AR_1082,3,No - Separate namespaces
+AR_1082,4,Not Applicable - No vector database
+AR_1083,1,Yes - Automated egress alerts configured
+AR_1083,2,Partial - Manual egress monitoring
+AR_1083,3,No - No egress alerts
+AR_1083,4,Not Applicable - No cloud regions
+AR_1087,1,Yes - Sub-60-second drift alerts
+AR_1087,2,Partial - Delayed drift detection
+AR_1087,3,No - No drift alerts
+AR_1087,4,Not Applicable - No cluster management
+AR_1088,1,Yes - VM-level isolation enforced
+AR_1088,2,Partial - Process-level isolation only
+AR_1088,3,No - No tenant isolation
+AR_1088,4,Not Applicable - Single tenant only
+AR_1092,1,Yes - Daily-rotated crypto identities
+AR_1092,2,Partial - Static agent identities
+AR_1092,3,No - Shared credentials
+AR_1092,4,Not Applicable - No AI agents
+AR_1093,1,Yes - Immutable log vault enforced
+AR_1093,2,Partial - Logs with limited protection
+AR_1093,3,No - Mutable logs
+AR_1093,4,Not Applicable - No logs retained
+AR_1094,1,Yes - AI cluster microsegmented
+AR_1094,2,Partial - Network-level segmentation only
+AR_1094,3,No - No microsegmentation
+AR_1094,4,Not Applicable - No AI cluster
+AR_1095,1,Yes - Monthly AI red teaming
+AR_1095,2,Partial - Annual or ad-hoc testing
+AR_1095,3,No - No AI red teaming
+AR_1095,4,Not Applicable - No AI infrastructure
+AR_1096,1,Yes - Auto re-indexing on updates
+AR_1096,2,Partial - Manual re-indexing
+AR_1096,3,No - No re-indexing
+AR_1096,4,Not Applicable - No vector database
+AR_1097,1,Yes - Adversarial context validation
+AR_1097,2,Partial - Basic content validation
+AR_1097,3,No - No context validation
+AR_1097,4,Not Applicable - No knowledge base
+AR_1098,1,Yes - Automated PII stripping
+AR_1098,2,Partial - Manual PII removal
+AR_1098,3,No - No PII stripping
+AR_1098,4,Not Applicable - No embeddings
+AR_1099,1,Yes - Outdated knowledge flagged
+AR_1099,2,Partial - Manual knowledge updates
+AR_1099,3,No - No knowledge dating
+AR_1099,4,Not Applicable - No temporal data
+AR_1100,1,Yes - Metadata filtering enforced
+AR_1100,2,Partial - Partial metadata filtering
+AR_1100,3,No - No metadata filtering
+AR_1100,4,Not Applicable - Single user only
+AR_1101,1,Yes - Cross-tenant protections enforced
+AR_1101,2,Partial - Protections partially implemented
+AR_1101,3,No - No cross-tenant protections
+AR_1101,4,Not Applicable - Single tenant only
+AR_1102,1,Yes - Prompts version-controlled and reviewed
+AR_1102,2,Partial - Version control without reviews
+AR_1102,3,No - No prompt version control
+AR_1102,4,Not Applicable - No prompts
+AR_1103,1,Yes - Auto fail-closed on contradictions
+AR_1103,2,Partial - Alerts without auto fail-closed
+AR_1103,3,No - No fail-closed mechanism
+AR_1103,4,Not Applicable - No business rules
+AR_1104,1,Yes - Adversarial logic testing conducted
+AR_1104,2,Partial - Limited logic testing
+AR_1104,3,No - No adversarial testing
+AR_1104,4,Not Applicable - No business logic
+AR_1105,1,Yes - Least privilege per user
+AR_1105,2,Partial - Limited privilege escalation
+AR_1105,3,No - Superuser service account
+AR_1105,4,Not Applicable - No AI access
+AR_1106,1,Yes - Auto masking enforced
+AR_1106,2,Partial - Manual masking
+AR_1106,3,No - No secret masking
+AR_1106,4,Not Applicable - No sensitive fields
+AR_1107,1,Yes - Relationship inference prevented
+AR_1107,2,Partial - Partial inference controls
+AR_1107,3,No - No inference controls
+AR_1107,4,Not Applicable - No sensitive relationships
+AR_1108,1,Yes - Runtime permission checks
+AR_1108,2,Partial - Login-time checks only
+AR_1108,3,No - No permission checks
+AR_1108,4,Not Applicable - No access controls
+AR_1110,1,Yes - Egress row-count validation
+AR_1110,2,Partial - Alerts without enforcement
+AR_1110,3,No - No row validation
+AR_1110,4,Not Applicable - No repository access
+AR_1111,1,Yes - Search rate limits enforced
+AR_1111,2,Partial - Soft limits configured
+AR_1111,3,No - No search limits
+AR_1111,4,Not Applicable - No semantic search
+AR_1112,1,Yes - CMK encryption enforced
+AR_1112,2,Partial - Standard encryption only
+AR_1112,3,No - No encryption
+AR_1112,4,Not Applicable - No embeddings
+AR_1113,1,Yes - Snapshot pinning enforced
+AR_1113,2,Partial - Manual snapshot selection
+AR_1113,3,No - Live data access
+AR_1113,4,Not Applicable - No training
+AR_1114,1,Yes - Private information retrieval supported
+AR_1114,2,Partial - Query obfuscation only
+AR_1114,3,No - No PIR support
+AR_1114,4,Not Applicable - No repository
+AR_1115,1,Yes - Auto shut-off on spikes
+AR_1115,2,Partial - Alerts without shut-off
+AR_1115,3,No - No consumption monitoring
+AR_1115,4,Not Applicable - No token usage
+AR_1117,1,Yes - Intent-action matching enforced
+AR_1117,2,Partial - Partial intent validation
+AR_1117,3,No - No intent matching
+AR_1117,4,Not Applicable - No AI actions
+AR_1120,1,Yes - Auto failover configured
+AR_1120,2,Partial - Manual failover available
+AR_1120,3,No - No failover capability
+AR_1120,4,Not Applicable - No API dependencies
+AR_1121,1,Yes - Centralized governance enforced
+AR_1121,2,Partial - Governance partially enforced
+AR_1121,3,No - No centralized governance
+AR_1121,4,Not Applicable - No cloud environments
+AR_1122,1,Yes - Ownership and escalation defined
+AR_1122,2,Partial - Ownership without escalation paths
+AR_1122,3,No - No ownership definition
+AR_1122,4,Not Applicable - No cloud resources
+AR_1124,1,1-2 (Low/Limited)
+AR_1124,2,3 (Moderate)
+AR_1124,3,4-5 (High/Strong)
+AR_1124,4,Not Applicable
+AR_1125,1,Yes - Automated framework enforcement
+AR_1125,2,Partial - Framework partially enforced
+AR_1125,3,No - No standardized framework
+AR_1125,4,Not Applicable - No cloud architecture
+AR_1126,1,Yes - Data-driven capacity planning
+AR_1126,2,Partial - Capacity planning partially implemented
+AR_1126,3,No - No capacity planning
+AR_1126,4,Not Applicable - No scaling requirements
+AR_1127,1,Yes - Auto patching across environments
+AR_1127,2,Partial - Patching partially automated
+AR_1127,3,No - Manual patching only
+AR_1127,4,Not Applicable - Single environment
+AR_1128,1,Yes - Workload segregation enforced
+AR_1128,2,Partial - Logical segregation only
+AR_1128,3,No - No workload segregation
+AR_1128,4,Not Applicable - Single environment
+AR_1129,1,Yes - Real-time monitoring with alerts
+AR_1129,2,Partial - Monitoring without auto alerts
+AR_1129,3,No - No performance monitoring
+AR_1129,4,Not Applicable - No compute resources
+AR_1130,1,Yes - Formal lifecycle management enforced
+AR_1130,2,Partial - Process partially implemented
+AR_1130,3,No - No lifecycle management
+AR_1130,4,Not Applicable - No compute resources
+AR_1131,1,Yes - CMK encryption enforced everywhere
+AR_1131,2,Partial - Encryption without CMK
+AR_1131,3,No - No encryption
+AR_1131,4,Not Applicable - No enterprise data
+AR_1132,1,Yes - Auto crypto-verified backups
+AR_1132,2,Partial - Backups without crypto verification
+AR_1132,3,No - No backup mechanisms
+AR_1132,4,Not Applicable - No AI assets
+AR_1133,1,Yes - Multi-region availability enforced
+AR_1133,2,Partial - Partial multi-region deployment
+AR_1133,3,No - Single region only
+AR_1133,4,Not Applicable - No availability requirements
+AR_1134,1,Yes - Classification with enforced controls
+AR_1134,2,Partial - Classification without enforcement
+AR_1134,3,No - No data classification
+AR_1134,4,Not Applicable - No data assets
+AR_1135,1,1-2 (Low/Limited)
+AR_1135,2,3 (Moderate)
+AR_1135,3,4-5 (High/Strong)
+AR_1135,4,Not Applicable
+AR_1136,1,Yes - Microsegmentation enforced
+AR_1136,2,Partial - Partial microsegmentation
+AR_1136,3,No - No microsegmentation
+AR_1136,4,Not Applicable - No network architecture
+AR_1137,1,Yes - Mutual auth and encryption enforced
+AR_1137,2,Partial - Encryption without mutual auth
+AR_1137,3,No - No secure connections
+AR_1137,4,Not Applicable - No external connections
+AR_1138,1,Yes - Automated traffic management
+AR_1138,2,Partial - Manual traffic management
+AR_1138,3,No - No traffic management
+AR_1138,4,Not Applicable - No availability requirements
+AR_1139,1,Yes - Comprehensive visibility implemented
+AR_1139,2,Partial - Limited visibility
+AR_1139,3,No - No network visibility
+AR_1139,4,Not Applicable - No network infrastructure
+AR_1140,1,Yes - Connectivity risks formally managed
+AR_1140,2,Partial - Risks partially managed
+AR_1140,3,No - No connectivity risk management
+AR_1140,4,Not Applicable - No hybrid connectivity
+AR_1141,1,Yes - Automated IAM governance enforced
+AR_1141,2,Partial - Manual IAM processes
+AR_1141,3,No - No IAM governance
+AR_1141,4,Not Applicable - No cloud services
+AR_1142,1,Yes - JIT access with monitoring
+AR_1142,2,Partial - JIT without full monitoring
+AR_1142,3,No - No privileged controls
+AR_1142,4,Not Applicable - No privileged accounts
+AR_1143,1,Yes - Machine identities fully managed
+AR_1143,2,Partial - Partial credential management
+AR_1143,3,No - No machine identity management
+AR_1143,4,Not Applicable - No machine identities
+AR_1144,1,Yes - Quarterly reviews with automation
+AR_1144,2,Partial - Reviews without automation
+AR_1144,3,No - No access reviews
+AR_1144,4,Not Applicable - No access controls
+AR_1145,1,Yes - MFA with phishing-resistant methods
+AR_1145,2,Partial - MFA without phishing resistance
+AR_1145,3,No - No MFA enforcement
+AR_1145,4,Not Applicable - No user authentication
+AR_1146,1,Yes - Monitoring with auto remediation
+AR_1146,2,Partial - Monitoring without remediation
+AR_1146,3,No - No health monitoring
+AR_1146,4,Not Applicable - No infrastructure
+AR_1147,1,Yes - Formal incident process enforced
+AR_1147,2,Partial - Process partially documented
+AR_1147,3,No - No incident process
+AR_1147,4,Not Applicable - No incidents
+AR_1149,1,Yes - Tamper-proof logs with analysis
+AR_1149,2,Partial - Logs without tamper protection
+AR_1149,3,No - No log retention
+AR_1149,4,Not Applicable - No operational data
+AR_1150,1,Yes - Formal maturity program
+AR_1150,2,Partial - Informal improvement efforts
+AR_1150,3,No - No maturity program
+AR_1150,4,Not Applicable - No operations
+AR_1151,1,Yes - Automated HA failover enforced
+AR_1151,2,Partial - HA with manual failover
+AR_1151,3,No - No high availability
+AR_1151,4,Not Applicable - No critical infrastructure
+AR_1152,1,Yes - Tested DR with RTO/RPO
+AR_1152,2,Partial - DR without testing
+AR_1152,3,No - No DR strategy
+AR_1152,4,Not Applicable - No critical infrastructure
+AR_1153,1,Yes - Routine Chaos Engineering
+AR_1153,2,Partial - Occasional fault testing
+AR_1153,3,No - No fault injection
+AR_1153,4,Not Applicable - No production environment
+AR_1154,1,Yes - Formal outage plan documented
+AR_1154,2,Partial - Plan partially documented
+AR_1154,3,No - No outage plan
+AR_1154,4,Not Applicable - No critical systems
+AR_1155,1,Yes - Regular threat scenario testing
+AR_1155,2,Partial - Occasional threat testing
+AR_1155,3,No - No threat testing
+AR_1155,4,Not Applicable - No resilience requirements
+AR_1156,1,Yes - Spending governed with reporting
+AR_1156,2,Partial - Controls without reporting
+AR_1156,3,No - No spending governance
+AR_1156,4,Not Applicable - No cloud spending
+AR_1157,1,Yes - Automated resource optimization
+AR_1157,2,Partial - Manual resource reviews
+AR_1157,3,No - No resource optimization
+AR_1157,4,Not Applicable - No cloud resources
+AR_1158,1,Yes - Scaling aligned with budgets
+AR_1158,2,Partial - Scaling without budget controls
+AR_1158,3,No - No scaling controls
+AR_1158,4,Not Applicable - No auto-scaling
+AR_1159,1,Yes - Chargeback mechanisms enforced
+AR_1159,2,Partial - Showback without chargeback
+AR_1159,3,No - No cost accountability
+AR_1159,4,Not Applicable - No cloud costs
+AR_1166,1,Yes - Training with vendor contracts
+AR_1166,2,Partial - Training without vendor extension
+AR_1166,3,No - No AI training program
+AR_1166,4,Not Applicable - No AI policy
+AR_1167,1,Yes - Immutable decision ledger maintained
+AR_1167,2,Partial - Decisions logged without immutability
+AR_1167,3,No - No decision ledger
+AR_1167,4,Not Applicable - No governance committee
+AR_1172,1,Yes - Escalation paths formally defined
+AR_1172,2,Partial - Paths partially defined
+AR_1172,3,No - No escalation paths
+AR_1172,4,Not Applicable - No AI systems
+AR_1177,1,Yes - Incident roles clearly defined
+AR_1177,2,Partial - Roles partially defined
+AR_1177,3,No - No role definitions
+AR_1177,4,Not Applicable - No AI incidents
+AR_1178,1,Yes - Roles aligned with risk tolerance
+AR_1178,2,Partial - Partial alignment
+AR_1178,3,No - No alignment
+AR_1178,4,Not Applicable - No risk tolerance defined
+AR_1180,1,Yes - Tested succession plan maintained
+AR_1180,2,Partial - Plan without testing
+AR_1180,3,No - No succession plan
+AR_1180,4,Not Applicable - No governance roles
+AR_1181,1,Yes - Accountability clearly defined
+AR_1181,2,Partial - Accountability partially defined
+AR_1181,3,No - Accountability unclear
+AR_1181,4,Not Applicable - No AI systems
+AR_1182,1,Yes - Highly effective governance
+AR_1182,2,Partial - Moderately effective governance
+AR_1182,3,No - Ineffective governance
+AR_1182,4,Not Applicable - No governance structure
+AR_1184,1,Yes - Comprehensive version-controlled inventory
+AR_1184,2,Partial - Incomplete inventory
+AR_1184,3,No - No AI inventory
+AR_1184,4,Not Applicable - No AI systems
+AR_1187,1,Yes - Formal decommissioning process
+AR_1187,2,Partial - Process partially documented
+AR_1187,3,No - No decommissioning process
+AR_1187,4,Not Applicable - No decommissioning
+AR_1188,1,Low (0-33%)
+AR_1188,2,Moderate (34-66%)
+AR_1188,3,High (67-100%)
+AR_1188,4,Not Applicable
+AR_1189,1,Yes - Datasets categorized and segregated
+AR_1189,2,Partial - Partial categorization
+AR_1189,3,No - No dataset segregation
+AR_1189,4,Not Applicable - No datasets
+AR_1190,1,Yes - Bias risks formally assessed
+AR_1190,2,Partial - Risks identified not assessed
+AR_1190,3,No - No bias assessment
+AR_1190,4,Not Applicable - No datasets
+AR_1191,1,Yes - Mature data quality governance
+AR_1191,2,Partial - Basic quality practices
+AR_1191,3,No - No quality governance
+AR_1191,4,Not Applicable - No AI data
+AR_1192,1,Yes - Retention rules consistently applied
+AR_1192,2,Partial - Rules defined not enforced
+AR_1192,3,No - No retention rules
+AR_1192,4,Not Applicable - No datasets
+AR_1193,1,Yes - Third-party data formally governed
+AR_1193,2,Partial - Documented without oversight
+AR_1193,3,No - No third-party governance
+AR_1193,4,Not Applicable - No third-party data
+AR_1195,1,Low (0-33%)
+AR_1195,2,Moderate (34-66%)
+AR_1195,3,High (67-100%)
+AR_1195,4,Not Applicable
+AR_1198,1,Yes - Open-source formally reviewed
+AR_1198,2,Partial - Reviews partially conducted
+AR_1198,3,No - No license reviews
+AR_1198,4,Not Applicable - No open-source usage
+AR_1199,1,Yes - Concentration risk formally assessed
+AR_1199,2,Partial - Informal risk awareness
+AR_1199,3,No - No concentration assessment
+AR_1199,4,Not Applicable - No vendor dependency
+AR_1214,1,Low (0-33%)
+AR_1214,2,Moderate (34-66%)
+AR_1214,3,High (67-100%)
+AR_1214,4,Not Applicable
+AR_1216,1,Yes - Comprehensive harm evaluation
+AR_1216,2,Partial - Limited harm assessment
+AR_1216,3,No - No harm evaluation
+AR_1216,4,Not Applicable - No impact assessments
+AR_1226,1,Yes - Vulnerable groups explicitly assessed
+AR_1226,2,Partial - Limited vulnerable assessment
+AR_1226,3,No - No vulnerable assessment
+AR_1226,4,Not Applicable - No impact assessments
+AR_1228,1,Yes - Jurisdictional impacts evaluated
+AR_1228,2,Partial - Limited jurisdictional review
+AR_1228,3,No - No jurisdictional assessment
+AR_1228,4,Not Applicable - Single jurisdiction only
+AR_1229,1,Low (0-33%)
+AR_1229,2,Moderate (34-66%)
+AR_1229,3,High (67-100%)
+AR_1229,4,Not Applicable
+AR_1235,1,Yes - Comprehensive dataset governance
+AR_1235,2,Partial - Governance partially implemented
+AR_1235,3,No - No dataset governance
+AR_1235,4,Not Applicable - No model training
+AR_1236,1,Yes - Independent feature review enforced
+AR_1236,2,Partial - Internal review only
+AR_1236,3,No - No feature review
+AR_1236,4,Not Applicable - No feature engineering
+AR_1239,1,Yes - Comprehensive MLOps controls
+AR_1239,2,Partial - Basic environment separation
+AR_1239,3,No - No MLOps controls
+AR_1239,4,Not Applicable - No ML operations
+AR_1240,1,Yes - Continuous monitoring with alerts
+AR_1240,2,Partial - Periodic monitoring only
+AR_1240,3,No - No monitoring mechanisms
+AR_1240,4,Not Applicable - No production systems
+AR_1241,1,Yes - Thresholds with auto interventions
+AR_1241,2,Partial - Thresholds without auto actions
+AR_1241,3,No - No threshold definitions
+AR_1241,4,Not Applicable - No monitoring
+AR_1243,1,Yes - Retraining governance enforced
+AR_1243,2,Partial - Basic validation only
+AR_1243,3,No - No retraining governance
+AR_1243,4,Not Applicable - No automated retraining
+AR_1249,1,Low (0-33%)
+AR_1249,2,Moderate (34-66%)
+AR_1249,3,High (67-100%)
+AR_1249,4,Not Applicable
+AR_1250,1,Low (0-33%)
+AR_1250,2,Moderate (34-66%)
+AR_1250,3,High (67-100%)
+AR_1250,4,Not Applicable
+AR_1251,1,Yes - Formal retirement approval required
+AR_1251,2,Partial - Approval partially documented
+AR_1251,3,No - No retirement approval
+AR_1251,4,Not Applicable - No retirements
+AR_1252,1,Yes - Comprehensive retirement process
+AR_1252,2,Partial - Process partially implemented
+AR_1252,3,No - No retirement process
+AR_1252,4,Not Applicable - No retirements
+AR_1256,1,1-2 (Low/Limited)
+AR_1256,2,3 (Moderate)
+AR_1256,3,4-5 (High/Strong)
+AR_1256,4,Not Applicable
+AR_1261,1,Yes - Poisoning risks controlled
+AR_1261,2,Partial - Risks assessed not controlled
+AR_1261,3,No - No poisoning controls
+AR_1261,4,Not Applicable - No training data
+AR_1265,1,Low (0-33%)
+AR_1265,2,Moderate (34-66%)
+AR_1265,3,High (67-100%)
+AR_1265,4,Not Applicable
+AR_1266,1,Yes - Retraining checkpoint enforced
+AR_1266,2,Partial - Checkpoint partially enforced
+AR_1266,3,No - No retraining checkpoint
+AR_1266,4,Not Applicable - No retraining
+AR_1269,1,Yes - Quality standards with safeguards
+AR_1269,2,Partial - Standards without safeguards
+AR_1269,3,No - No quality standards
+AR_1269,4,Not Applicable - No human labeling
+AR_1272,1,Yes - Purpose compatibility assessed
+AR_1272,2,Partial - Assessment partially performed
+AR_1272,3,No - No compatibility assessment
+AR_1272,4,Not Applicable - No repurposed data
+AR_1278,1,Yes - AUP established and published
+AR_1278,2,Partial - AUP partially defined
+AR_1278,3,No - No AI AUP
+AR_1278,4,Not Applicable - No AI usage
+AR_1279,1,Yes - IP policy formally defined
+AR_1279,2,Partial - IP policy partially defined
+AR_1279,3,No - No IP policy
+AR_1279,4,Not Applicable - No AI IP
+AR_1280,1,Low (0-33%)
+AR_1280,2,Moderate (34-66%)
+AR_1280,3,High (67-100%)
+AR_1280,4,Not Applicable
+AR_1282,1,Yes - Reporting mechanisms with analysis
+AR_1282,2,Partial - Mechanisms without analysis
+AR_1282,3,No - No reporting mechanisms
+AR_1282,4,Not Applicable - No AI systems
+AR_1283,1,Yes - Explanation processes established
+AR_1283,2,Partial - Processes partially implemented
+AR_1283,3,No - No explanation processes
+AR_1283,4,Not Applicable - No high-stakes decisions
+AR_1284,1,Yes - Formal communication plan maintained
+AR_1284,2,Partial - Plan partially documented
+AR_1284,3,No - No communication plan
+AR_1284,4,Not Applicable - No AI incidents
+AR_1285,1,Yes - Reportability criteria formally defined
+AR_1285,2,Partial - Criteria partially defined
+AR_1285,3,No - No reportability criteria
+AR_1285,4,Not Applicable - No external reporting
+AR_1288,1,Yes - Vulnerable groups with safeguards
+AR_1288,2,Partial - Identified without full safeguards
+AR_1288,3,No - No vulnerable identification
+AR_1288,4,Not Applicable - No vulnerable users
+AR_1289,1,1-2 (Low/Limited)
+AR_1289,2,3 (Moderate)
+AR_1289,3,4-5 (High/Strong)
+AR_1289,4,Not Applicable
+AR_1290,1,Yes - Disclaimer governance enforced
+AR_1290,2,Partial - Controls partially implemented
+AR_1290,3,No - No disclaimer controls
+AR_1290,4,Not Applicable - No AI outputs
+AR_1292,1,Yes - User notification process defined
+AR_1292,2,Partial - Process partially documented
+AR_1292,3,No - No notification process
+AR_1292,4,Not Applicable - No user-facing AI
+AR_1293,1,1-2 (Low/Limited)
+AR_1293,2,3 (Moderate)
+AR_1293,3,4-5 (High/Strong)
+AR_1293,4,Not Applicable
+AR_1299,1,Yes - Misuse reporting process enforced
+AR_1299,2,Partial - Process partially documented
+AR_1299,3,No - No misuse reporting
+AR_1299,4,Not Applicable - No AI systems
+AR_1300,1,Yes - RAI objectives with measurement
+AR_1300,2,Partial - Objectives without measurement
+AR_1300,3,No - No RAI objectives
+AR_1300,4,Not Applicable - No AI systems
+AR_1302,1,Low (0-33%)
+AR_1302,2,Moderate (34-66%)
+AR_1302,3,High (67-100%)
+AR_1302,4,Not Applicable
+AR_1304,1,Yes - Periodic use assessments conducted
+AR_1304,2,Partial - Assessments partially implemented
+AR_1304,3,No - No use assessments
+AR_1304,4,Not Applicable - No AI systems
+AR_1307,1,Low (0-33%)
+AR_1307,2,Moderate (34-66%)
+AR_1307,3,High (67-100%)
+AR_1307,4,Not Applicable
+AR_1313,1,Yes - Strong progress demonstrated
+AR_1313,2,Partial - Moderate progress
+AR_1313,3,No - Minimal progress
+AR_1313,4,Not Applicable - No RAI objectives
+AR_1314,1,1-2 (Low/Limited)
+AR_1314,2,3 (Moderate)
+AR_1314,3,4-5 (High/Strong)
+AR_1314,4,Not Applicable
+AR_1320,1,Yes - Label leakage validation enforced
+AR_1320,2,Partial - Validation partially implemented
+AR_1320,3,No - No leakage validation
+AR_1320,4,Not Applicable - No model training
+AR_1321,1,Yes - Secure coding standards enforced
+AR_1321,2,Partial - Standards partially enforced
+AR_1321,3,No - No coding standards
+AR_1321,4,Not Applicable - No AI-assisted development
+AR_1327,1,Yes - Synthetic identity detection enforced
+AR_1327,2,Partial - Limited detection controls
+AR_1327,3,No - No synthetic detection
+AR_1327,4,Not Applicable - No onboarding processes
+AR_1328,1,Yes - Consent and access controls enforced
+AR_1328,2,Partial - Controls partially enforced
+AR_1328,3,No - No consent or access controls
+AR_1328,4,Not Applicable - No AI assistants
+AR_1334,1,Yes - Adversarial threats tested
+AR_1334,2,Partial - Limited adversarial testing
+AR_1334,3,No - No adversarial testing
+AR_1334,4,Not Applicable - No AI models
+AR_1335,1,Yes - Train/test separation enforced
+AR_1335,2,Partial - Separation partially enforced
+AR_1335,3,No - No separation enforcement
+AR_1335,4,Not Applicable - No model training
+AR_1337,1,Yes - Structured scenario testing conducted
+AR_1337,2,Partial - Ad-hoc testing only
+AR_1337,3,No - No scenario testing
+AR_1337,4,Not Applicable - No AI systems
+AR_1340,1,Yes - Discrimination and pattern testing
+AR_1340,2,Partial - Limited testing conducted
+AR_1340,3,No - No discrimination testing
+AR_1340,4,Not Applicable - No consumer decisions
+AR_1341,1,Yes - Evidence alteration controls enforced
+AR_1341,2,Partial - Policies without technical controls
+AR_1341,3,No - No alteration controls
+AR_1341,4,Not Applicable - No generative AI
+AR_1342,1,Yes - Strong verification enforced
+AR_1342,2,Partial - Basic verification only
+AR_1342,3,No - No verification requirements
+AR_1342,4,Not Applicable - No voice/video payments
+AR_1343,1,Low (0-33%)
+AR_1343,2,Moderate (34-66%)
+AR_1343,3,High (67-100%)
+AR_1343,4,Not Applicable
+AR_1344,1,Yes - Abuse prevention controls enforced
+AR_1344,2,Partial - Controls partially implemented
+AR_1344,3,No - No abuse controls
+AR_1344,4,Not Applicable - No account creation
+AR_1345,1,Yes - Anti-spoofing verification enforced
+AR_1345,2,Partial - Basic voice verification
+AR_1345,3,No - No anti-spoofing controls
+AR_1345,4,Not Applicable - No voice authentication
+AR_1348,1,Yes - Knowledge-transfer program implemented
+AR_1348,2,Partial - Program partially implemented
+AR_1348,3,No - No knowledge-transfer program
+AR_1348,4,Not Applicable - No workforce impact
+AR_1349,1,Yes - Monitoring safeguards implemented
+AR_1349,2,Partial - Safeguards partially implemented
+AR_1349,3,No - No monitoring safeguards
+AR_1349,4,Not Applicable - No employee monitoring
+AR_1351,1,Yes - Alert-tuning process maintained
+AR_1351,2,Partial - Process partially documented
+AR_1351,3,No - No tuning process
+AR_1351,4,Not Applicable - No monitoring systems
+AR_1352,1,Yes - Vulnerable groups with safeguards
+AR_1352,2,Partial - Identified without full safeguards
+AR_1352,3,No - No vulnerable identification
+AR_1352,4,Not Applicable - No vulnerable users
+AR_1353,1,Yes - AI use disclosed proactively
+AR_1353,2,Partial - Disclosure partially implemented
+AR_1353,3,No - No AI disclosure
+AR_1353,4,Not Applicable - No user-facing AI
+AR_1354,1,Yes - Reporting mechanisms implemented
+AR_1354,2,Partial - Mechanisms partially implemented
+AR_1354,3,No - No reporting mechanisms
+AR_1354,4,Not Applicable - No AI systems
+AR_1355,1,1-2 (Low/Limited)
+AR_1355,2,3 (Moderate)
+AR_1355,3,4-5 (High/Strong)
+AR_1355,4,Not Applicable
+AR_1356,1,Low (0-33%)
+AR_1356,2,Moderate (34-66%)
+AR_1356,3,High (67-100%)
+AR_1356,4,Not Applicable
+AR_1357,1,Low (0-33%)
+AR_1357,2,Moderate (34-66%)
+AR_1357,3,High (67-100%)
+AR_1357,4,Not Applicable
+AR_1358,1,Yes - Formal IP review conducted
+AR_1358,2,Partial - IP review partially conducted
+AR_1358,3,No - No IP review
+AR_1358,4,Not Applicable - No AI development
+AR_1365,1,Low (0-33%)
+AR_1365,2,Moderate (34-66%)
+AR_1365,3,High (67-100%)
+AR_1365,4,Not Applicable
+AR_1366,1,Yes - Cross-client protections enforced
+AR_1366,2,Partial - Protections partially enforced
+AR_1366,3,No - No cross-client protections
+AR_1366,4,Not Applicable - No RAG systems
+AR_1367,1,Yes - Drift monitoring with lesson integration
+AR_1367,2,Partial - Monitoring without integration
+AR_1367,3,No - No drift monitoring
+AR_1367,4,Not Applicable - No important models
+AR_1369,1,Yes - Business logic monitoring enforced
+AR_1369,2,Partial - Limited pattern monitoring
+AR_1369,3,No - No logic monitoring
+AR_1369,4,Not Applicable - No recommender systems
+AR_1370,1,Yes - Output reuse controlled with validation
+AR_1370,2,Partial - Controls partially implemented
+AR_1370,3,No - No reuse controls
+AR_1370,4,Not Applicable - No model retraining
+AR_1371,1,Yes - Failure modes monitored
+AR_1371,2,Partial - Limited failure monitoring
+AR_1371,3,No - No failure monitoring
+AR_1371,4,Not Applicable - No AI code generation
+AR_1374,1,Yes - Controlled update process enforced
+AR_1374,2,Partial - Process partially automated
+AR_1374,3,No - No update process
+AR_1374,4,Not Applicable - No embedding updates
+AR_1376,1,Yes - Feature integrity monitoring enforced
+AR_1376,2,Partial - Limited integrity checks
+AR_1376,3,No - No feature monitoring
+AR_1376,4,Not Applicable - No production features
+AR_1377,1,Yes - IaC with comprehensive controls
+AR_1377,2,Partial - IaC with limited controls
+AR_1377,3,No - No IaC management
+AR_1377,4,Not Applicable - No AI infrastructure
+AR_1379,1,Yes - Routine privacy attack testing
+AR_1379,2,Partial - Limited privacy testing
+AR_1379,3,No - No privacy attack testing
+AR_1379,4,Not Applicable - No sensitive models
+AR_1380,1,Yes - Lawful bases documented
+AR_1380,2,Partial - Documentation partially complete
+AR_1380,3,No - No lawful basis documentation
+AR_1380,4,Not Applicable - No personal data
+AR_1381,1,Yes - Monitoring assessed with safeguards
+AR_1381,2,Partial - Safeguards partially implemented
+AR_1381,3,No - No monitoring assessment
+AR_1381,4,Not Applicable - No employee monitoring
+AR_1385,1,Yes - Pricing behavior monitored
+AR_1385,2,Partial - Limited pricing monitoring
+AR_1385,3,No - No behavior monitoring
+AR_1385,4,Not Applicable - No pricing AI
+AR_1392,1,Yes - Adversarial controls implemented
+AR_1392,2,Partial - Controls partially implemented
+AR_1392,3,No - No adversarial controls
+AR_1392,4,Not Applicable - No prompt-based systems
+AR_1393,1,Yes - Component inventory with patching
+AR_1393,2,Partial - Inventory without patching
+AR_1393,3,No - No component inventory
+AR_1393,4,Not Applicable - No AI components
+AR_1398,1,Yes - Endpoint lifecycle managed
+AR_1398,2,Partial - Lifecycle partially managed
+AR_1398,3,No - No endpoint management
+AR_1398,4,Not Applicable - No AI endpoints
+AR_1399,1,Yes - Adversarial techniques tested
+AR_1399,2,Partial - Limited adversarial testing
+AR_1399,3,No - No adversarial testing
+AR_1399,4,Not Applicable - No models or pipelines
+AR_1401,1,Yes - Abuse prevention controls enforced
+AR_1401,2,Partial - Controls partially implemented
+AR_1401,3,No - No abuse controls
+AR_1401,4,Not Applicable - No AI channels
+AR_1402,1,Yes - Staff usage controls enforced
+AR_1402,2,Partial - Policies without technical controls
+AR_1402,3,No - No usage restrictions
+AR_1402,4,Not Applicable - No AI tools
+AR_1404,1,Yes - Workforce impacts assessed comprehensively
+AR_1404,2,Partial - Assessed without measurement
+AR_1404,3,No - No workforce assessment
+AR_1404,4,Not Applicable - No workforce impact
+AR_1410,1,Yes - Client data controls enforced
+AR_1410,2,Partial - Controls partially enforced
+AR_1410,3,No - No client data controls
+AR_1410,4,Not Applicable - No client data
+AR_1411,1,Yes - Governance and compliance enforced
+AR_1411,2,Partial - Approval without full compliance
+AR_1411,3,No - No governance requirements
+AR_1411,4,Not Applicable - No sensitive training data
+AR_1412,1,Low (0-33%)
+AR_1412,2,Moderate (34-66%)
+AR_1412,3,High (67-100%)
+AR_1412,4,Not Applicable
+AR_1414,1,Yes - Demographic testing with remediation
+AR_1414,2,Partial - Testing without remediation
+AR_1414,3,No - No demographic testing
+AR_1414,4,Not Applicable - No high-impact models
+AR_1415,1,Yes - MNPI restrictions enforced
+AR_1415,2,Partial - Restrictions partially enforced
+AR_1415,3,No - No MNPI restrictions
+AR_1415,4,Not Applicable - No MNPI
+AR_1421,1,Yes - Incident reporting process defined
+AR_1421,2,Partial - Process partially defined
+AR_1421,3,No - No reporting process
+AR_1421,4,Not Applicable - No reportable incidents
+AR_1434,1,Low (0-33%)
+AR_1434,2,Moderate (34-66%)
+AR_1434,3,High (67-100%)
+AR_1434,4,Not Applicable
+AR_GOV_01,1,Yes - Full FedRAMP authorization maintained
+AR_GOV_01,2,Partial - FedRAMP process initiated
+AR_GOV_01,3,No - No FedRAMP compliance
+AR_GOV_01,4,Not Applicable
+AR_GOV_02,1,Yes - NIST 800-53 high controls implemented
+AR_GOV_02,2,Partial - Some security controls
+AR_GOV_02,3,No - No NIST 800-53 compliance
+AR_GOV_02,4,Not Applicable
+AR_GOV_03,1,Yes - DoD RAI principles followed
+AR_GOV_03,2,Partial - Some RAI principles adopted
+AR_GOV_03,3,No - No DoD RAI compliance
+AR_GOV_03,4,Not Applicable
+AR_GOV_04,1,Yes - Civil rights impact assessments completed
+AR_GOV_04,2,Partial - Some bias testing
+AR_GOV_04,3,No - No civil rights assessments
+AR_GOV_04,4,Not Applicable
+AR_GOV_05,1,Yes - Fully implemented and operational
+AR_GOV_05,2,Partial - Partially implemented
+AR_GOV_05,3,No - Not implemented
+AR_GOV_05,4,Not Applicable
+AR_GOV_06,1,Yes - Bias testing shows no discrimination
+AR_GOV_06,2,Partial - Some bias controls
+AR_GOV_06,3,No - No bias testing
+AR_GOV_06,4,Not Applicable
+AR_GOV_07,1,Yes - Fully implemented and operational
+AR_GOV_07,2,Partial - Partially implemented
+AR_GOV_07,3,No - Not implemented
+AR_GOV_07,4,Not Applicable
+AR_GOV_08,1,Yes - Fully implemented and operational
+AR_GOV_08,2,Partial - Partially implemented
+AR_GOV_08,3,No - Not implemented
+AR_GOV_08,4,Not Applicable
+AR_GOV_09,1,Yes - OMB A-130 requirements met
+AR_GOV_09,2,Partial - Working toward A-130 compliance
+AR_GOV_09,3,No - Not compliant with A-130
+AR_GOV_09,4,Not Applicable
+AR_GOV_10,1,Yes - Validated no racial disparities
+AR_GOV_10,2,Partial - Some disparity testing
+AR_GOV_10,3,No - No disparity validation
+AR_GOV_10,4,Not Applicable
+AR_GOV_11,1,Yes - Full FedRAMP authorization maintained
+AR_GOV_11,2,Partial - FedRAMP process initiated
+AR_GOV_11,3,No - No FedRAMP compliance
+AR_GOV_11,4,Not Applicable
+AR_GOV_12,1,Yes - Privacy Act compliance with SORN/PIA
+AR_GOV_12,2,Partial - Some Privacy Act controls
+AR_GOV_12,3,No - No Privacy Act compliance
+AR_GOV_12,4,Not Applicable
+AR_GOV_13,1,Yes - OMB PRA approval obtained
+AR_GOV_13,2,Partial - PRA clearance in progress
+AR_GOV_13,3,No - No PRA compliance
+AR_GOV_13,4,Not Applicable
+AR_GOV_14,1,Yes - Privacy controls fully implemented
+AR_GOV_14,2,Partial - Some privacy measures
+AR_GOV_14,3,No - No privacy controls
+AR_GOV_14,4,Not Applicable
+AR_GOV_15,1,Yes - Records schedules enforced
+AR_GOV_15,2,Partial - Some records management
+AR_GOV_15,3,No - No records management
+AR_GOV_15,4,Not Applicable
+AR_GOV_16,1,Yes - APA reasoned explanations provided
+AR_GOV_16,2,Partial - Some APA transparency
+AR_GOV_16,3,No - No APA compliance
+AR_GOV_16,4,Not Applicable
+AR_GOV_17,1,Yes - FISMA assessments and monitoring current
+AR_GOV_17,2,Partial - FISMA partially implemented
+AR_GOV_17,3,No - No FISMA compliance
+AR_GOV_17,4,Not Applicable
+AR_GOV_18,1,Yes - No disparate impact validated
+AR_GOV_18,2,Partial - Some disparity testing
+AR_GOV_18,3,No - No disparity analysis
+AR_GOV_18,4,Not Applicable
+AR_GOV_19,1,Yes - Data minimization enforced
+AR_GOV_19,2,Partial - Some minimization controls
+AR_GOV_19,3,No - No minimization controls
+AR_GOV_19,4,Not Applicable
+AR_GOV_20,1,Yes - FAR cybersecurity clauses enforced
+AR_GOV_20,2,Partial - Some FAR requirements
+AR_GOV_20,3,No - No FAR compliance
+AR_GOV_20,4,Not Applicable
+AR_LEG_01,1,Yes - Attorneys meet ABA 1.1 competence
+AR_LEG_01,2,Partial - Competence gaps identified
+AR_LEG_01,3,No - No AI competence standards
+AR_LEG_01,4,Not Applicable
+AR_LEG_02,1,Yes - Privilege protection enforced
+AR_LEG_02,2,Partial - Some privilege controls
+AR_LEG_02,3,No - No privilege safeguards
+AR_LEG_02,4,Not Applicable
+AR_LEG_03,1,Yes - Fully implemented and operational
+AR_LEG_03,2,Partial - Partially implemented
+AR_LEG_03,3,No - Not implemented
+AR_LEG_03,4,Not Applicable
+AR_LEG_04,1,Yes - All citations independently verified
+AR_LEG_04,2,Partial - Some verification processes
+AR_LEG_04,3,No - No verification required
+AR_LEG_04,4,Not Applicable
+AR_LEG_05,1,Yes - Fully implemented and operational
+AR_LEG_05,2,Partial - Partially implemented
+AR_LEG_05,3,No - Not implemented
+AR_LEG_05,4,Not Applicable
+AR_LEG_06,1,Yes - Independent validation completed
+AR_LEG_06,2,Partial - Some validation performed
+AR_LEG_06,3,No - No validation
+AR_LEG_06,4,Not Applicable
+AR_LEG_07,1,Yes - AI use disclosed to clients
+AR_LEG_07,2,Partial - Selective disclosure
+AR_LEG_07,3,No - No disclosure required
+AR_LEG_07,4,Not Applicable
+AR_LEG_08,1,Yes - Bias testing shows no discrimination
+AR_LEG_08,2,Partial - Some bias controls
+AR_LEG_08,3,No - No bias testing
+AR_LEG_08,4,Not Applicable
+AR_LEG_09,1,Yes - AI malpractice coverage secured
+AR_LEG_09,2,Partial - Exploring coverage options
+AR_LEG_09,3,No - No AI malpractice coverage
+AR_LEG_09,4,Not Applicable
+AR_LEG_10,1,Yes - Quality controls prevent sanctions
+AR_LEG_10,2,Partial - Basic e-discovery controls
+AR_LEG_10,3,No - No quality controls
+AR_LEG_10,4,Not Applicable
+AR_LEG_11,1,Yes - PCAOB auditing standards compliance
+AR_LEG_11,2,Partial - Working toward compliance
+AR_LEG_11,3,No - Not compliant with PCAOB
+AR_LEG_11,4,Not Applicable
+AR_LEG_12,1,Yes - Circular 230 compliance enforced
+AR_LEG_12,2,Partial - Some tax compliance controls
+AR_LEG_12,3,No - No Circular 230 compliance
+AR_LEG_12,4,Not Applicable
+AR_LEG_13,1,Yes - Fully implemented and operational
+AR_LEG_13,2,Partial - Partially implemented
+AR_LEG_13,3,No - Not implemented
+AR_LEG_13,4,Not Applicable
+AR_LEG_14,1,Yes - All citations independently verified
+AR_LEG_14,2,Partial - Some verification processes
+AR_LEG_14,3,No - No verification required
+AR_LEG_14,4,Not Applicable
+AR_LEG_15,1,Yes - Incident procedures documented and tested
+AR_LEG_15,2,Partial - Basic incident procedures
+AR_LEG_15,3,No - No incident procedures
+AR_LEG_15,4,Not Applicable
+AR_LEG_16,1,Yes - Vendor requirements contractually enforced
+AR_LEG_16,2,Partial - Some vendor controls
+AR_LEG_16,3,No - No vendor requirements
+AR_LEG_16,4,Not Applicable
+AR_LEG_17,1,Yes - All citations independently verified
+AR_LEG_17,2,Partial - Some verification processes
+AR_LEG_17,3,No - No verification required
+AR_LEG_17,4,Not Applicable
+AR_LEG_18,1,Yes - Independent validation completed
+AR_LEG_18,2,Partial - Some validation performed
+AR_LEG_18,3,No - No validation
+AR_LEG_18,4,Not Applicable
+AR_LEG_19,1,Yes - Fully implemented and operational
+AR_LEG_19,2,Partial - Partially implemented
+AR_LEG_19,3,No - Not implemented
+AR_LEG_19,4,Not Applicable
+AR_LEG_20,1,Yes - Fully implemented and operational
+AR_LEG_20,2,Partial - Partially implemented
+AR_LEG_20,3,No - Not implemented
+AR_LEG_20,4,Not Applicable
+AR_TRN_01,1,Yes - Full TSA cybersecurity compliance
+AR_TRN_01,2,Partial - Working toward TSA compliance
+AR_TRN_01,3,No - Not compliant with TSA
+AR_TRN_01,4,Not Applicable
+AR_TRN_02,1,Yes - SAE level classification validated
+AR_TRN_02,2,Partial - Classification in progress
+AR_TRN_02,3,No - No SAE classification
+AR_TRN_02,4,Not Applicable
+AR_TRN_03,1,Yes - FAA certification requirements met
+AR_TRN_03,2,Partial - Working toward FAA certification
+AR_TRN_03,3,No - No FAA compliance
+AR_TRN_03,4,Not Applicable
+AR_TRN_04,1,Yes - Independent validation completed
+AR_TRN_04,2,Partial - Some validation performed
+AR_TRN_04,3,No - No validation
+AR_TRN_04,4,Not Applicable
+AR_TRN_05,1,Yes - DOT human control maintained
+AR_TRN_05,2,Partial - Some human oversight
+AR_TRN_05,3,No - No human control requirements
+AR_TRN_05,4,Not Applicable
+AR_TRN_06,1,Yes - Bias testing shows no discrimination
+AR_TRN_06,2,Partial - Some bias controls
+AR_TRN_06,3,No - No bias testing
+AR_TRN_06,4,Not Applicable
+AR_TRN_07,1,Yes - Incident procedures documented and tested
+AR_TRN_07,2,Partial - Basic incident procedures
+AR_TRN_07,3,No - No incident procedures
+AR_TRN_07,4,Not Applicable
+AR_TRN_08,1,Yes - Privacy controls fully implemented
+AR_TRN_08,2,Partial - Some privacy measures
+AR_TRN_08,3,No - No privacy controls
+AR_TRN_08,4,Not Applicable
+AR_TRN_09,1,Yes - Fully implemented and operational
+AR_TRN_09,2,Partial - Partially implemented
+AR_TRN_09,3,No - Not implemented
+AR_TRN_09,4,Not Applicable
+AR_TRN_10,1,Yes - Independent validation completed
+AR_TRN_10,2,Partial - Some validation performed
+AR_TRN_10,3,No - No validation
+AR_TRN_10,4,Not Applicable
+AR_TRN_11,1,Yes - Fully implemented and operational
+AR_TRN_11,2,Partial - Partially implemented
+AR_TRN_11,3,No - Not implemented
+AR_TRN_11,4,Not Applicable
+AR_TRN_12,1,Low (0-33%)
+AR_TRN_12,2,Moderate (34-66%)
+AR_TRN_12,3,High (67-100%)
+AR_TRN_12,4,Not Applicable
+AR_TRN_13,1,Yes - Incident procedures documented and tested
+AR_TRN_13,2,Partial - Basic incident procedures
+AR_TRN_13,3,No - No incident procedures
+AR_TRN_13,4,Not Applicable
+AR_TRN_14,1,Yes - DOT PHMSA compliance enforced
+AR_TRN_14,2,Partial - Some PHMSA controls
+AR_TRN_14,3,No - Not compliant with PHMSA
+AR_TRN_14,4,Not Applicable
+AR_TRN_15,1,Yes - Fully implemented and operational
+AR_TRN_15,2,Partial - Partially implemented
+AR_TRN_15,3,No - Not implemented
+AR_TRN_15,4,Not Applicable
+AR_TRN_16,1,Yes - Vendor requirements contractually enforced
+AR_TRN_16,2,Partial - Some vendor controls
+AR_TRN_16,3,No - No vendor requirements
+AR_TRN_16,4,Not Applicable
+AR_TRN_17,1,Yes - Incident procedures documented and tested
+AR_TRN_17,2,Partial - Basic incident procedures
+AR_TRN_17,3,No - No incident procedures
+AR_TRN_17,4,Not Applicable
+AR_TRN_18,1,Yes - Bias testing shows no discrimination
+AR_TRN_18,2,Partial - Some bias controls
+AR_TRN_18,3,No - No bias testing
+AR_TRN_18,4,Not Applicable
+AR_TRN_19,1,Low (0-33%)
+AR_TRN_19,2,Moderate (34-66%)
+AR_TRN_19,3,High (67-100%)
+AR_TRN_19,4,Not Applicable
+AR_TRN_20,1,Yes - HOS regulations compliance verified
+AR_TRN_20,2,Partial - Some HOS monitoring
+AR_TRN_20,3,No - No HOS compliance checks
+AR_TRN_20,4,Not Applicable
+AR_UTL_01,1,Yes - Full NERC CIP-013 compliance
+AR_UTL_01,2,Partial - Working toward CIP-013 compliance
+AR_UTL_01,3,No - Not compliant with CIP-013
+AR_UTL_01,4,Not Applicable
+AR_UTL_02,1,Low (0-33%)
+AR_UTL_02,2,Moderate (34-66%)
+AR_UTL_02,3,High (67-100%)
+AR_UTL_02,4,Not Applicable
+AR_UTL_03,1,Yes - Fully implemented and operational
+AR_UTL_03,2,Partial - Partially implemented
+AR_UTL_03,3,No - Not implemented
+AR_UTL_03,4,Not Applicable
+AR_UTL_04,1,Yes - Fully implemented and operational
+AR_UTL_04,2,Partial - Partially implemented
+AR_UTL_04,3,No - Not implemented
+AR_UTL_04,4,Not Applicable
+AR_UTL_05,1,Yes - Fully implemented and operational
+AR_UTL_05,2,Partial - Partially implemented
+AR_UTL_05,3,No - Not implemented
+AR_UTL_05,4,Not Applicable
+AR_UTL_06,1,Yes - NIST 800-82 controls implemented
+AR_UTL_06,2,Partial - Some ICS security controls
+AR_UTL_06,3,No - No ICS security controls
+AR_UTL_06,4,Not Applicable
+AR_UTL_07,1,Yes - Incident procedures documented and tested
+AR_UTL_07,2,Partial - Basic incident procedures
+AR_UTL_07,3,No - No incident procedures
+AR_UTL_07,4,Not Applicable
+AR_UTL_08,1,Yes - FERC market manipulation controls
+AR_UTL_08,2,Partial - Basic market controls
+AR_UTL_08,3,No - No FERC controls
+AR_UTL_08,4,Not Applicable
+AR_UTL_09,1,Yes - Incident procedures documented and tested
+AR_UTL_09,2,Partial - Basic incident procedures
+AR_UTL_09,3,No - No incident procedures
+AR_UTL_09,4,Not Applicable
+AR_UTL_10,1,Low (0-33%)
+AR_UTL_10,2,Moderate (34-66%)
+AR_UTL_10,3,High (67-100%)
+AR_UTL_10,4,Not Applicable
+AR_UTL_11,1,Low (0-33%)
+AR_UTL_11,2,Moderate (34-66%)
+AR_UTL_11,3,High (67-100%)
+AR_UTL_11,4,Not Applicable
+AR_UTL_12,1,Yes - EPA Safe Drinking Water Act compliance
+AR_UTL_12,2,Partial - Some EPA controls
+AR_UTL_12,3,No - No EPA compliance
+AR_UTL_12,4,Not Applicable
+AR_UTL_13,1,Yes - Fully implemented and operational
+AR_UTL_13,2,Partial - Partially implemented
+AR_UTL_13,3,No - Not implemented
+AR_UTL_13,4,Not Applicable
+AR_UTL_14,1,Low (0-33%)
+AR_UTL_14,2,Moderate (34-66%)
+AR_UTL_14,3,High (67-100%)
+AR_UTL_14,4,Not Applicable
+AR_UTL_15,1,Yes - Bias testing shows no discrimination
+AR_UTL_15,2,Partial - Some bias controls
+AR_UTL_15,3,No - No bias testing
+AR_UTL_15,4,Not Applicable
+AR_UTL_16,1,Low (0-33%)
+AR_UTL_16,2,Moderate (34-66%)
+AR_UTL_16,3,High (67-100%)
+AR_UTL_16,4,Not Applicable
+AR_UTL_17,1,Yes - Incident procedures documented and tested
+AR_UTL_17,2,Partial - Basic incident procedures
+AR_UTL_17,3,No - No incident procedures
+AR_UTL_17,4,Not Applicable
+AR_UTL_18,1,Yes - Privacy controls fully implemented
+AR_UTL_18,2,Partial - Some privacy measures
+AR_UTL_18,3,No - No privacy controls
+AR_UTL_18,4,Not Applicable
+AR_UTL_19,1,Yes - Fully implemented and operational
+AR_UTL_19,2,Partial - Partially implemented
+AR_UTL_19,3,No - Not implemented
+AR_UTL_19,4,Not Applicable
+AR_UTL_20,1,Yes - Climate-aware drift monitoring
+AR_UTL_20,2,Partial - Basic drift monitoring
+AR_UTL_20,3,No - No drift monitoring
+AR_UTL_20,4,Not Applicable
+AR_US_FED_01,1,Yes - Four-fifths rule testing completed showing no disparate impact
+AR_US_FED_01,2,Partial - Some bias testing but gaps in Title VII compliance analysis
+AR_US_FED_01,3,No - No Title VII disparate impact testing conducted
+AR_US_FED_01,4,Not Applicable
+AR_US_FED_02,1,Yes - ECOA disparate impact testing completed with compliant adverse action notices
+AR_US_FED_02,2,Partial - Some fair lending controls but gaps in ECOA compliance
+AR_US_FED_02,3,No - No ECOA compliance testing for AI lending systems
+AR_US_FED_02,4,Not Applicable
+AR_US_FED_03,1,Yes - FCRA compliance demonstrated with dispute resolution and notices
+AR_US_FED_03,2,Partial - Some consumer reporting controls but FCRA gaps
+AR_US_FED_03,3,No - No FCRA compliance for AI screening systems
+AR_US_FED_03,4,Not Applicable
+AR_US_FED_04,1,Yes - AI systems designed to prevent unfair/deceptive practices per FTC guidance
+AR_US_FED_04,2,Partial - Some consumer protection controls but potential Section 5 gaps
+AR_US_FED_04,3,No - No FTC Act Section 5 compliance assessment for AI
+AR_US_FED_04,4,Not Applicable
+AR_US_FED_05,1,Yes - HIPAA Privacy Rule compliance documented for AI PHI processing
+AR_US_FED_05,2,Partial - Some HIPAA controls but gaps in AI vendor agreements
+AR_US_FED_05,3,No - No HIPAA Privacy Rule compliance for AI systems
+AR_US_FED_05,4,Not Applicable
+AR_US_FED_06,1,Yes - ADA compliance demonstrated including accessibility and accommodations
+AR_US_FED_06,2,Partial - Some disability considerations but ADA compliance gaps
+AR_US_FED_06,3,No - No ADA compliance assessment for AI systems
+AR_US_FED_06,4,Not Applicable
+AR_US_FED_07,1,Yes - ADEA disparate impact testing completed for workers 40+
+AR_US_FED_07,2,Partial - Some age bias testing but incomplete ADEA analysis
+AR_US_FED_07,3,No - No ADEA age discrimination testing for AI employment systems
+AR_US_FED_07,4,Not Applicable
+AR_US_FED_08,1,Yes - FHA disparate impact testing completed for housing AI systems
+AR_US_FED_08,2,Partial - Some fair housing controls but testing gaps
+AR_US_FED_08,3,No - No Fair Housing Act compliance testing for AI
+AR_US_FED_08,4,Not Applicable
+AR_US_FED_09,1,Yes - HIPAA Security Rule safeguards implemented for AI ePHI systems
+AR_US_FED_09,2,Partial - Some security controls but HIPAA Security gaps
+AR_US_FED_09,3,No - No HIPAA Security Rule compliance for AI systems
+AR_US_FED_09,4,Not Applicable
+AR_US_FED_10,1,Yes - FDA SaMD regulatory requirements met with valid marketing authorization
+AR_US_FED_10,2,Partial - Some medical device controls but FDA compliance gaps
+AR_US_FED_10,3,No - No FDA compliance for AI medical device systems
+AR_US_FED_10,4,Not Applicable
+AR_TX_01,1,Yes - TDPSA consumer rights fully implemented for AI systems
+AR_TX_01,2,Partial - Some privacy controls but TDPSA compliance gaps
+AR_TX_01,3,No - No Texas TDPSA compliance program
+AR_TX_01,4,Not Applicable
+AR_TX_02,1,Yes - TDPSA consent obtained before sensitive data processing in AI
+AR_TX_02,2,Partial - Some consent mechanisms but TDPSA gaps
+AR_TX_02,3,No - No TDPSA sensitive data consent for AI
+AR_TX_02,4,Not Applicable
+AR_TX_03,1,Yes - Texas biometric consent obtained with retention schedules disclosed
+AR_TX_03,2,Partial - Some biometric controls but consent gaps
+AR_TX_03,3,No - No Texas Biometric Identifier Act compliance
+AR_TX_03,4,Not Applicable
+AR_TX_04,1,Yes - TDPSA data protection assessments completed for high-risk AI
+AR_TX_04,2,Partial - Some privacy assessments but not comprehensive TDPSA compliance
+AR_TX_04,3,No - No data protection assessments for Texas AI systems
+AR_TX_04,4,Not Applicable
+AR_ON_PHIPA_01,1,Yes - PHIPA requirements fully met for AI health information processing
+AR_ON_PHIPA_01,2,Partial - Some health privacy controls but PHIPA gaps
+AR_ON_PHIPA_01,3,No - No PHIPA compliance for AI health systems
+AR_ON_PHIPA_01,4,Not Applicable
+AR_ON_PHIPA_02,1,Yes - PHIPA access rights implemented for AI health information
+AR_ON_PHIPA_02,2,Partial - Some access procedures but incomplete PHIPA compliance
+AR_ON_PHIPA_02,3,No - No PHIPA access rights for AI health data
+AR_ON_PHIPA_02,4,Not Applicable
+AR_ON_PHIPA_03,1,Yes - PHIPA agent agreements executed with AI health vendors
+AR_ON_PHIPA_03,2,Partial - Some vendor contracts but PHIPA compliance gaps
+AR_ON_PHIPA_03,3,No - No PHIPA-compliant agent agreements for AI vendors
+AR_ON_PHIPA_03,4,Not Applicable
+AR_QC_FRENCH_01,1,Yes - French language AI services provided with equivalent quality
+AR_QC_FRENCH_01,2,Partial - French available but quality gaps versus English
+AR_QC_FRENCH_01,3,No - No French language compliance for Quebec AI services
+AR_QC_FRENCH_01,4,Not Applicable
+AR_QC_FRENCH_02,1,Yes - French training data ensures equivalent AI performance
+AR_QC_FRENCH_02,2,Partial - Some French data but performance gaps documented
+AR_QC_FRENCH_02,3,No - No French language equivalence validation for AI models
+AR_QC_FRENCH_02,4,Not Applicable
+AR_NY_DFS_01,1,Yes - DFS cybersecurity requirements met for AI systems with annual assessment
+AR_NY_DFS_01,2,Partial - Some security controls but DFS AI-specific gaps
+AR_NY_DFS_01,3,No - No DFS Cybersecurity Regulation compliance for AI
+AR_NY_DFS_01,4,Not Applicable
+AR_NY_DFS_02,1,Yes - DFS third-party requirements met for AI vendor oversight
+AR_NY_DFS_02,2,Partial - Some vendor controls but DFS due diligence gaps
+AR_NY_DFS_02,3,No - No DFS vendor risk assessment for AI service providers
+AR_NY_DFS_02,4,Not Applicable
+AR_EU_DSA_01,1,Yes - DSA Article 27 compliant with non-profiled option and parameter transparency
+AR_EU_DSA_01,2,Partial - Some transparency but gaps in parameter disclosure quality
+AR_EU_DSA_01,3,No - No DSA recommendation transparency compliance
+AR_EU_DSA_01,4,Not Applicable
+AR_EU_DSA_02,1,Yes - DSA VLOP systemic risk assessments completed annually with mitigation
+AR_EU_DSA_02,2,Partial - Some risk evaluation but incomplete DSA assessment
+AR_EU_DSA_02,3,No - No DSA systemic risk assessment for algorithmic systems
+AR_EU_DSA_02,4,Not Applicable
+AR_EU_DSA_03,1,Yes - DSA Article 26 advertising transparency fully implemented
+AR_EU_DSA_03,2,Partial - Some ad labeling but parameter disclosure gaps
+AR_EU_DSA_03,3,No - No DSA advertising transparency for targeted ads
+AR_EU_DSA_03,4,Not Applicable
+AR_EU_MDR_01,1,Yes - EU MDR medical device requirements met with valid CE marking
+AR_EU_MDR_01,2,Partial - Some device controls but MDR conformity gaps
+AR_EU_MDR_01,3,No - No EU Medical Device Regulation compliance for AI
+AR_EU_MDR_01,4,Not Applicable
+AR_EU_MDR_02,1,Yes - MDR quality management system implemented for AI medical devices
+AR_EU_MDR_02,2,Partial - Some quality controls but MDR system gaps
+AR_EU_MDR_02,3,No - No MDR quality management for AI medical devices
+AR_EU_MDR_02,4,Not Applicable
+AR_EU_MIFID_01,1,Yes - MiFID II algorithmic trading requirements met with authority notification
+AR_EU_MIFID_01,2,Partial - Some trading controls but MiFID II compliance gaps
+AR_EU_MIFID_01,3,No - No MiFID II compliance for AI trading algorithms
+AR_EU_MIFID_01,4,Not Applicable
+AR_EU_DATA_ACT_01,1,Yes - Data Act user access and portability rights implemented
+AR_EU_DATA_ACT_01,2,Partial - Some data access but portability gaps
+AR_EU_DATA_ACT_01,3,No - No EU Data Act compliance for AI systems
+AR_EU_DATA_ACT_01,4,Not Applicable
+AR_EU_ACCESSIBILITY_01,1,Yes - European Accessibility Act requirements met for AI systems
+AR_EU_ACCESSIBILITY_01,2,Partial - Some accessibility features but EAA compliance gaps
+AR_EU_ACCESSIBILITY_01,3,No - No accessibility compliance for AI products/services
+AR_EU_ACCESSIBILITY_01,4,Not Applicable
+AR_CA_FED_OSFI_01,1,Yes - OSFI Guideline E-23 model risk management implemented for AI
+AR_CA_FED_OSFI_01,2,Partial - Some model controls but OSFI framework gaps
+AR_CA_FED_OSFI_01,3,No - No OSFI model risk management for AI systems
+AR_CA_FED_OSFI_01,4,Not Applicable
+AR_CA_FED_ACCESSIBILITY_01,1,Yes - Accessible Canada Act requirements met for AI systems
+AR_CA_FED_ACCESSIBILITY_01,2,Partial - Some accessibility features but barrier assessment gaps
+AR_CA_FED_ACCESSIBILITY_01,3,No - No accessibility compliance for AI interfaces
+AR_CA_FED_ACCESSIBILITY_01,4,Not Applicable
+AR_CA_FED_EMPLOYMENT_01,1,Yes - Employment Equity Act compliance demonstrated for AI employment systems
+AR_CA_FED_EMPLOYMENT_01,2,Partial - Some equity controls but designated group impact gaps
+AR_CA_FED_EMPLOYMENT_01,3,No - No Employment Equity Act compliance for AI recruitment/promotion
+AR_CA_FED_EMPLOYMENT_01,4,Not Applicable
+AR_CA_ST_FEHA_01,1,Yes - FEHA disparate impact testing completed for all protected classes
+AR_CA_ST_FEHA_01,2,Partial - Some discrimination testing but incomplete FEHA coverage
+AR_CA_ST_FEHA_01,3,No - No California FEHA compliance testing for AI employment
+AR_CA_ST_FEHA_01,4,Not Applicable
+AR_CA_ST_AB2013_01,1,Yes - AB 2013 quota disclosure and break protection requirements met
+AR_CA_ST_AB2013_01,2,Partial - Some disclosure but quota system transparency gaps
+AR_CA_ST_AB2013_01,3,No - No California warehouse quota compliance for AI monitoring
+AR_CA_ST_AB2013_01,4,Not Applicable
+AR_CO_EQUAL_PAY_01,1,Yes - Colorado equal pay transparency requirements met for AI compensation
+AR_CO_EQUAL_PAY_01,2,Partial - Some pay disclosure but AI algorithm transparency gaps
+AR_CO_EQUAL_PAY_01,3,No - No equal pay compliance for AI compensation systems
+AR_CO_EQUAL_PAY_01,4,Not Applicable
+AR_BC_HUMAN_RIGHTS_01,1,Yes - BC Human Rights Code compliance testing completed for AI systems
+AR_BC_HUMAN_RIGHTS_01,2,Partial - Some discrimination testing but BC-specific gaps
+AR_BC_HUMAN_RIGHTS_01,3,No - No BC Human Rights Code compliance for AI
+AR_BC_HUMAN_RIGHTS_01,4,Not Applicable
+AR_NY_ST_HUMAN_RIGHTS_01,1,Yes - NY State Human Rights Law compliance demonstrated for AI systems
+AR_NY_ST_HUMAN_RIGHTS_01,2,Partial - Some state-level controls but broader protection gaps
+AR_NY_ST_HUMAN_RIGHTS_01,3,No - No NY State Human Rights Law compliance beyond NYC
+AR_NY_ST_HUMAN_RIGHTS_01,4,Not Applicable
+AR_EU_GDPR_ARTICLE22_01,1,Yes - GDPR Article 22 rights fully implemented including explanation and intervention
+AR_EU_GDPR_ARTICLE22_01,2,Partial - Some automated decision controls but Article 22 gaps
+AR_EU_GDPR_ARTICLE22_01,3,No - No GDPR Article 22 compliance for automated AI decisions
+AR_EU_GDPR_ARTICLE22_01,4,Not Applicable
+AR_EU_PRIVACY_BY_DESIGN_01,1,Yes - GDPR Article 25 privacy-by-design principles embedded in AI development
+AR_EU_PRIVACY_BY_DESIGN_01,2,Partial - Some privacy controls but technical by-design gaps
+AR_EU_PRIVACY_BY_DESIGN_01,3,No - No privacy-by-design for AI systems
+AR_EU_PRIVACY_BY_DESIGN_01,4,Not Applicable
+AR_EU_EQUALITY_DIRECTIVE_01,1,Low (0-33%)
+AR_EU_EQUALITY_DIRECTIVE_01,2,Moderate (34-66%)
+AR_EU_EQUALITY_DIRECTIVE_01,3,High (67-100%)
+AR_EU_EQUALITY_DIRECTIVE_01,4,Not Applicable
+AR_BC_01,1,Yes - Requirements fully met with documentation
+AR_BC_01,2,Partial - Partially implemented
+AR_BC_01,3,No - Not implemented
+AR_BC_01,4,Not Applicable
+AR_BC_02,1,Yes - Requirements fully met with documentation
+AR_BC_02,2,Partial - Partially implemented
+AR_BC_02,3,No - Not implemented
+AR_BC_02,4,Not Applicable
+AR_BC_03,1,Yes - Requirements fully met with documentation
+AR_BC_03,2,Partial - Partially implemented
+AR_BC_03,3,No - Not implemented
+AR_BC_03,4,Not Applicable
+AR_BC_04,1,Yes - Requirements fully met with documentation
+AR_BC_04,2,Partial - Partially implemented
+AR_BC_04,3,No - Not implemented
+AR_BC_04,4,Not Applicable
+AR_BC_05,1,Yes - Requirements fully met with documentation
+AR_BC_05,2,Partial - Partially implemented
+AR_BC_05,3,No - Not implemented
+AR_BC_05,4,Not Applicable
+AR_BC_06,1,Yes - Requirements fully met with documentation
+AR_BC_06,2,Partial - Partially implemented
+AR_BC_06,3,No - Not implemented
+AR_BC_06,4,Not Applicable
+AR_BC_07,1,Yes - Requirements fully met with documentation
+AR_BC_07,2,Partial - Partially implemented
+AR_BC_07,3,No - Not implemented
+AR_BC_07,4,Not Applicable
+AR_BC_08,1,Yes - Requirements fully met with documentation
+AR_BC_08,2,Partial - Partially implemented
+AR_BC_08,3,No - Not implemented
+AR_BC_08,4,Not Applicable
+AR_BC_09,1,Yes - Requirements fully met with documentation
+AR_BC_09,2,Partial - Partially implemented
+AR_BC_09,3,No - Not implemented
+AR_BC_09,4,Not Applicable
+AR_BC_10,1,Yes - Requirements fully met with documentation
+AR_BC_10,2,Partial - Partially implemented
+AR_BC_10,3,No - Not implemented
+AR_BC_10,4,Not Applicable
+AR_CA_01,1,Yes - Full PIPEDA compliance
+AR_CA_01,2,Partial - Working toward PIPEDA compliance
+AR_CA_01,3,No - Not PIPEDA compliant
+AR_CA_01,4,Not Applicable
+AR_CA_02,1,Yes - Full PIPEDA compliance
+AR_CA_02,2,Partial - Working toward PIPEDA compliance
+AR_CA_02,3,No - Not PIPEDA compliant
+AR_CA_02,4,Not Applicable
+AR_CA_03,1,Yes - Full PIPEDA compliance
+AR_CA_03,2,Partial - Working toward PIPEDA compliance
+AR_CA_03,3,No - Not PIPEDA compliant
+AR_CA_03,4,Not Applicable
+AR_CA_04,1,Yes - Full PIPEDA compliance
+AR_CA_04,2,Partial - Working toward PIPEDA compliance
+AR_CA_04,3,No - Not PIPEDA compliant
+AR_CA_04,4,Not Applicable
+AR_CA_05,1,Yes - AIDA-ready governance in place
+AR_CA_05,2,Partial - Preparing for AIDA requirements
+AR_CA_05,3,No - No AIDA readiness
+AR_CA_05,4,Not Applicable
+AR_CA_06,1,Yes - Full PIPEDA compliance
+AR_CA_06,2,Partial - Working toward PIPEDA compliance
+AR_CA_06,3,No - Not PIPEDA compliant
+AR_CA_06,4,Not Applicable
+AR_CA_07,1,Yes - Full PIPEDA compliance
+AR_CA_07,2,Partial - Working toward PIPEDA compliance
+AR_CA_07,3,No - Not PIPEDA compliant
+AR_CA_07,4,Not Applicable
+AR_CA_08,1,Yes - Full PIPEDA compliance
+AR_CA_08,2,Partial - Working toward PIPEDA compliance
+AR_CA_08,3,No - Not PIPEDA compliant
+AR_CA_08,4,Not Applicable
+AR_CA_09,1,Yes - Full PIPEDA compliance
+AR_CA_09,2,Partial - Working toward PIPEDA compliance
+AR_CA_09,3,No - Not PIPEDA compliant
+AR_CA_09,4,Not Applicable
+AR_CA_10,1,Yes - Directive requirements met
+AR_CA_10,2,Partial - Some directive compliance
+AR_CA_10,3,No - Not directive compliant
+AR_CA_10,4,Not Applicable
+AR_CA_11,1,Yes - Full PIPEDA compliance
+AR_CA_11,2,Partial - Working toward PIPEDA compliance
+AR_CA_11,3,No - Not PIPEDA compliant
+AR_CA_11,4,Not Applicable
+AR_CA_12,1,Yes - AIDA-ready governance in place
+AR_CA_12,2,Partial - Preparing for AIDA requirements
+AR_CA_12,3,No - No AIDA readiness
+AR_CA_12,4,Not Applicable
+AR_CA_13,1,Yes - Full PIPEDA compliance
+AR_CA_13,2,Partial - Working toward PIPEDA compliance
+AR_CA_13,3,No - Not PIPEDA compliant
+AR_CA_13,4,Not Applicable
+AR_CA_14,1,Yes - Full PIPEDA compliance
+AR_CA_14,2,Partial - Working toward PIPEDA compliance
+AR_CA_14,3,No - Not PIPEDA compliant
+AR_CA_14,4,Not Applicable
+AR_CA_15,1,Yes - Full PIPEDA compliance
+AR_CA_15,2,Partial - Working toward PIPEDA compliance
+AR_CA_15,3,No - Not PIPEDA compliant
+AR_CA_15,4,Not Applicable
+AR_CA_16,1,Yes - Requirements fully met
+AR_CA_16,2,Partial - Partially implemented
+AR_CA_16,3,No - Not implemented
+AR_CA_16,4,Not Applicable
+AR_CA_17,1,Yes - Requirements fully met
+AR_CA_17,2,Partial - Partially implemented
+AR_CA_17,3,No - Not implemented
+AR_CA_17,4,Not Applicable
+AR_CA_18,1,Yes - Full PIPEDA compliance
+AR_CA_18,2,Partial - Working toward PIPEDA compliance
+AR_CA_18,3,No - Not PIPEDA compliant
+AR_CA_18,4,Not Applicable
+AR_CA_19,1,Yes - Requirements fully met
+AR_CA_19,2,Partial - Partially implemented
+AR_CA_19,3,No - Not implemented
+AR_CA_19,4,Not Applicable
+AR_CA_20,1,Yes - Requirements fully met
+AR_CA_20,2,Partial - Partially implemented
+AR_CA_20,3,No - Not implemented
+AR_CA_20,4,Not Applicable
+AR_CA_ST_01,1,Yes - CPRA/CCPA requirements met
+AR_CA_ST_01,2,Partial - Working toward CPRA compliance
+AR_CA_ST_01,3,No - Not CPRA compliant
+AR_CA_ST_01,4,Not Applicable
+AR_CA_ST_02,1,Yes - CPRA/CCPA requirements met
+AR_CA_ST_02,2,Partial - Working toward CPRA compliance
+AR_CA_ST_02,3,No - Not CPRA compliant
+AR_CA_ST_02,4,Not Applicable
+AR_CA_ST_03,1,Yes - CPRA/CCPA requirements met
+AR_CA_ST_03,2,Partial - Working toward CPRA compliance
+AR_CA_ST_03,3,No - Not CPRA compliant
+AR_CA_ST_03,4,Not Applicable
+AR_CA_ST_04,1,Yes - CPRA/CCPA requirements met
+AR_CA_ST_04,2,Partial - Working toward CPRA compliance
+AR_CA_ST_04,3,No - Not CPRA compliant
+AR_CA_ST_04,4,Not Applicable
+AR_CA_ST_05,1,Yes - CPRA/CCPA requirements met
+AR_CA_ST_05,2,Partial - Working toward CPRA compliance
+AR_CA_ST_05,3,No - Not CPRA compliant
+AR_CA_ST_05,4,Not Applicable
+AR_CA_ST_06,1,Yes - CPRA/CCPA requirements met
+AR_CA_ST_06,2,Partial - Working toward CPRA compliance
+AR_CA_ST_06,3,No - Not CPRA compliant
+AR_CA_ST_06,4,Not Applicable
+AR_CA_ST_07,1,Yes - CPRA/CCPA requirements met
+AR_CA_ST_07,2,Partial - Working toward CPRA compliance
+AR_CA_ST_07,3,No - Not CPRA compliant
+AR_CA_ST_07,4,Not Applicable
+AR_CA_ST_08,1,Yes - CPRA/CCPA requirements met
+AR_CA_ST_08,2,Partial - Working toward CPRA compliance
+AR_CA_ST_08,3,No - Not CPRA compliant
+AR_CA_ST_08,4,Not Applicable
+AR_CA_ST_09,1,Yes - CPRA/CCPA requirements met
+AR_CA_ST_09,2,Partial - Working toward CPRA compliance
+AR_CA_ST_09,3,No - Not CPRA compliant
+AR_CA_ST_09,4,Not Applicable
+AR_CA_ST_10,1,Yes - CPRA/CCPA requirements met
+AR_CA_ST_10,2,Partial - Working toward CPRA compliance
+AR_CA_ST_10,3,No - Not CPRA compliant
+AR_CA_ST_10,4,Not Applicable
+AR_CO_01,1,Yes - Impact assessments completed for high-risk consequential AI
+AR_CO_01,2,Partial - Some risk evaluation but not comprehensive assessments
+AR_CO_01,3,No - No impact assessments for consequential AI systems
+AR_CO_01,4,Not Applicable
+AR_CO_02,1,Yes - Consumers notified of high-risk AI use with correction rights
+AR_CO_02,2,Partial - Notifications provided but missing required elements
+AR_CO_02,3,No - No consumer notices about consequential AI decisions
+AR_CO_02,4,Not Applicable
+AR_CO_03,1,Yes - Bias testing shows no algorithmic discrimination in consequential AI
+AR_CO_03,2,Partial - Some discrimination testing but gaps in protected class coverage
+AR_CO_03,3,No - No algorithmic discrimination testing for AI decisions
+AR_CO_03,4,Not Applicable
+AR_CO_04,1,Yes - Consumer privacy rights mechanisms implemented without degradation
+AR_CO_04,2,Partial - Rights honored but process creates friction
+AR_CO_04,3,No - No consumer data rights procedures for AI
+AR_CO_04,4,Not Applicable
+AR_CO_05,1,Yes - Comprehensive documentation provided to deployers for assessments
+AR_CO_05,2,Partial - Some documentation but gaps in training data details
+AR_CO_05,3,No - Insufficient developer documentation for deployer assessments
+AR_CO_05,4,Not Applicable
+AR_CO_06,1,Yes - Impact assessment records maintained and available for review
+AR_CO_06,2,Partial - Some assessment documentation but incomplete records
+AR_CO_06,3,No - No documented impact assessments for AI systems
+AR_CO_06,4,Not Applicable
+AR_CO_07,1,Yes - Appeal mechanisms with meaningful human review established
+AR_CO_07,2,Partial - Limited review available but human oversight inadequate
+AR_CO_07,3,No - No appeal rights for AI consequential decisions
+AR_CO_07,4,Not Applicable
+AR_CO_08,1,Yes - Data protection assessments completed for high-risk AI processing
+AR_CO_08,2,Partial - Some privacy evaluation but not comprehensive assessments
+AR_CO_08,3,No - No data protection assessments for AI systems
+AR_CO_08,4,Not Applicable
+AR_CO_09,1,Yes - Profiling opt-out mechanisms provided without service degradation
+AR_CO_09,2,Partial - Opt-out available but creates user experience friction
+AR_CO_09,3,No - No opt-out rights for AI profiling
+AR_CO_09,4,Not Applicable
+AR_CO_10,1,1-2 (Low/Limited)
+AR_CO_10,2,3 (Moderate)
+AR_CO_10,3,4-5 (High/Strong)
+AR_CO_10,4,Not Applicable
+AR_EU_01,1,Yes - AI systems classified per Annex III with documented rationale
+AR_EU_01,2,Partial - Classification attempted but gaps in risk assessment
+AR_EU_01,3,No - No EU AI Act risk classification performed
+AR_EU_01,4,Not Applicable
+AR_EU_02,1,Yes - Conformity assessments completed with CE marking obtained
+AR_EU_02,2,Partial - Assessment process initiated but not completed
+AR_EU_02,3,No - No conformity assessment for high-risk AI
+AR_EU_02,4,Not Applicable
+AR_EU_03,1,Yes - Fundamental rights impact assessments completed for high-risk AI
+AR_EU_03,2,Partial - Some rights evaluation but not comprehensive assessment
+AR_EU_03,3,No - No fundamental rights impact assessments
+AR_EU_03,4,Not Applicable
+AR_EU_04,1,1-2 (Low/Limited)
+AR_EU_04,2,3 (Moderate)
+AR_EU_04,3,4-5 (High/Strong)
+AR_EU_04,4,Not Applicable
+AR_EU_05,1,Yes - Human oversight mechanisms designed per Article 14 specifications
+AR_EU_05,2,Partial - Limited oversight but not full HITL/HOTL/HIC capability
+AR_EU_05,3,No - No human oversight measures for high-risk AI
+AR_EU_05,4,Not Applicable
+AR_EU_06,1,Yes - Training data meets Article 10 quality and governance standards
+AR_EU_06,2,Partial - Some data quality measures but gaps in bias examination
+AR_EU_06,3,No - No data governance compliance for training datasets
+AR_EU_06,4,Not Applicable
+AR_EU_07,1,"Yes - Accuracy, robustness, and security validated per Articles 13-15"
+AR_EU_07,2,Partial - Some validation but gaps in adversarial testing
+AR_EU_07,3,No - No accuracy or security validation for high-risk AI
+AR_EU_07,4,Not Applicable
+AR_EU_08,1,Yes - Comprehensive logging enables traceability per Article 12
+AR_EU_08,2,Partial - Some logging but gaps in decision audit trails
+AR_EU_08,3,No - Insufficient logging for regulatory traceability
+AR_EU_08,4,Not Applicable
+AR_EU_09,1,Yes - Article 22 rights provided including explanation and contest
+AR_EU_09,2,Partial - Some information but missing intervention rights
+AR_EU_09,3,No - No GDPR Article 22 compliance for automated decisions
+AR_EU_09,4,Not Applicable
+AR_EU_10,1,Yes - Privacy-by-design and minimization integrated in AI development
+AR_EU_10,2,Partial - Some privacy measures but excessive data collection
+AR_EU_10,3,No - No privacy-by-design for AI systems
+AR_EU_10,4,Not Applicable
+AR_EU_11,1,Yes - GPAI systemic risk obligations met including evaluations and incident reporting
+AR_EU_11,2,Partial - Some GPAI measures but gaps in adversarial testing
+AR_EU_11,3,No - No systemic risk GPAI compliance
+AR_EU_11,4,Not Applicable
+AR_EU_12,1,Low (0-33%)
+AR_EU_12,2,Moderate (34-66%)
+AR_EU_12,3,High (67-100%)
+AR_EU_12,4,Not Applicable
+AR_EU_13,1,Yes - Serious incident reporting procedures established per Article 73
+AR_EU_13,2,Partial - Incident response exists but reporting timeframes unclear
+AR_EU_13,3,No - No serious incident reporting for AI systems
+AR_EU_13,4,Not Applicable
+AR_EU_14,1,Yes - AI-generated content labeled with transparent disclosure
+AR_EU_14,2,Partial - Some disclosure but inconsistent labeling
+AR_EU_14,3,No - No disclosure of AI-generated content
+AR_EU_14,4,Not Applicable
+AR_EU_15,1,Yes - DPIAs completed for high-risk AI data processing
+AR_EU_15,2,Partial - Some privacy assessment but not comprehensive DPIAs
+AR_EU_15,3,No - No DPIAs for AI profiling or automated decisions
+AR_EU_15,4,Not Applicable
+AR_EU_16,1,1-2 (Low/Limited)
+AR_EU_16,2,3 (Moderate)
+AR_EU_16,3,4-5 (High/Strong)
+AR_EU_16,4,Not Applicable
+AR_EU_17,1,Yes - Deployer fundamental rights assessments completed before use
+AR_EU_17,2,Partial - Some rights evaluation but deployment preceded assessment
+AR_EU_17,3,No - No deployer fundamental rights impact assessments
+AR_EU_17,4,Not Applicable
+AR_EU_18,1,Yes - Lawful bases for AI training data identified per GDPR Article 6
+AR_EU_18,2,Partial - Some legal basis but gaps in documentation
+AR_EU_18,3,No - No lawful basis determination for AI training
+AR_EU_18,4,Not Applicable
+AR_EU_19,1,Low (0-33%)
+AR_EU_19,2,Moderate (34-66%)
+AR_EU_19,3,High (67-100%)
+AR_EU_19,4,Not Applicable
+AR_EU_20,1,Yes - Comprehensive regulatory compliance records maintained
+AR_EU_20,2,Partial - Some documentation but gaps in conformity evidence
+AR_EU_20,3,No - Insufficient EU AI Act compliance documentation
+AR_EU_20,4,Not Applicable
+AR_NY_01,1,Yes - Annual independent bias audits completed with results posted
+AR_NY_01,2,Partial - Audits initiated but documentation incomplete
+AR_NY_01,3,No - No bias audits conducted for NYC employment AI
+AR_NY_01,4,Not Applicable
+AR_NY_02,1,Yes - Candidate and employee notices provided with required details
+AR_NY_02,2,Partial - Notices provided but missing some required information
+AR_NY_02,3,No - No AEDT usage notifications provided
+AR_NY_02,4,Not Applicable
+AR_NY_03,1,Yes - SHIELD Act data security program implemented for AI systems
+AR_NY_03,2,Partial - Some safeguards in place but gaps in AI security
+AR_NY_03,3,No - No SHIELD Act security program
+AR_NY_03,4,Not Applicable
+AR_NY_04,1,Yes - Breach notification procedures established for AI incidents
+AR_NY_04,2,Partial - Incident response plan exists but AI-specific gaps
+AR_NY_04,3,No - No breach notification procedures for AI systems
+AR_NY_04,4,Not Applicable
+AR_NY_05,1,Yes - Alternative processes and human review available upon request
+AR_NY_05,2,Partial - Limited alternative processes available
+AR_NY_05,3,No - No alternative to automated employment decisions
+AR_NY_05,4,Not Applicable
+AR_NY_06,1,Yes - Audit summaries publicly posted with race/sex distribution data
+AR_NY_06,2,Partial - Summaries posted but missing required details
+AR_NY_06,3,No - No public posting of AEDT bias audits
+AR_NY_06,4,Not Applicable
+AR_NY_07,1,Yes - Secure AI data disposal procedures implemented
+AR_NY_07,2,Partial - Some disposal procedures but inconsistent application
+AR_NY_07,3,No - No secure disposal of AI training data
+AR_NY_07,4,Not Applicable
+AR_NY_08,1,Yes - Vendor contracts include SHIELD Act security requirements
+AR_NY_08,2,Partial - Some vendor contracts address security but gaps exist
+AR_NY_08,3,No - No contractual SHIELD Act obligations for AI vendors
+AR_NY_08,4,Not Applicable
+AR_NY_09,1,Yes - Bias audits conducted within required timeframe analyzing alternatives
+AR_NY_09,2,Partial - Audits performed but timing or scope inadequate
+AR_NY_09,3,No - No timely bias audits of employment AI
+AR_NY_09,4,Not Applicable
+AR_NY_10,1,Yes - Comprehensive Local Law 144 compliance documentation maintained
+AR_NY_10,2,Partial - Some documentation exists but gaps in audit records
+AR_NY_10,3,No - Insufficient documentation of AEDT compliance
+AR_NY_10,4,Not Applicable
+AR_ON_01,1,Yes - Requirements fully met with documentation
+AR_ON_01,2,Partial - Partially implemented
+AR_ON_01,3,No - Not implemented
+AR_ON_01,4,Not Applicable
+AR_ON_02,1,Yes - Requirements fully met with documentation
+AR_ON_02,2,Partial - Partially implemented
+AR_ON_02,3,No - Not implemented
+AR_ON_02,4,Not Applicable
+AR_ON_03,1,Yes - Requirements fully met with documentation
+AR_ON_03,2,Partial - Partially implemented
+AR_ON_03,3,No - Not implemented
+AR_ON_03,4,Not Applicable
+AR_ON_04,1,Yes - Requirements fully met with documentation
+AR_ON_04,2,Partial - Partially implemented
+AR_ON_04,3,No - Not implemented
+AR_ON_04,4,Not Applicable
+AR_ON_05,1,Yes - Requirements fully met with documentation
+AR_ON_05,2,Partial - Partially implemented
+AR_ON_05,3,No - Not implemented
+AR_ON_05,4,Not Applicable
+AR_ON_06,1,Yes - Requirements fully met with documentation
+AR_ON_06,2,Partial - Partially implemented
+AR_ON_06,3,No - Not implemented
+AR_ON_06,4,Not Applicable
+AR_ON_07,1,Yes - Requirements fully met with documentation
+AR_ON_07,2,Partial - Partially implemented
+AR_ON_07,3,No - Not implemented
+AR_ON_07,4,Not Applicable
+AR_ON_08,1,Yes - Requirements fully met with documentation
+AR_ON_08,2,Partial - Partially implemented
+AR_ON_08,3,No - Not implemented
+AR_ON_08,4,Not Applicable
+AR_ON_09,1,Yes - Requirements fully met with documentation
+AR_ON_09,2,Partial - Partially implemented
+AR_ON_09,3,No - Not implemented
+AR_ON_09,4,Not Applicable
+AR_ON_10,1,Yes - Requirements fully met with documentation
+AR_ON_10,2,Partial - Partially implemented
+AR_ON_10,3,No - Not implemented
+AR_ON_10,4,Not Applicable
+AR_QC_01,1,Yes - Requirements fully met with documentation
+AR_QC_01,2,Partial - Partially implemented
+AR_QC_01,3,No - Not implemented
+AR_QC_01,4,Not Applicable
+AR_QC_02,1,Yes - Requirements fully met with documentation
+AR_QC_02,2,Partial - Partially implemented
+AR_QC_02,3,No - Not implemented
+AR_QC_02,4,Not Applicable
+AR_QC_03,1,Yes - Requirements fully met with documentation
+AR_QC_03,2,Partial - Partially implemented
+AR_QC_03,3,No - Not implemented
+AR_QC_03,4,Not Applicable
+AR_QC_04,1,Yes - Requirements fully met with documentation
+AR_QC_04,2,Partial - Partially implemented
+AR_QC_04,3,No - Not implemented
+AR_QC_04,4,Not Applicable
+AR_QC_05,1,Yes - Requirements fully met with documentation
+AR_QC_05,2,Partial - Partially implemented
+AR_QC_05,3,No - Not implemented
+AR_QC_05,4,Not Applicable
+AR_QC_06,1,Yes - Requirements fully met with documentation
+AR_QC_06,2,Partial - Partially implemented
+AR_QC_06,3,No - Not implemented
+AR_QC_06,4,Not Applicable
+AR_QC_07,1,Yes - Requirements fully met with documentation
+AR_QC_07,2,Partial - Partially implemented
+AR_QC_07,3,No - Not implemented
+AR_QC_07,4,Not Applicable
+AR_QC_08,1,Yes - Requirements fully met with documentation
+AR_QC_08,2,Partial - Partially implemented
+AR_QC_08,3,No - Not implemented
+AR_QC_08,4,Not Applicable
+AR_QC_09,1,Yes - Requirements fully met with documentation
+AR_QC_09,2,Partial - Partially implemented
+AR_QC_09,3,No - Not implemented
+AR_QC_09,4,Not Applicable
+AR_QC_10,1,Yes - Requirements fully met with documentation
+AR_QC_10,2,Partial - Partially implemented
+AR_QC_10,3,No - Not implemented
+AR_QC_10,4,Not Applicable
+AR_TX_01_v2,1,Yes - Privacy notices provided explaining AI processing purposes and data categories
+AR_TX_01_v2,2,Partial - Notices provided but lack AI-specific details
+AR_TX_01_v2,3,No - No privacy notices for AI data collection
+AR_TX_01_v2,4,Not Applicable
+AR_TX_02_v2,1,Yes - Consumer rights procedures implemented with identity verification
+AR_TX_02_v2,2,Partial - Some rights honored but processes incomplete
+AR_TX_02_v2,3,No - No consumer data rights procedures for AI
+AR_TX_02_v2,4,Not Applicable
+AR_TX_03_v2,1,"Yes - Opt-out mechanisms provided for advertising, sales, and profiling"
+AR_TX_03_v2,2,Partial - Limited opt-out options available
+AR_TX_03_v2,3,No - No opt-out rights for AI profiling
+AR_TX_03_v2,4,Not Applicable
+AR_TX_04_v2,1,Yes - Data minimization controls limit AI to necessary processing
+AR_TX_04_v2,2,Partial - Some minimization efforts but excessive data retention
+AR_TX_04_v2,3,No - No data minimization for AI systems
+AR_TX_04_v2,4,Not Applicable
+AR_TX_05,1,Yes - Affirmative consent obtained for sensitive data in AI
+AR_TX_05,2,Partial - Consent obtained but may not meet express consent standard
+AR_TX_05,3,No - No special consent for sensitive AI data
+AR_TX_05,4,Not Applicable
+AR_TX_06,1,Yes - Comprehensive security controls protect AI personal data
+AR_TX_06,2,Partial - Basic security measures but gaps in AI protection
+AR_TX_06,3,No - Inadequate security for AI personal information
+AR_TX_06,4,Not Applicable
+AR_TX_07,1,Yes - Vendor contracts include Texas-required data processing terms
+AR_TX_07,2,Partial - Some vendor protections but missing required clauses
+AR_TX_07,3,No - No contractual Texas compliance for AI processors
+AR_TX_07,4,Not Applicable
+AR_TX_08,1,Yes - Data protection assessments completed for high-risk AI
+AR_TX_08,2,Partial - Some risk evaluation but not comprehensive assessments
+AR_TX_08,3,No - No data protection assessments for AI systems
+AR_TX_08,4,Not Applicable
+AR_TX_09,1,Yes - Breach notification procedures established for AI incidents
+AR_TX_09,2,Partial - Incident plans exist but notification timing unclear
+AR_TX_09,3,No - No AI-specific breach notification procedures
+AR_TX_09,4,Not Applicable
+AR_TX_10,1,Yes - Comprehensive Texas compliance documentation maintained
+AR_TX_10,2,Partial - Some records exist but gaps in assessment documentation
+AR_TX_10,3,No - Insufficient documentation of Texas AI compliance
+AR_TX_10,4,Not Applicable
+AR_US_01,1,Yes - FTC requirements met with documentation
+AR_US_01,2,Partial - Some FTC compliance but gaps exist
+AR_US_01,3,No - Not FTC compliant
+AR_US_01,4,Not Applicable
+AR_US_02,1,Yes - No disparate impact validated per EEOC standards
+AR_US_02,2,Partial - Some discrimination testing incomplete
+AR_US_02,3,No - No EEOC compliance validation
+AR_US_02,4,Not Applicable
+AR_US_03,1,Yes - Federal requirements met with evidence
+AR_US_03,2,Partial - Working toward federal compliance
+AR_US_03,3,No - Not federally compliant
+AR_US_03,4,Not Applicable
+AR_US_04,1,Yes - Federal requirements met with evidence
+AR_US_04,2,Partial - Working toward federal compliance
+AR_US_04,3,No - Not federally compliant
+AR_US_04,4,Not Applicable
+AR_US_05,1,Yes - Federal requirements met with evidence
+AR_US_05,2,Partial - Working toward federal compliance
+AR_US_05,3,No - Not federally compliant
+AR_US_05,4,Not Applicable
+AR_US_06,1,Yes - Federal requirements met with evidence
+AR_US_06,2,Partial - Working toward federal compliance
+AR_US_06,3,No - Not federally compliant
+AR_US_06,4,Not Applicable
+AR_US_07,1,Yes - Federal requirements met with evidence
+AR_US_07,2,Partial - Working toward federal compliance
+AR_US_07,3,No - Not federally compliant
+AR_US_07,4,Not Applicable
+AR_US_08,1,Yes - Federal requirements met with evidence
+AR_US_08,2,Partial - Working toward federal compliance
+AR_US_08,3,No - Not federally compliant
+AR_US_08,4,Not Applicable
+AR_US_09,1,Yes - FTC requirements met with documentation
+AR_US_09,2,Partial - Some FTC compliance but gaps exist
+AR_US_09,3,No - Not FTC compliant
+AR_US_09,4,Not Applicable
+AR_US_10,1,Yes - Federal requirements met with evidence
+AR_US_10,2,Partial - Working toward federal compliance
+AR_US_10,3,No - Not federally compliant
+AR_US_10,4,Not Applicable
+AR_US_11,1,Yes - Federal requirements met with evidence
+AR_US_11,2,Partial - Working toward federal compliance
+AR_US_11,3,No - Not federally compliant
+AR_US_11,4,Not Applicable
+AR_US_12,1,Yes - Federal requirements met with evidence
+AR_US_12,2,Partial - Working toward federal compliance
+AR_US_12,3,No - Not federally compliant
+AR_US_12,4,Not Applicable
+AR_US_13,1,Yes - Federal requirements met with evidence
+AR_US_13,2,Partial - Working toward federal compliance
+AR_US_13,3,No - Not federally compliant
+AR_US_13,4,Not Applicable
+AR_US_14,1,Yes - Federal requirements met with evidence
+AR_US_14,2,Partial - Working toward federal compliance
+AR_US_14,3,No - Not federally compliant
+AR_US_14,4,Not Applicable
+AR_US_15,1,Yes - Federal requirements met with evidence
+AR_US_15,2,Partial - Working toward federal compliance
+AR_US_15,3,No - Not federally compliant
+AR_US_15,4,Not Applicable
+AR_US_16,1,Yes - Federal requirements met with evidence
+AR_US_16,2,Partial - Working toward federal compliance
+AR_US_16,3,No - Not federally compliant
+AR_US_16,4,Not Applicable
+AR_US_17,1,Yes - Federal requirements met with evidence
+AR_US_17,2,Partial - Working toward federal compliance
+AR_US_17,3,No - Not federally compliant
+AR_US_17,4,Not Applicable
+AR_US_18,1,Yes - FTC requirements met with documentation
+AR_US_18,2,Partial - Some FTC compliance but gaps exist
+AR_US_18,3,No - Not FTC compliant
+AR_US_18,4,Not Applicable
+AR_US_19,1,Yes - Federal requirements met with evidence
+AR_US_19,2,Partial - Working toward federal compliance
+AR_US_19,3,No - Not federally compliant
+AR_US_19,4,Not Applicable
+AR_US_20,1,Yes - Federal requirements met with evidence
+AR_US_20,2,Partial - Working toward federal compliance
+AR_US_20,3,No - Not federally compliant
+AR_US_20,4,Not Applicable
+AR_ISO_01,1,1-2 (Low/Limited)
+AR_ISO_01,2,3 (Moderate)
+AR_ISO_01,3,4-5 (High/Strong)
+AR_ISO_01,4,Not Applicable
+AR_ISO_02,1,Yes - Executive leadership actively engaged in AIMS governance
+AR_ISO_02,2,Partial - Some management involvement but limited accountability
+AR_ISO_02,3,No - No top management commitment to AI system
+AR_ISO_02,4,Not Applicable
+AR_ISO_03,1,Yes - Systematic AI risk assessment covering technical and societal impacts
+AR_ISO_03,2,Partial - Some risk assessment but gaps in opportunity identification
+AR_ISO_03,3,No - No systematic AI risk and opportunity assessment
+AR_ISO_03,4,Not Applicable
+AR_ISO_04,1,Yes - AI objectives established with measurable criteria and timelines
+AR_ISO_04,2,Partial - Objectives exist but lack measurability
+AR_ISO_04,3,No - No defined AI management objectives
+AR_ISO_04,4,Not Applicable
+AR_ISO_05,1,Yes - AI personnel competence verified with training records maintained
+AR_ISO_05,2,Partial - Some competence evaluation but incomplete documentation
+AR_ISO_05,3,No - No competence verification for AI personnel
+AR_ISO_05,4,Not Applicable
+AR_ISO_06,1,1-2 (Low/Limited)
+AR_ISO_06,2,3 (Moderate)
+AR_ISO_06,3,4-5 (High/Strong)
+AR_ISO_06,4,Not Applicable
+AR_ISO_07,1,Low (0-33%)
+AR_ISO_07,2,Moderate (34-66%)
+AR_ISO_07,3,High (67-100%)
+AR_ISO_07,4,Not Applicable
+AR_ISO_08,1,Yes - Impact assessments completed evaluating stakeholder and societal effects
+AR_ISO_08,2,Partial - Some assessment but not comprehensive stakeholder coverage
+AR_ISO_08,3,No - No AI impact assessments conducted
+AR_ISO_08,4,Not Applicable
+AR_ISO_09,1,"Yes - Data quality processes ensure relevance, accuracy, and bias mitigation"
+AR_ISO_09,2,Partial - Some data quality controls but gaps in bias examination
+AR_ISO_09,3,No - No data quality management for AI systems
+AR_ISO_09,4,Not Applicable
+AR_ISO_10,1,Yes - AIMS performance monitored with defined KPIs and metrics
+AR_ISO_10,2,Partial - Some monitoring but lacks systematic measurement
+AR_ISO_10,3,No - No AIMS performance monitoring established
+AR_ISO_10,4,Not Applicable
+AR_ISO_11,1,Yes - Internal AIMS audits conducted with documented findings
+AR_ISO_11,2,Partial - Some internal review but not systematic audits
+AR_ISO_11,3,No - No internal AIMS audits performed
+AR_ISO_11,4,Not Applicable
+AR_ISO_12,1,Yes - Management reviews conducted with documented decisions
+AR_ISO_12,2,Partial - Periodic reviews but lacking systematic assessment
+AR_ISO_12,3,No - No management review of AIMS performed
+AR_ISO_12,4,Not Applicable
+AR_ISO_13,1,Yes - Nonconformities addressed with root cause corrective actions
+AR_ISO_13,2,Partial - Incidents documented but corrective actions incomplete
+AR_ISO_13,3,No - No systematic nonconformity management for AI
+AR_ISO_13,4,Not Applicable
+AR_ISO_14,1,Low (0-33%)
+AR_ISO_14,2,Moderate (34-66%)
+AR_ISO_14,3,High (67-100%)
+AR_ISO_14,4,Not Applicable
+AR_ISO_15,1,Yes - Change control processes manage AI system alterations
+AR_ISO_15,2,Partial - Some change management but lacks systematic control
+AR_ISO_15,3,No - No change control for AI system modifications
+AR_ISO_15,4,Not Applicable
+AR_ISO_16,1,Yes - Stakeholder needs identified and addressed in AIMS scope
+AR_ISO_16,2,Partial - Some stakeholder consideration but incomplete analysis
+AR_ISO_16,3,No - No stakeholder needs assessment for AIMS
+AR_ISO_16,4,Not Applicable
+AR_ISO_17,1,Yes - Vendor controls ensure AI policy and ISO compliance
+AR_ISO_17,2,Partial - Some vendor oversight but gaps in compliance verification
+AR_ISO_17,3,No - No vendor management for AI compliance
+AR_ISO_17,4,Not Applicable
+AR_ISO_18,1,Yes - Transparency measures enable stakeholder understanding of AI
+AR_ISO_18,2,Partial - Some documentation but insufficient explainability
+AR_ISO_18,3,No - No transparency or explainability for AI systems
+AR_ISO_18,4,Not Applicable
+AR_ISO_19,1,Yes - Validation and verification completed before AI deployment
+AR_ISO_19,2,Partial - Some testing but incomplete validation coverage
+AR_ISO_19,3,No - No validation or verification of AI systems
+AR_ISO_19,4,Not Applicable
+AR_ISO_20,1,Yes - Comprehensive ISO conformity records maintained for audit
+AR_ISO_20,2,Partial - Some records exist but gaps in documentation
+AR_ISO_20,3,No - Insufficient records for ISO certification demonstration
+AR_ISO_20,4,Not Applicable
+AR_ROI_01,1,Yes - Documented baseline costs with supporting financial data ($X/month)
+AR_ROI_01,2,Partial - Rough estimates without financial validation
+AR_ROI_01,3,No - No baseline cost documentation
+AR_ROI_01,4,Not Applicable
+AR_ROI_02,1,Yes - Problem costs 5x+ the total AI investment annually
+AR_ROI_02,2,Partial - Problem costs 2-3x AI investment
+AR_ROI_02,3,No - Problem costs less than 2x AI investment
+AR_ROI_02,4,Not Applicable
+AR_ROI_03,1,Yes - Specific metrics with baselines and targets documented
+AR_ROI_03,2,Partial - Metrics identified but baselines not measured
+AR_ROI_03,3,No - Only qualitative goals defined
+AR_ROI_03,4,Not Applicable
+AR_ROI_04,1,"Yes - 1000+ rows accessible, validated quality"
+AR_ROI_04,2,Partial - Data exists but access/quality issues
+AR_ROI_04,3,No - Data planned but not accessible
+AR_ROI_04,4,Not Applicable
+AR_ROI_05,1,Yes - Business case validated at 70% with documented fallback
+AR_ROI_05,2,Partial - Expectations discussed but not validated financially
+AR_ROI_05,3,No - Assuming 90%+ accuracy required
+AR_ROI_05,4,Not Applicable
+AR_ROI_06,1,Yes - Complete 3-year budget with all cost categories documented
+AR_ROI_06,2,Partial - Year 1 budget only or missing cost categories
+AR_ROI_06,3,No - Only vendor/licensing costs estimated
+AR_ROI_06,4,Not Applicable
+AR_ROI_07,1,Yes - Impact analysis completed with change management plan
+AR_ROI_07,2,Partial - Roles identified but no mitigation plan
+AR_ROI_07,3,No - Job impact not assessed
+AR_ROI_07,4,Not Applicable
+AR_ROI_08,1,Yes - Executive sponsor owns P&L and committed to reviews
+AR_ROI_08,2,Partial - Sponsor identified but no P&L ownership
+AR_ROI_08,3,No - No executive sponsor assigned
+AR_ROI_08,4,Not Applicable
+AR_ROI_09,1,Yes - Stage-gates with kill criteria and thresholds documented
+AR_ROI_09,2,Partial - Informal checkpoints but no formal criteria
+AR_ROI_09,3,No - No project cancellation criteria defined
+AR_ROI_09,4,Not Applicable
+AR_ROI_10,1,High (75-100% labeled to quality standards)
+AR_ROI_10,2,Moderate (40-74% labeled)
+AR_ROI_10,3,Low (0-39% labeled)
+AR_ROI_10,4,Not Applicable - Unsupervised learning
+AR_ROI_11,1,Yes - Per-inference cost calculated with circuit breakers configured
+AR_ROI_11,2,Partial - Costs estimated but no budget controls
+AR_ROI_11,3,No - Production costs not estimated
+AR_ROI_11,4,Not Applicable
+AR_ROI_12,1,Yes - Alternatives evaluated with documented cost comparison
+AR_ROI_12,2,Partial - Informal assessment but no documentation
+AR_ROI_12,3,No - AI selected without alternative evaluation
+AR_ROI_12,4,Not Applicable
+AR_ROI_13,1,Yes - Multi-year retraining budget allocated ($X annually)
+AR_ROI_13,2,Partial - Year 1 budget only or informal allocation
+AR_ROI_13,3,No - No retraining budget beyond initial build
+AR_ROI_13,4,Not Applicable
+AR_ROI_14,1,Yes - 9-18 month timeline with leadership alignment
+AR_ROI_14,2,Partial - 6-9 month expectation with contingency
+AR_ROI_14,3,No - Expecting ROI in under 6 months
+AR_ROI_14,4,Not Applicable
+AR_ROI_15,1,Yes - 3-year pricing locked with exit provisions and portability
+AR_ROI_15,2,Partial - Year 1 pricing confirmed only
+AR_ROI_15,3,No - No contract terms negotiated
+AR_ROI_15,4,Not Applicable
+AR_ROI_16,1,Yes - All integrations identified with costs/timelines per system
+AR_ROI_16,2,Partial - Integration points identified but costs not estimated
+AR_ROI_16,3,No - Integration complexity not assessed
+AR_ROI_16,4,Not Applicable
+AR_ROI_17,1,High (25-40% of budget for adoption)
+AR_ROI_17,2,Moderate (15-24% of budget)
+AR_ROI_17,3,Low (0-14% of budget)
+AR_ROI_17,4,Not Applicable
+AR_ROI_18,1,Yes - Quantified competitive threat with market impact data
+AR_ROI_18,2,Partial - Qualitative competitive pressure identified
+AR_ROI_18,3,No - Innovation-driven without competitive validation
+AR_ROI_18,4,Not Applicable
+AR_ROI_19,1,Yes - MVP scope frozen with exclusion list and change control
+AR_ROI_19,2,Partial - MVP defined but no formal scope control
+AR_ROI_19,3,No - Open-ended scope or multi-use case start
+AR_ROI_19,4,Not Applicable
+AR_ROI_20,1,Yes - Gap assessed with hiring plan and budget for talent
+AR_ROI_20,2,Partial - Skills identified but hiring feasibility unvalidated
+AR_ROI_20,3,No - Assuming existing team has capability
+AR_ROI_20,4,Not Applicable
+AR_ROI_21,1,Yes - Opportunity cost quantified and included in ROI analysis
+AR_ROI_21,2,Partial - Resource allocation documented but cost not assessed
+AR_ROI_21,3,No - Opportunity cost not considered
+AR_ROI_21,4,Not Applicable
+AR_ROI_22,1,Yes - Clear criteria with production scaling costs estimated
+AR_ROI_22,2,Partial - POC metrics defined but scaling costs unknown
+AR_ROI_22,3,No - POC without defined success criteria
+AR_ROI_22,4,Not Applicable
+AR_ROI_23,1,Yes - Automated ROI dashboards with monthly reporting and owner
+AR_ROI_23,2,Partial - Manual reporting planned but no automation
+AR_ROI_23,3,No - No post-deployment ROI tracking defined
+AR_ROI_23,4,Not Applicable
+AR_ROI_24,1,Yes - Legal clearance obtained for all data sources
+AR_ROI_24,2,Partial - Some data approved but gaps exist
+AR_ROI_24,3,No - Legal review not conducted
+AR_ROI_24,4,Not Applicable
+AR_ROI_25,1,Yes - 30-50% contingency with identified funding source
+AR_ROI_25,2,Partial - 10-20% contingency allocated
+AR_ROI_25,3,No - No contingency or under 10%
+AR_ROI_25,4,Not Applicable
+AR_PSYCH_01,1,Yes - Wellbeing metrics tracked with documented conflict resolution process
+AR_PSYCH_01,2,Partial - Wellbeing considered informally but not in optimization
+AR_PSYCH_01,3,No - AI optimizes solely for business metrics
+AR_PSYCH_01,4,Not Applicable
+AR_PSYCH_02,1,Yes - Vulnerable user detection with differential protections implemented
+AR_PSYCH_02,2,Partial - Age gates exist but no enhanced protections
+AR_PSYCH_02,3,No - No vulnerable population safeguards
+AR_PSYCH_02,4,Not Applicable
+AR_PSYCH_03,1,Yes - All experiments reviewed with documented manipulation criteria
+AR_PSYCH_03,2,Partial - High-risk experiments reviewed but no systematic process
+AR_PSYCH_03,3,No - No ethics review of A/B tests
+AR_PSYCH_03,4,Not Applicable
+AR_PSYCH_04,1,Yes - Wellbeing metrics monitored with intervention thresholds
+AR_PSYCH_04,2,Partial - User feedback collected but no systematic wellbeing tracking
+AR_PSYCH_04,3,No - No psychological impact monitoring
+AR_PSYCH_04,4,Not Applicable
+AR_PSYCH_05,1,Yes - Clear disclosure with opt-out and influence explanations
+AR_PSYCH_05,2,Partial - Generic personalization notice without specifics
+AR_PSYCH_05,3,No - No disclosure of AI influence mechanisms
+AR_PSYCH_05,4,Not Applicable
+AR_COGDEC_01,1,Yes - Baseline assessments completed with validated measurement methodology
+AR_COGDEC_01,2,Partial - Informal skill tracking but no formal baseline
+AR_COGDEC_01,3,No - No pre-deployment competency measurement
+AR_COGDEC_01,4,Not Applicable
+AR_COGDEC_02,1,Yes - Mandatory skill practice programs with enforcement and tracking
+AR_COGDEC_02,2,Partial - Voluntary training available but not enforced
+AR_COGDEC_02,3,No - No skill maintenance requirements
+AR_COGDEC_02,4,Not Applicable - No safety-critical roles
+AR_COGDEC_03,1,Yes - Regular cognitive assessments with longitudinal trend analysis
+AR_COGDEC_03,2,Partial - Periodic assessments but no trend tracking
+AR_COGDEC_03,3,No - No cognitive performance monitoring
+AR_COGDEC_03,4,Not Applicable
+AR_COGDEC_04,1,Yes - System designed with over-reliance prevention features
+AR_COGDEC_04,2,Partial - Some engagement features but full automation available
+AR_COGDEC_04,3,No - System maximizes automation without engagement safeguards
+AR_COGDEC_04,4,Not Applicable
+AR_COGDEC_05,1,Yes - Thresholds defined with funded remediation programs
+AR_COGDEC_05,2,Partial - Informal interventions but no systematic protocol
+AR_COGDEC_05,3,No - No intervention process for detected decline
+AR_COGDEC_05,4,Not Applicable
+AR_MOTIV_01,1,Yes - Baseline motivation measured with validated instruments
+AR_MOTIV_01,2,Partial - General satisfaction surveys but not motivation-specific
+AR_MOTIV_01,3,No - No pre-deployment motivation measurement
+AR_MOTIV_01,4,Not Applicable
+AR_MOTIV_02,1,Yes - Work redesigned to preserve meaningful tasks
+AR_MOTIV_02,2,Partial - Some consideration but systematic redesign incomplete
+AR_MOTIV_02,3,No - AI automates all automatable work regardless of meaning
+AR_MOTIV_02,4,Not Applicable
+AR_MOTIV_03,1,Yes - Employees retain decision authority with AI as advisor
+AR_MOTIV_03,2,Partial - Limited override ability or discouraged in practice
+AR_MOTIV_03,3,No - AI makes binding decisions without employee input
+AR_MOTIV_03,4,Not Applicable
+AR_MOTIV_04,1,Yes - Individual quality metrics tracked with decline triggers
+AR_MOTIV_04,2,Partial - Team-level quality tracked but not individual
+AR_MOTIV_04,3,No - Only AI output quality measured
+AR_MOTIV_04,4,Not Applicable
+AR_MOTIV_05,1,Yes - Initiative metrics tracked with trend analysis
+AR_MOTIV_05,2,Partial - Informal observation but no systematic tracking
+AR_MOTIV_05,3,No - No monitoring of employee initiative
+AR_MOTIV_05,4,Not Applicable
+AR_MOTIV_06,1,Yes - Roles redefined with clear value proposition and career paths
+AR_MOTIV_06,2,Partial - General communication but no systematic role redesign
+AR_MOTIV_06,3,No - No professional identity support post-AI deployment
+AR_MOTIV_06,4,Not Applicable
+AR_MOTIV_07,1,Yes - Creative contribution tracked with AI reliance metrics
+AR_MOTIV_07,2,Partial - Output tracked but not originality or AI dependence
+AR_MOTIV_07,3,No - No monitoring of creative effort changes
+AR_MOTIV_07,4,Not Applicable
+AR_MOTIV_08,1,Yes - Learning opportunities defined with challenging work available
+AR_MOTIV_08,2,Partial - Some development but limited challenging assignments
+AR_MOTIV_08,3,No - AI handles complex work leaving only routine tasks
+AR_MOTIV_08,4,Not Applicable
+AR_MOTIV_09,1,Yes - Exit data analyzed for AI-related motivation issues
+AR_MOTIV_09,2,Partial - General exit interviews but no AI-specific analysis
+AR_MOTIV_09,3,No - No systematic turnover analysis for AI impact
+AR_MOTIV_09,4,Not Applicable
+AR_MOTIV_10,1,Yes - Thresholds defined with funded intervention protocols
+AR_MOTIV_10,2,Partial - Informal responses but no systematic intervention
+AR_MOTIV_10,3,No - No intervention process for motivation decline
+AR_MOTIV_10,4,Not Applicable
+AR_DEPR_01,1,Yes - Clinical baseline with validated instruments and oversight
+AR_DEPR_01,2,Partial - General wellbeing surveys but not clinical screening
+AR_DEPR_01,3,No - No mental health baseline measurement
+AR_DEPR_01,4,Not Applicable
+AR_DEPR_02,1,Yes - Risk factors monitored with clinical referral protocols
+AR_DEPR_02,2,Partial - Informal observation but no systematic monitoring
+AR_DEPR_02,3,No - No depression risk factor tracking
+AR_DEPR_02,4,Not Applicable
+AR_DEPR_03,1,Yes - Professional mental health resources immediately accessible
+AR_DEPR_03,2,Partial - EAP exists but not AI-issue specific
+AR_DEPR_03,3,No - No professional mental health support available
+AR_DEPR_03,4,Not Applicable
+AR_DEPR_04,1,Yes - Algorithms evaluated and modified for mental health protection
+AR_DEPR_04,2,Partial - Some content moderation but no systematic evaluation
+AR_DEPR_04,3,No - No mental health impact assessment of algorithms
+AR_DEPR_04,4,Not Applicable
+AR_DEPR_05,1,Yes - Crisis protocols with immediate clinical intervention
+AR_DEPR_05,2,Partial - Flagging exists but no immediate clinical response
+AR_DEPR_05,3,No - No crisis intervention protocols
+AR_DEPR_05,4,Not Applicable - AI does not detect mental health data
+AR_DEPEND_01,1,Yes - Baseline self-efficacy measured with validated instruments
+AR_DEPEND_01,2,Partial - Informal confidence assessment but not systematic
+AR_DEPEND_01,3,No - No pre-deployment confidence measurement
+AR_DEPEND_01,4,Not Applicable
+AR_DEPEND_02,1,Yes - Manual procedures documented with regular practice
+AR_DEPEND_02,2,Partial - Procedures exist but not regularly practiced
+AR_DEPEND_02,3,No - No fallback procedures or capability maintained
+AR_DEPEND_02,4,Not Applicable
+AR_DEPEND_03,1,Yes - Dependency indicators monitored with intervention thresholds
+AR_DEPEND_03,2,Partial - Informal observation but no systematic tracking
+AR_DEPEND_03,3,No - No dependency indicator monitoring
+AR_DEPEND_03,4,Not Applicable
+AR_DEPEND_04,1,Yes - Mandatory AI-free periods with enforced practice
+AR_DEPEND_04,2,Partial - Encouraged but not required
+AR_DEPEND_04,3,No - AI always available without restriction
+AR_DEPEND_04,4,Not Applicable
+AR_DEPEND_05,1,Yes - Intervention protocols defined with funded programs
+AR_DEPEND_05,2,Partial - Informal coaching but no systematic intervention
+AR_DEPEND_05,3,No - No intervention process for excessive dependency
+AR_DEPEND_05,4,Not Applicable
+AR_HIRE_01,1,Yes - Job descriptions redesigned post-AI impact assessment
+AR_HIRE_01,2,Partial - Some updates but not systematic redesign
+AR_HIRE_01,3,No - Using pre-AI job descriptions
+AR_HIRE_01,4,Not Applicable
+AR_HIRE_02,1,Yes - Assessments evaluate AI-era competencies
+AR_HIRE_02,2,Partial - Some AI considerations but traditional focus remains
+AR_HIRE_02,3,No - Using pre-AI assessment methods
+AR_HIRE_02,4,Not Applicable
+AR_HIRE_03,1,Yes - Entry-level roles redesigned with alternative learning paths
+AR_HIRE_03,2,Partial - Acknowledged but no systematic redesign
+AR_HIRE_03,3,No - Traditional entry-level hiring continues despite automation
+AR_HIRE_03,4,Not Applicable
+AR_HIRE_04,1,Yes - Training programs updated for AI-augmented workflows
+AR_HIRE_04,2,Partial - Some updates but core curriculum unchanged
+AR_HIRE_04,3,No - Training programs designed for pre-AI workflows
+AR_HIRE_04,4,Not Applicable
+AR_HIRE_05,1,Yes - Continuous learning infrastructure with protected time and budget
+AR_HIRE_05,2,Partial - Some ongoing training but not systematic
+AR_HIRE_05,3,No - Training treated as one-time event
+AR_HIRE_05,4,Not Applicable
+AR_CAREER_01,1,Yes - Career paths redesigned with alternative expertise development
+AR_CAREER_01,2,Partial - Acknowledged but partnership criteria unchanged
+AR_CAREER_01,3,No - Traditional progression model maintained despite automation
+AR_CAREER_01,4,Not Applicable
+AR_CAREER_02,1,Yes - Alternative economic model developed and tested
+AR_CAREER_02,2,Partial - Exploring alternatives but no implementation plan
+AR_CAREER_02,3,No - Billable hour model maintained without revision
+AR_CAREER_02,4,Not Applicable
+AR_CAREER_03,1,Yes - Turnover tracked with AI-related career path analysis
+AR_CAREER_03,2,Partial - General exit interviews but no AI-specific analysis
+AR_CAREER_03,3,No - No turnover analysis for career path concerns
+AR_CAREER_03,4,Not Applicable
+AR_CAREER_04,1,Yes - Mentorship redesigned with alternative interaction mechanisms
+AR_CAREER_04,2,Partial - Some adaptations but traditional model assumed
+AR_CAREER_04,3,No - Mentorship model unchanged despite automation
+AR_CAREER_04,4,Not Applicable
+AR_CAREER_05,1,Yes - Professional value proposition clearly articulated and communicated
+AR_CAREER_05,2,Partial - Informal discussions but no systematic communication
+AR_CAREER_05,3,No - No redefined professional identity for AI era
+AR_CAREER_05,4,Not Applicable
+AR_PROCESS_01,1,Yes - Processes redesigned before AI automation
+AR_PROCESS_01,2,Partial - Some optimization but not systematic redesign
+AR_PROCESS_01,3,No - Automating existing processes without redesign
+AR_PROCESS_01,4,Not Applicable
+AR_PROCESS_02,1,Yes - Decision authority explicitly allocated with documentation
+AR_PROCESS_02,2,Partial - Informal understanding but not documented
+AR_PROCESS_02,3,No - Decision authority allocation unclear
+AR_PROCESS_02,4,Not Applicable
+AR_PROCESS_03,1,Yes - Exception protocols documented with tested escalation paths
+AR_PROCESS_03,2,Partial - Informal escalation but no systematic protocol
+AR_PROCESS_03,3,No - No exception handling defined
+AR_PROCESS_03,4,Not Applicable
+AR_PROCESS_04,1,Yes - QA protocols with sampling and feedback loops
+AR_PROCESS_04,2,Partial - Some QA but no systematic approach
+AR_PROCESS_04,3,No - No AI output quality assurance
+AR_PROCESS_04,4,Not Applicable
+AR_PROCESS_05,1,Yes - Approval workflows optimized for AI speed
+AR_PROCESS_05,2,Partial - Some streamlining but significant delays remain
+AR_PROCESS_05,3,No - Pre-AI approval processes unchanged
+AR_PROCESS_05,4,Not Applicable
+AR_PROCESS_06,1,Yes - Documentation fully updated for hybrid workflows
+AR_PROCESS_06,2,Partial - Some updates but comprehensive revision incomplete
+AR_PROCESS_06,3,No - Documentation reflects pre-AI processes
+AR_PROCESS_06,4,Not Applicable
+AR_PROCESS_07,1,Yes - Change management for continuous AI-driven process evolution
+AR_PROCESS_07,2,Partial - Ad hoc process changes but no systematic governance
+AR_PROCESS_07,3,No - Treating AI as one-time change event
+AR_PROCESS_07,4,Not Applicable
+AR_PROCESS_08,1,Yes - Audit trails comprehensive for hybrid workflows
+AR_PROCESS_08,2,Partial - Some logging but gaps in AI decision capture
+AR_PROCESS_08,3,No - Audit systems designed for human-only processes
+AR_PROCESS_08,4,Not Applicable
+AR_PROCESS_09,1,"Yes - Balanced metrics across efficiency, quality, and satisfaction"
+AR_PROCESS_09,2,Partial - Some metrics but focus primarily on efficiency
+AR_PROCESS_09,3,No - Measuring only speed and cost metrics
+AR_PROCESS_09,4,Not Applicable
+AR_PROCESS_10,1,Yes - Systematic continuous improvement with data-driven optimization
+AR_PROCESS_10,2,Partial - Informal improvements but no systematic process
+AR_PROCESS_10,3,No - Static processes after AI deployment
+AR_PROCESS_10,4,Not Applicable
+AR_INST_01,1,Yes - Knowledge inventory completed with IP assessment
+AR_INST_01,2,Partial - Some awareness but no systematic inventory
+AR_INST_01,3,No - No knowledge transfer assessment before AI training
+AR_INST_01,4,Not Applicable
+AR_INST_02,1,Yes - Institution owns trained models with extraction rights
+AR_INST_02,2,Partial - Ownership negotiated but extraction unclear
+AR_INST_02,3,No - Vendor owns trained models and embedded knowledge
+AR_INST_02,4,Not Applicable
+AR_INST_03,1,Yes - Knowledge independently documented with recovery procedures
+AR_INST_03,2,Partial - Some documentation but gaps in coverage
+AR_INST_03,3,No - Knowledge exists only in AI systems
+AR_INST_03,4,Not Applicable
+AR_INST_04,1,Yes - Recovery procedures documented and tested
+AR_INST_04,2,Partial - Exit strategy exists but not tested
+AR_INST_04,3,No - No knowledge extraction or recovery capability
+AR_INST_04,4,Not Applicable
+AR_INST_05,1,Yes - Strategic knowledge classified with enhanced AI protections
+AR_INST_05,2,Partial - Some classification but no systematic protection
+AR_INST_05,3,No - No strategic knowledge classification for AI deployment
+AR_INST_05,4,Not Applicable
+AR_DEPEND3RD_01,1,Yes - Critical functions inventoried with impact assessments
+AR_DEPEND3RD_01,2,Partial - Some tracking but incomplete inventory
+AR_DEPEND3RD_01,3,No - No systematic inventory of AI dependencies
+AR_DEPEND3RD_01,4,Not Applicable
+AR_DEPEND3RD_02,1,Yes - Concentration risk assessed with mitigation strategies
+AR_DEPEND3RD_02,2,Partial - Some vendor tracking but no concentration analysis
+AR_DEPEND3RD_02,3,No - No vendor concentration risk assessment
+AR_DEPEND3RD_02,4,Not Applicable
+AR_DEPEND3RD_03,1,Yes - Exit costs quantified with feasible migration paths
+AR_DEPEND3RD_03,2,Partial - Some exit analysis but switching costs unclear
+AR_DEPEND3RD_03,3,No - No exit barrier or switching cost assessment
+AR_DEPEND3RD_03,4,Not Applicable
+AR_DEPEND3RD_04,1,Yes - Contracts include comprehensive dependency protections
+AR_DEPEND3RD_04,2,Partial - Some protections but significant gaps
+AR_DEPEND3RD_04,3,No - Standard vendor terms without dependency safeguards
+AR_DEPEND3RD_04,4,Not Applicable
+AR_DEPEND3RD_05,1,Yes - Continuity procedures documented and tested
+AR_DEPEND3RD_05,2,Partial - Fallback plans exist but not tested
+AR_DEPEND3RD_05,3,No - No operational continuity capability without vendor AI
+AR_DEPEND3RD_05,4,Not Applicable
+AR_FOREIGN_01,1,Yes - Foreign dependencies mapped with geopolitical risk assessment
+AR_FOREIGN_01,2,Partial - Some vendor tracking but no geographic analysis
+AR_FOREIGN_01,3,No - No assessment of foreign technology dependencies
+AR_FOREIGN_01,4,Not Applicable
+AR_FOREIGN_02,1,Yes - Data sovereignty enforced with verified residency
+AR_FOREIGN_02,2,Partial - Policies exist but compliance unverified
+AR_FOREIGN_02,3,No - No data sovereignty requirements for AI
+AR_FOREIGN_02,4,Not Applicable
+AR_FOREIGN_03,1,Yes - Geopolitical scenarios assessed with contingency plans
+AR_FOREIGN_03,2,Partial - Some awareness but no formal planning
+AR_FOREIGN_03,3,No - No assessment of foreign service denial scenarios
+AR_FOREIGN_03,4,Not Applicable
+AR_FOREIGN_04,1,Yes - Sovereignty strategy with domestic capability development
+AR_FOREIGN_04,2,Partial - Awareness but no systematic strategy
+AR_FOREIGN_04,3,No - Complete reliance on foreign AI without alternatives
+AR_FOREIGN_04,4,Not Applicable
+AR_FOREIGN_05,1,Yes - Supply chain secured with adversary component exclusion
+AR_FOREIGN_05,2,Partial - Some supply chain tracking but incomplete
+AR_FOREIGN_05,3,No - No AI supply chain security assessment
+AR_FOREIGN_05,4,Not Applicable

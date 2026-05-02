@@ -1,7 +1,6 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, status
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse, HTMLResponse
-from fastapi.security import OAuth2PasswordBearer
 from fastapi.staticfiles import StaticFiles
 from functools import lru_cache
 import io
@@ -9,11 +8,11 @@ import pandas as pd
 import os
 import html
 import re
-import hashlib
-import jwt
-from datetime import datetime, timedelta
+import json
+import random
+from datetime import datetime
 from pydantic import BaseModel, Field
-from typing import List, Optional
+from typing import List, Optional, Dict, Set, Any
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable
@@ -22,31 +21,28 @@ from reportlab.lib.units import inch
 from reportlab.lib.enums import TA_CENTER, TA_LEFT
 from dotenv import load_dotenv
 
-# Load environment variables from .env file if it exists
 load_dotenv()
 
-app = FastAPI(title="Bizcom AI Risk Assessment API", version="2.0.0")
+app = FastAPI(title="Bizcom AI Risk Assessment API", version="3.0.0")
 
 # ── CORS ──────────────────────────────────────────────────────────────────────
-# For AWS deployment, set ALLOWED_ORIGINS in the environment (e.g. "https://bizcomgrp.com,https://app.bizcomgrp.com")
 origins_str = os.getenv("ALLOWED_ORIGINS", "*")
-allowed_origins = [origin.strip() for origin in origins_str.split(",")] if origins_str != "*" else ["*"]
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=allowed_origins,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+allowed_origins = [o.strip() for o in origins_str.split(",")] if origins_str != "*" else ["*"]
+app.add_middleware(CORSMiddleware, allow_origins=allowed_origins, allow_methods=["*"], allow_headers=["*"])
 
 # ── FILE PATHS ────────────────────────────────────────────────────────────────
-BASE_DIR    = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR    = os.path.join(BASE_DIR, "data")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(BASE_DIR, "data")
 
-QUESTIONS_FILE  = os.path.join(DATA_DIR, "questions_enriched.csv")
-RISKS_FILE      = os.path.join(DATA_DIR, "master_risk_db.csv")
-COMPLIANCE_FILE = os.path.join(DATA_DIR, "compliance_db.csv")
-USERS_FILE      = os.path.join(DATA_DIR, "users_db.csv")
+QUESTIONS_FILE       = os.path.join(DATA_DIR, "Question.csv")
+POSSIBLE_ANSWERS_FILE = os.path.join(DATA_DIR, "possible_answers.csv")
+RATIONALE_FILE       = os.path.join(DATA_DIR, "rationale.csv")
+CLUSTER_GROUPS_FILE  = os.path.join(DATA_DIR, "cluster_groups.csv")
+QUESTION_GROUPS_FILE = os.path.join(DATA_DIR, "Question_groups.csv")
+RISK_CATEGORIES_FILE = os.path.join(DATA_DIR, "risk_categories.csv")
+INDUSTRIES_FILE      = os.path.join(DATA_DIR, "Industries.csv")
+JURISDICTIONS_FILE   = os.path.join(DATA_DIR, "Jurisdictions.csv")
+QUESTION_MAPPER_FILE = os.path.join(DATA_DIR, "AIRES_Question_Mapper_3.xlsx")
 
 INDEX_FILE  = os.path.join(BASE_DIR, "index.html")
 SCRIPT_FILE = os.path.join(BASE_DIR, "Script.js")
@@ -57,112 +53,15 @@ LOGO_FILE   = os.path.join(BASE_DIR, "logo.png")
 async def get_logo():
     if os.path.exists(LOGO_FILE):
         return FileResponse(LOGO_FILE, media_type="image/png")
-    raise HTTPException(status_code=404, detail="Logo file not found in directory")
+    raise HTTPException(status_code=404, detail="Logo not found")
 
-# ── AUTHENTICATION ────────────────────────────────────────────────────────────
-# CRITICAL: In AWS production, you MUST set the JWT_SECRET_KEY environment variable.
-SECRET_KEY = os.getenv("JWT_SECRET_KEY", "fallback_insecure_dev_key_123")
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 24 * 60
-
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/login")
-
-class LoginRequest(BaseModel):
-    email: str
-    password: str
-
-class Token(BaseModel):
-    access_token: str
-    token_type: str
-
-def verify_password(plain_password: str, hashed_password: str) -> bool:
-    try:
-        salt, key = hashed_password.split(':')
-        new_key = hashlib.pbkdf2_hmac('sha256', plain_password.encode('utf-8'), salt.encode('utf-8'), 100000)
-        return new_key.hex() == key
-    except Exception:
-        return False
-
-def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
-    to_encode = data.copy()
-    if expires_delta:
-        expire = datetime.utcnow() + expires_delta
-    else:
-        expire = datetime.utcnow() + timedelta(minutes=15)
-    to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    return encoded_jwt
-
-@lru_cache(maxsize=1)
-def get_user_db():
-    if not os.path.exists(USERS_FILE):
-        return {}
-    df = pd.read_csv(USERS_FILE)
-    return {row['email']: row['hashed_password'] for _, row in df.iterrows()}
-
-async def get_current_user(token: str = Depends(oauth2_scheme)):
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        email: str = payload.get("sub")
-        if email is None:
-            raise credentials_exception
-    except jwt.PyJWTError:
-        raise credentials_exception
-    user_db = get_user_db()
-    if email not in user_db:
-        raise credentials_exception
-    return email
-
-@app.post("/api/login", response_model=Token)
-def login_for_access_token(req: LoginRequest):
-    user_db = get_user_db()
-    user_hashed_pw = user_db.get(req.email)
-    if not user_hashed_pw or not verify_password(req.password, user_hashed_pw):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect email or password",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(
-        data={"sub": req.email}, expires_delta=access_token_expires
-    )
-    return {"access_token": access_token, "token_type": "bearer"}
-
-# ── COMPONENT GROUPS (your 13 tags) ──────────────────────────────────────────
-COMPONENT_GROUPS = [
-    "Data Processing",
-    "Knowledge Base",
-    "Embeddings",
-    "Vector Database",
-    "Retrieval (RAG)",
-    "Prompt Engineering",
-    "LLM / Model Layer",
-    "Orchestration / Agents",
-    "Tools & API Integrations",
-    "Application Layer",
-    "Guardrails / Safety",
-    "Monitoring & Evaluation",
-    "Feedback & Continuous Learning",
-]
-
-# ── DB LOADERS (cached — reads file once per server run) ─────────────────────
-import json
-
-# ── HELPER: Convert DataFrames to JSON-safe dictionaries ────────────────────
+# ── HELPER ────────────────────────────────────────────────────────────────────
 def df_to_json_safe(df: pd.DataFrame) -> list:
-    """Convert DataFrame to list of dicts, replacing NaN/inf with None."""
     records = []
     for _, row in df.iterrows():
         record = {}
         for col, val in row.items():
-            # Replace NaN, inf, and -inf with None
-            if pd.isna(val) or not pd.api.types.is_scalar(val):
+            if pd.isna(val):
                 record[col] = None
             elif isinstance(val, float) and (val != val or val == float('inf') or val == float('-inf')):
                 record[col] = None
@@ -171,112 +70,598 @@ def df_to_json_safe(df: pd.DataFrame) -> list:
         records.append(record)
     return records
 
-@lru_cache(maxsize=1)
-def load_questions() -> pd.DataFrame:
-    if not os.path.exists(QUESTIONS_FILE):
-        print(f"[WARN] questions_enriched.csv not found at {QUESTIONS_FILE}")
+# ── DB LOADERS ────────────────────────────────────────────────────────────────
+def _safe_load(path, **kwargs):
+    if not os.path.exists(path):
+        print(f"[WARN] {os.path.basename(path)} not found at {path}")
         return pd.DataFrame()
-    df = pd.read_csv(QUESTIONS_FILE)
+    df = pd.read_csv(path, **kwargs)
     df.columns = df.columns.str.strip()
     return df
 
 @lru_cache(maxsize=1)
-def load_risks() -> pd.DataFrame:
-    if not os.path.exists(RISKS_FILE):
-        print(f"[WARN] master_risk_db.csv not found at {RISKS_FILE}")
-        return pd.DataFrame()
-    df = pd.read_csv(RISKS_FILE, skiprows=2)
-    # Strip whitespace from column names
-    df.columns = df.columns.str.strip()
-    # Ensure a normalized 'qid_code' column exists for reliable lookups
-    if "QID Code" in df.columns:
-        df["qid_code"] = df["QID Code"].astype(str)
-    elif "QID_Code" in df.columns:
-        df["qid_code"] = df["QID_Code"].astype(str)
-    elif "qid_code" in df.columns:
-        df["qid_code"] = df["qid_code"].astype(str)
-    else:
-        # Fallback: assume first column contains the QID value
-        df["qid_code"] = df.iloc[:, 0].astype(str)
-
-    return df
+def load_questions():
+    return _safe_load(QUESTIONS_FILE)
 
 @lru_cache(maxsize=1)
-def load_compliance() -> pd.DataFrame:
-    if not os.path.exists(COMPLIANCE_FILE):
-        print(f"[WARN] compliance_db.csv not found at {COMPLIANCE_FILE}")
-        return pd.DataFrame()
-    # compliance CSV may have 1 metadata/header row; try parsing with several
-    # skiprows values and pick the parse that yields a QID column or AR_ values
-    df = pd.DataFrame()
-    for skip in (1, 2, 0):
-        try:
-            candidate = pd.read_csv(COMPLIANCE_FILE, skiprows=skip)
-            candidate.columns = candidate.columns.str.strip()
-            # If columns include a QID indicator or first column contains AR_ codes,
-            # accept this parse
-            cols_lower = [str(c).lower() for c in candidate.columns]
-            first_col_vals = candidate.iloc[:, 0].astype(str).str.strip()
-            if any("qid" in c for c in cols_lower) or first_col_vals.str.match(r'^AR_\d+').any():
-                df = candidate
-                break
-        except Exception:
-            continue
+def load_possible_answers():
+    return _safe_load(POSSIBLE_ANSWERS_FILE)
 
-    if df.empty:
-        # Fallback: try a raw read with pandas default
-        df = pd.read_csv(COMPLIANCE_FILE)
-        df.columns = df.columns.str.strip()
-
-    # Normalize a 'qid_code' column for lookups
-    if "QID Code" in df.columns:
-        df["qid_code"] = df["QID Code"].astype(str)
-    elif "QID_Code" in df.columns:
-        df["qid_code"] = df["QID_Code"].astype(str)
-    elif "qid_code" in df.columns:
-        df["qid_code"] = df["qid_code"].astype(str)
-    else:
-        df["qid_code"] = df.iloc[:, 0].astype(str)
-
-    return df
-
-# ── FILTERING ENGINE ──────────────────────────────────────────────────────────
-def filter_questions(selected_groups: List[str]) -> pd.DataFrame:
-    """
-    Returns questions where:
-      - component_group matches ANY of the selected groups  (OR logic)
-    All 122 questions are available; caller decides which groups to include.
-    No universal override — filtering is purely by component_group match.
-    """
-    df = load_questions()
+@lru_cache(maxsize=1)
+def load_rationale():
+    df = _safe_load(RATIONALE_FILE)
     if df.empty:
         return df
-    return df[df["component_group"].isin(selected_groups)].copy()
+    # Keep only ID and Rationale columns, drop unnamed extras
+    keep = [c for c in df.columns if not c.startswith("Unnamed")]
+    return df[keep]
+
+@lru_cache(maxsize=1)
+def load_cluster_groups():
+    return _safe_load(CLUSTER_GROUPS_FILE)
+
+@lru_cache(maxsize=1)
+def load_question_groups():
+    return _safe_load(QUESTION_GROUPS_FILE)
+
+@lru_cache(maxsize=1)
+def load_risk_categories():
+    return _safe_load(RISK_CATEGORIES_FILE)
+
+@lru_cache(maxsize=1)
+def load_industries():
+    return _safe_load(INDUSTRIES_FILE)
+
+@lru_cache(maxsize=1)
+def load_jurisdictions():
+    return _safe_load(JURISDICTIONS_FILE)
+
+@lru_cache(maxsize=1)
+def load_use_cases_from_mapper():
+    """Load AI use cases (UC01..UC27) from the mapper workbook."""
+    if not os.path.exists(QUESTION_MAPPER_FILE):
+        return []
+
+    try:
+        use_df = pd.read_excel(QUESTION_MAPPER_FILE, sheet_name="UseCases", header=None)
+    except Exception as exc:
+        print(f"[WARN] Failed reading UseCases sheet: {exc}")
+        return []
+
+    out = []
+    for _, row in use_df.iterrows():
+        uc_id = str(row.iloc[0]).strip() if len(row) > 0 and pd.notna(row.iloc[0]) else ""
+        uc_name = str(row.iloc[1]).strip() if len(row) > 1 and pd.notna(row.iloc[1]) else ""
+        if re.fullmatch(r"UC\d{2}", uc_id) and uc_name:
+            out.append({"id": uc_id, "name": uc_name, "label": f"{uc_id} - {uc_name}"})
+    return out
+
+@lru_cache(maxsize=1)
+def load_use_case_qg_map():
+    """Load mapping of use case IDs to question-group IDs from QG_UC_Matrix."""
+    if not os.path.exists(QUESTION_MAPPER_FILE):
+        return {}
+
+    try:
+        mdf = pd.read_excel(QUESTION_MAPPER_FILE, sheet_name="QG_UC_Matrix", header=None)
+    except Exception as exc:
+        print(f"[WARN] Failed reading QG_UC_Matrix sheet: {exc}")
+        return {}
+
+    header_idx = None
+    qg_cols = []
+    for i in range(len(mdf)):
+        row_vals = [str(v).strip() for v in mdf.iloc[i].tolist()]
+        if "Use Case" in row_vals and "Description" in row_vals:
+            detected_qg_cols = [j for j, v in enumerate(row_vals) if re.fullmatch(r"QG\d{3}", v)]
+            if detected_qg_cols:
+                header_idx = i
+                qg_cols = detected_qg_cols
+                break
+
+    if header_idx is None:
+        return {}
+
+    qg_headers = {j: str(mdf.iloc[header_idx, j]).strip() for j in qg_cols}
+    mapping = {}
+    aliases = {}
+
+    for i in range(header_idx + 1, len(mdf)):
+        raw_uc = mdf.iloc[i, 0]
+        if pd.isna(raw_uc):
+            continue
+        uc_id = str(raw_uc).strip()
+        if not re.fullmatch(r"UC\d{2}", uc_id):
+            continue
+
+        qg_set = set()
+        alias_target = None
+        for col_idx, qg in qg_headers.items():
+            cell = mdf.iloc[i, col_idx]
+            if pd.isna(cell):
+                continue
+            cell_str = str(cell).strip()
+            alias_match = re.search(r"UC\d{2}", cell_str)
+            if "->" in cell_str or "→" in cell_str:
+                if alias_match:
+                    alias_target = alias_match.group(0)
+                continue
+            if cell_str:
+                qg_set.add(qg)
+
+        if alias_target:
+            aliases[uc_id] = alias_target
+        mapping[uc_id] = qg_set
+
+    for uc_id, target in aliases.items():
+        mapping[uc_id] = set(mapping.get(target, set()))
+
+    return mapping
+
+def question_group_to_qg_code(question_group: str) -> str:
+    if not question_group:
+        return ""
+    m = re.search(r"Question Group\s*(\d{1,3})", str(question_group), flags=re.IGNORECASE)
+    if m:
+        return f"QG{int(m.group(1)):03d}"
+    m2 = re.search(r"QG\d{3}", str(question_group), flags=re.IGNORECASE)
+    if m2:
+        return m2.group(0).upper()
+    return ""
+
+@lru_cache(maxsize=1)
+def build_qg_to_use_case_lookup():
+    """Reverse-map QGxxx to use-case IDs for fast question tagging."""
+    uc_to_qg = load_use_case_qg_map()
+    reverse = {}
+    for uc_id, qg_set in uc_to_qg.items():
+        for qg in qg_set:
+            reverse.setdefault(qg, set()).add(uc_id)
+    return reverse
+
+@lru_cache(maxsize=1)
+def load_use_case_qg_mode_map() -> Dict[str, Dict[str, str]]:
+    """Return mapper matrix as UC -> {QGxxx: ALL|SUB|RND}."""
+    if not os.path.exists(QUESTION_MAPPER_FILE):
+        return {}
+
+    try:
+        mdf = pd.read_excel(QUESTION_MAPPER_FILE, sheet_name="QG_UC_Matrix", header=None)
+    except Exception as exc:
+        print(f"[WARN] Failed reading QG_UC_Matrix for mode map: {exc}")
+        return {}
+
+    header_idx = None
+    qg_cols = {}
+    for i in range(len(mdf)):
+        row_vals = [str(v).strip() for v in mdf.iloc[i].tolist()]
+        if "Use Case" in row_vals and "Description" in row_vals:
+            found = {j: v for j, v in enumerate(row_vals) if re.fullmatch(r"QG\d{3}", v)}
+            if found:
+                header_idx = i
+                qg_cols = found
+                break
+
+    if header_idx is None:
+        return {}
+
+    uc_modes: Dict[str, Dict[str, str]] = {}
+    aliases: Dict[str, str] = {}
+    for i in range(header_idx + 1, len(mdf)):
+        raw_uc = mdf.iloc[i, 0]
+        if pd.isna(raw_uc):
+            continue
+        uc_id = str(raw_uc).strip()
+        if not re.fullmatch(r"UC\d{2}", uc_id):
+            continue
+
+        row_map: Dict[str, str] = {}
+        alias_target = None
+        for col_idx, qg in qg_cols.items():
+            cell = mdf.iloc[i, col_idx]
+            if pd.isna(cell):
+                continue
+            token = str(cell).strip().upper()
+            if not token:
+                continue
+            m = re.search(r"UC\d{2}", token)
+            if ("->" in token or "→" in token) and m:
+                alias_target = m.group(0)
+                continue
+            if token in {"ALL", "SUB", "RND"}:
+                row_map[qg] = token
+
+        if alias_target:
+            aliases[uc_id] = alias_target
+        uc_modes[uc_id] = row_map
+
+    for uc, target in aliases.items():
+        uc_modes[uc] = dict(uc_modes.get(target, {}))
+
+    return uc_modes
+
+@lru_cache(maxsize=1)
+def load_pull_counts() -> Dict[str, Dict[str, int]]:
+    """Return PullCounts rows as QGxxx -> numeric pull columns."""
+    if not os.path.exists(QUESTION_MAPPER_FILE):
+        return {}
+
+    try:
+        pdf = pd.read_excel(QUESTION_MAPPER_FILE, sheet_name="PullCounts", header=None)
+    except Exception as exc:
+        print(f"[WARN] Failed reading PullCounts: {exc}")
+        return {}
+
+    header_idx = None
+    headers: List[str] = []
+    for i in range(len(pdf)):
+        row_vals = [str(v).strip() if pd.notna(v) else "" for v in pdf.iloc[i].tolist()]
+        if "QG" in row_vals and "Block" in row_vals:
+            header_idx = i
+            headers = row_vals
+            break
+
+    if header_idx is None:
+        return {}
+
+    out: Dict[str, Dict[str, int]] = {}
+    for i in range(header_idx + 1, len(pdf)):
+        row_vals = pdf.iloc[i].tolist()
+        qg = str(row_vals[0]).strip() if pd.notna(row_vals[0]) else ""
+        if not re.fullmatch(r"QG\d{3}", qg):
+            continue
+
+        row_out: Dict[str, int] = {}
+        block = str(row_vals[1]).strip() if len(row_vals) > 1 and pd.notna(row_vals[1]) else ""
+        if block:
+            row_out["Block"] = block
+        for col_idx, h in enumerate(headers):
+            if not h or h in {"QG", "Block"}:
+                continue
+            if col_idx >= len(row_vals) or pd.isna(row_vals[col_idx]):
+                continue
+            try:
+                row_out[h] = int(float(row_vals[col_idx]))
+            except Exception:
+                continue
+
+        out[qg] = row_out
+
+    return out
+
+def normalize_use_cases(selected: List[str]) -> List[str]:
+    unique = []
+    for uc in selected:
+        if re.fullmatch(r"UC\d{2}", str(uc).strip()) and uc not in unique:
+            unique.append(uc)
+    # Mapper rule: UC26 behaves as UC19 for selection engine.
+    normalized = ["UC19" if uc == "UC26" else uc for uc in unique]
+    deduped = []
+    for uc in sorted(normalized):
+        if uc not in deduped:
+            deduped.append(uc)
+    return deduped
+
+def split_target_evenly(target: int, use_cases: List[str]) -> Dict[str, int]:
+    if target <= 0 or not use_cases:
+        return {}
+    base = target // len(use_cases)
+    rem = target % len(use_cases)
+    out = {uc: base for uc in sorted(use_cases)}
+    for uc in sorted(use_cases)[:rem]:
+        out[uc] += 1
+    return out
+
+def allocate_weighted(target: int, caps: Dict[str, int], weights: Dict[str, int]) -> Dict[str, int]:
+    """Allocate integer counts by weight with cap constraints."""
+    if target <= 0:
+        return {k: 0 for k in caps}
+
+    cap_total = sum(max(0, c) for c in caps.values())
+    if cap_total <= target:
+        return {k: max(0, c) for k, c in caps.items()}
+
+    cleaned_weights = {k: max(0, int(weights.get(k, 0))) for k in caps}
+    if sum(cleaned_weights.values()) == 0:
+        cleaned_weights = {k: 1 for k in caps}
+
+    alloc = {k: 0 for k in caps}
+    raw = {}
+    for k in caps:
+        raw_k = target * cleaned_weights[k] / float(sum(cleaned_weights.values()))
+        raw[k] = raw_k
+        alloc[k] = min(max(0, caps[k]), int(raw_k))
+
+    remaining = target - sum(alloc.values())
+    if remaining <= 0:
+        return alloc
+
+    order = sorted(caps.keys(), key=lambda k: (raw[k] - int(raw[k]), cleaned_weights[k]), reverse=True)
+    idx = 0
+    while remaining > 0 and order:
+        k = order[idx % len(order)]
+        if alloc[k] < max(0, caps[k]):
+            alloc[k] += 1
+            remaining -= 1
+        idx += 1
+        if idx > len(order) * 5 and remaining > 0:
+            # Final fallback pass if fractional ordering saturates.
+            for kk in order:
+                if remaining <= 0:
+                    break
+                if alloc[kk] < max(0, caps[kk]):
+                    alloc[kk] += 1
+                    remaining -= 1
+            break
+
+    return alloc
+
+def select_from_qg(rng: random.Random, qg_to_qs: Dict[str, List[Dict[str, Any]]], qg: str, count: int, used: Set[str], uc_filter: Optional[str] = None) -> List[Dict[str, Any]]:
+    if count <= 0:
+        return []
+    pool = [q for q in qg_to_qs.get(qg, []) if q["QID"] not in used]
+    if uc_filter:
+        pool = [q for q in pool if uc_filter in q.get("Use_Cases", [])]
+    if not pool:
+        return []
+    take = min(count, len(pool))
+    return rng.sample(pool, take)
+
+def build_mapper_questionnaire(selected_use_cases: List[str], seed: Optional[int] = None) -> Dict[str, Any]:
+    """Build questionnaire from mapper rules: A/B shared + C per-UC random."""
+    effective_ucs = normalize_use_cases(selected_use_cases)
+    if "UC27" in effective_ucs:
+        effective_ucs = ["UC27"]
+
+    master = build_master_lookup()
+    uc_mode_map = load_use_case_qg_mode_map()
+    pull_counts = load_pull_counts()
+
+    # Index question bank by QG code.
+    qg_to_qs: Dict[str, List[Dict[str, Any]]] = {}
+    for q in master.values():
+        qg = question_group_to_qg_code(q.get("Question_Group", ""))
+        if not qg:
+            continue
+        qg_to_qs.setdefault(qg, []).append(q)
+
+    rng_seed = seed if seed is not None else abs(hash("|".join(sorted(effective_ucs)))) % (2**31)
+    rng = random.Random(rng_seed)
+    used_qids: Set[str] = set()
+    selected: List[Dict[str, Any]] = []
+
+    # UC27 maps to no AI: return empty selection cleanly.
+    if effective_ucs == ["UC27"]:
+        return {
+            "questions": [],
+            "meta": {
+                "seed": rng_seed,
+                "selected_use_cases": selected_use_cases,
+                "effective_use_cases": effective_ucs,
+                "totals": {"block_a": 0, "block_b": 0, "block_c": 0, "overall": 0},
+            },
+        }
+
+    # Union eligibility across selected UCs.
+    block_qgs = {"ALL": set(), "SUB": set(), "RND": set()}
+    for uc in effective_ucs:
+        for qg, mode in uc_mode_map.get(uc, {}).items():
+            if mode in block_qgs:
+                block_qgs[mode].add(qg)
+
+    # System 1 targets: aligned with mapper when no industry/jur overlays selected.
+    target_a = 60
+    target_b = 100
+
+    # Block A uses A pull @60 directly with cap safety.
+    a_caps = {qg: len(qg_to_qs.get(qg, [])) for qg in sorted(block_qgs["ALL"])}
+    a_weights = {qg: pull_counts.get(qg, {}).get("A pull @60", 1) for qg in a_caps}
+    a_alloc = allocate_weighted(target_a, a_caps, a_weights)
+    for qg, cnt in a_alloc.items():
+        picks = select_from_qg(rng, qg_to_qs, qg, cnt, used_qids)
+        for q in picks:
+            used_qids.add(q["QID"])
+            q2 = dict(q)
+            q2["Selection_Block"] = "A"
+            selected.append(q2)
+
+    # Block B uses B pull @105 as source and scales to target 100.
+    b_caps = {qg: len(qg_to_qs.get(qg, [])) for qg in sorted(block_qgs["SUB"])}
+    b_weights = {qg: pull_counts.get(qg, {}).get("B pull @105", pull_counts.get(qg, {}).get("B pull @80", 1)) for qg in b_caps}
+    b_alloc = allocate_weighted(target_b, b_caps, b_weights)
+    for qg, cnt in b_alloc.items():
+        picks = select_from_qg(rng, qg_to_qs, qg, cnt, used_qids)
+        for q in picks:
+            used_qids.add(q["QID"])
+            q2 = dict(q)
+            q2["Selection_Block"] = "B"
+            selected.append(q2)
+
+    # Block C: split 50 across selected UCs, then proportional across eligible RND QGs.
+    target_c = 50
+    c_uc_targets = split_target_evenly(target_c, effective_ucs)
+    c_selected_count = 0
+    c_breakdown = {}
+    for uc in sorted(effective_ucs):
+        uc_target = c_uc_targets.get(uc, 0)
+        uc_qgs = sorted([qg for qg, mode in uc_mode_map.get(uc, {}).items() if mode == "RND"])
+        if not uc_qgs or uc_target <= 0:
+            c_breakdown[uc] = 0
+            continue
+
+        caps = {}
+        weights = {}
+        for qg in uc_qgs:
+            available = [q for q in qg_to_qs.get(qg, []) if q["QID"] not in used_qids and uc in q.get("Use_Cases", [])]
+            caps[qg] = len(available)
+            weights[qg] = pull_counts.get(qg, {}).get("C pull @60", pull_counts.get(qg, {}).get("C pull @40", 1))
+
+        alloc = allocate_weighted(uc_target, caps, weights)
+        uc_count = 0
+        for qg, cnt in alloc.items():
+            picks = select_from_qg(rng, qg_to_qs, qg, cnt, used_qids, uc_filter=uc)
+            for q in picks:
+                used_qids.add(q["QID"])
+                q2 = dict(q)
+                q2["Selection_Block"] = "C"
+                selected.append(q2)
+                uc_count += 1
+
+        # Fallback redistribution for underfill within the same UC.
+        short = uc_target - uc_count
+        if short > 0:
+            uc_pool = []
+            for qg in uc_qgs:
+                uc_pool.extend([q for q in qg_to_qs.get(qg, []) if q["QID"] not in used_qids and uc in q.get("Use_Cases", [])])
+            if uc_pool:
+                extra_take = min(short, len(uc_pool))
+                for q in rng.sample(uc_pool, extra_take):
+                    used_qids.add(q["QID"])
+                    q2 = dict(q)
+                    q2["Selection_Block"] = "C"
+                    selected.append(q2)
+                    uc_count += 1
+
+        c_breakdown[uc] = uc_count
+        c_selected_count += uc_count
+
+    # Global fallback to reach 50 C questions from any selected UC-eligible C QGs.
+    if c_selected_count < target_c:
+        all_c_qgs = sorted(set().union(*[
+            {qg for qg, mode in uc_mode_map.get(uc, {}).items() if mode == "RND"}
+            for uc in effective_ucs
+        ]))
+        global_pool = []
+        for qg in all_c_qgs:
+            global_pool.extend([q for q in qg_to_qs.get(qg, []) if q["QID"] not in used_qids])
+        if global_pool:
+            for q in rng.sample(global_pool, min(target_c - c_selected_count, len(global_pool))):
+                used_qids.add(q["QID"])
+                q2 = dict(q)
+                q2["Selection_Block"] = "C"
+                selected.append(q2)
+                c_selected_count += 1
+
+    return {
+        "questions": selected,
+        "meta": {
+            "seed": rng_seed,
+            "selected_use_cases": selected_use_cases,
+            "effective_use_cases": effective_ucs,
+            "totals": {
+                "block_a": len([q for q in selected if q.get("Selection_Block") == "A"]),
+                "block_b": len([q for q in selected if q.get("Selection_Block") == "B"]),
+                "block_c": len([q for q in selected if q.get("Selection_Block") == "C"]),
+                "overall": len(selected),
+            },
+            "block_c_per_uc": c_breakdown,
+        },
+    }
+
+# ── MASTER LOOKUP (merges all tables by QID) ──────────────────────────────────
+@lru_cache(maxsize=1)
+def build_master_lookup():
+    """Build a dict keyed by QID with all merged metadata."""
+    q_df = load_questions()
+    if q_df.empty:
+        return {}
+
+    ans_df = load_possible_answers()
+    rat_df = load_rationale()
+    clu_df = load_cluster_groups()
+    qg_df  = load_question_groups()
+    rc_df  = load_risk_categories()
+    ind_df = load_industries()
+    jur_df = load_jurisdictions()
+    qg_to_uc = build_qg_to_use_case_lookup()
+
+    # Build answer lookup: QID -> list of {Option_Order, Answer_Option}
+    ans_lookup = {}
+    if not ans_df.empty:
+        for qid, grp in ans_df.groupby("QID"):
+            ans_lookup[qid] = grp.sort_values("Option_Order")[["Option_Order", "Answer_Option"]].to_dict("records")
+
+    # Build rationale lookup: ID -> text
+    rat_lookup = {}
+    if not rat_df.empty:
+        rat_col = [c for c in rat_df.columns if "rationale" in c.lower() or "explanation" in c.lower()]
+        rat_text_col = rat_col[0] if rat_col else rat_df.columns[1] if len(rat_df.columns) > 1 else None
+        if rat_text_col:
+            for _, row in rat_df.iterrows():
+                rat_lookup[str(row.iloc[0])] = str(row[rat_text_col]) if pd.notna(row[rat_text_col]) else ""
+
+    # Build cluster lookup: QID -> cluster
+    clu_lookup = {}
+    if not clu_df.empty:
+        for _, row in clu_df.iterrows():
+            clu_lookup[row["QID"]] = row["Cluster_Group"]
+
+    # Build question group lookup: QID -> group
+    qg_lookup = {}
+    if not qg_df.empty:
+        for _, row in qg_df.iterrows():
+            qg_lookup[row["QID"]] = row["Question_Group"]
+
+    # Build risk category lookup: QID -> category
+    rc_lookup = {}
+    if not rc_df.empty:
+        for _, row in rc_df.iterrows():
+            rc_lookup[row["QID"]] = row["Risk_Category"]
+
+    # Build industry lookup: QID -> list of Industry
+    ind_lookup = {}
+    if not ind_df.empty:
+        for qid, grp in ind_df.groupby("QID"):
+            ind_lookup[qid] = grp["Industry"].dropna().unique().tolist()
+
+    # Build jurisdiction lookup: QID -> list of Jurisdiction
+    jur_lookup = {}
+    if not jur_df.empty:
+        for qid, grp in jur_df.groupby("QID"):
+            jur_lookup[qid] = grp["Jurisdiction"].dropna().unique().tolist()
+
+    # Build master dict
+    master = {}
+    for _, row in q_df.iterrows():
+        qid = row["QID"]
+        master[qid] = {
+            "QID": qid,
+            "Question_Text": row.get("Question_Text", ""),
+            "Source_Sheet": row.get("Source_Sheet", ""),
+            "Cluster_Group": clu_lookup.get(qid, "Uncategorized"),
+            "Question_Group": qg_lookup.get(qid, ""),
+            "Risk_Category": rc_lookup.get(qid, ""),
+            "Rationale": rat_lookup.get(qid, ""),
+            "Answers": ans_lookup.get(qid, []),
+            "Industries": ind_lookup.get(qid, ["All Industries"]),
+            "Jurisdictions": jur_lookup.get(qid, ["All Jurisdictions"]),
+            "Use_Cases": sorted(list(qg_to_uc.get(question_group_to_qg_code(qg_lookup.get(qid, "")), set()))),
+        }
+    return master
+
+def get_cluster_list():
+    """Return sorted unique cluster names."""
+    clu_df = load_cluster_groups()
+    if clu_df.empty:
+        return []
+    return sorted(clu_df["Cluster_Group"].dropna().unique().tolist())
 
 # ── HTML SERVING ──────────────────────────────────────────────────────────────
 @app.get("/")
 async def read_root():
-    """Serve index.html with Script.js inlined for Babel compilation."""
     if not os.path.exists(INDEX_FILE) or not os.path.exists(SCRIPT_FILE):
-        return HTMLResponse(
-            content="<h1>Bizcom AI Risk Assessment</h1><p>index.html or Script.js not found.</p>"
-        )
+        return HTMLResponse(content="<h1>Bizcom AI Risk Assessment</h1><p>index.html or Script.js not found.</p>")
     with open(INDEX_FILE, "r", encoding="utf-8") as f:
         html_content = f.read()
     with open(SCRIPT_FILE, "r", encoding="utf-8") as f:
         script_content = f.read()
-
-    pattern = re.compile(
-        r'<script\s+type=["\']text/babel["\']\s+src=["\']/Script\.js["\']></script>',
-        re.IGNORECASE,
-    )
+    pattern = re.compile(r'<script\s+type=["\']text/babel["\']\s+src=["\']/?Script\.js["\']></script>', re.IGNORECASE)
     inlined = f'<script type="text/babel">\n{script_content}\n</script>'
     match = pattern.search(html_content)
     if match:
         html_content = html_content.replace(match.group(0), inlined)
     else:
         html_content = html_content.replace("</body>", f"{inlined}\n</body>")
-
     return HTMLResponse(content=html_content)
 
 @app.get("/Script.js")
@@ -285,77 +670,70 @@ async def serve_script():
         return FileResponse(SCRIPT_FILE)
     raise HTTPException(status_code=404, detail="Script.js not found")
 
-# ── COMPONENT GROUPS ENDPOINT ─────────────────────────────────────────────────
-@app.get("/api/component-groups")
-async def get_component_groups(user: str = Depends(get_current_user)):
-    """Return the 13 selectable AI component groups for the inventory screen."""
-    return {"count": len(COMPONENT_GROUPS), "data": COMPONENT_GROUPS}
+# ── API ENDPOINTS ─────────────────────────────────────────────────────────────
+@app.get("/api/clusters")
+async def get_clusters():
+    clusters = get_cluster_list()
+    return {"count": len(clusters), "data": clusters}
 
-# ── QUESTIONS ENDPOINTS ───────────────────────────────────────────────────────
 @app.get("/api/questions")
-async def get_all_questions(user: str = Depends(get_current_user)):
-    """Return all 122 questions (unfiltered)."""
-    df = load_questions()
-    return {"count": len(df), "data": df_to_json_safe(df)}
+async def get_all_questions():
+    master = build_master_lookup()
+    data = list(master.values())
+    return {"count": len(data), "data": data}
 
-@app.post("/api/questions/filtered")
-async def get_filtered_questions(payload: dict, user: str = Depends(get_current_user)):
-    """
-    Return only questions matching the company's selected component groups.
-    Body: { "selected_groups": ["LLM / Model Layer", "Vector Database", ...] }
-    """
-    selected = payload.get("selected_groups", [])
-    if not selected:
-        raise HTTPException(status_code=400, detail="selected_groups cannot be empty")
+@app.get("/api/questions/cluster/{cluster_name:path}")
+async def get_questions_by_cluster(cluster_name: str):
+    master = build_master_lookup()
+    filtered = [q for q in master.values() if q["Cluster_Group"] == cluster_name]
+    if not filtered:
+        raise HTTPException(status_code=404, detail=f"No questions found for cluster: {cluster_name}")
+    return {"cluster": cluster_name, "count": len(filtered), "data": filtered}
 
-    invalid = [g for g in selected if g not in COMPONENT_GROUPS]
-    if invalid:
-        raise HTTPException(
-            status_code=400,
-            detail=f"Invalid component groups: {invalid}. Valid options: {COMPONENT_GROUPS}",
-        )
+@app.get("/api/rationale/{qid}")
+async def get_rationale(qid: str):
+    master = build_master_lookup()
+    q = master.get(qid)
+    if not q:
+        raise HTTPException(status_code=404, detail=f"No question found for QID: {qid}")
+    return {"QID": qid, "Question_Text": q["Question_Text"], "Rationale": q["Rationale"]}
 
-    filtered = filter_questions(selected)
+@app.get("/api/industries")
+async def get_industries():
+    df = load_industries()
+    if df.empty:
+        return {"count": 0, "data": []}
+    unique = sorted(df["Industry"].dropna().unique().tolist()) if "Industry" in df.columns else []
+    return {"count": len(unique), "data": unique}
+
+@app.get("/api/jurisdictions")
+async def get_jurisdictions():
+    df = load_jurisdictions()
+    if df.empty:
+        return {"count": 0, "data": []}
+    unique = sorted(df["Jurisdiction"].dropna().unique().tolist()) if "Jurisdiction" in df.columns else []
+    return {"count": len(unique), "data": unique}
+
+@app.get("/api/ai-use-cases")
+async def get_ai_use_cases():
+    use_cases = load_use_cases_from_mapper()
+    return {"count": len(use_cases), "data": use_cases}
+
+class QuestionnaireBuildPayload(BaseModel):
+    ai_use_cases: List[str] = Field(default_factory=list)
+    seed: Optional[int] = None
+
+@app.post("/api/questionnaire/build")
+async def build_questionnaire(payload: QuestionnaireBuildPayload):
+    if not payload.ai_use_cases:
+        raise HTTPException(status_code=400, detail="At least one AI use case must be provided.")
+
+    result = build_mapper_questionnaire(payload.ai_use_cases, payload.seed)
     return {
-        "selected_groups": selected,
-        "total_questions": len(filtered),
-        "breakdown": filtered["component_group"].value_counts().to_dict(),
-        "data": df_to_json_safe(filtered),
+        "count": len(result["questions"]),
+        "data": result["questions"],
+        "meta": result["meta"],
     }
-
-# ── RISKS ENDPOINT ────────────────────────────────────────────────────────────
-@app.get("/api/risks")
-async def get_all_risks(user: str = Depends(get_current_user)):
-    """Return all 240 risk entries from master_risk_db."""
-    df = load_risks()
-    return {"count": len(df), "data": df.to_dict(orient="records")}
-
-@app.get("/api/risks/{qid_code}")
-async def get_risks_for_question(qid_code: str, user: str = Depends(get_current_user)):
-    """Return all risk entries for a specific question ID (e.g. AR_51)."""
-    df = load_risks()
-    # Use normalized 'qid_code' column
-    result = df[df["qid_code"] == qid_code]
-    if result.empty:
-        raise HTTPException(status_code=404, detail=f"No risks found for question {qid_code}")
-    return {"qid_code": qid_code, "count": len(result), "data": result.to_dict(orient="records")}
-
-# ── COMPLIANCE ENDPOINT ───────────────────────────────────────────────────────
-@app.get("/api/compliance")
-async def get_all_compliance(user: str = Depends(get_current_user)):
-    """Return all 122 compliance mappings (ISO 42001, NIST RMF, OWASP, EU AI Act)."""
-    df = load_compliance()
-    return {"count": len(df), "data": df.to_dict(orient="records")}
-
-@app.get("/api/compliance/{qid_code}")
-async def get_compliance_for_question(qid_code: str, user: str = Depends(get_current_user)):
-    """Return compliance mapping for a specific question."""
-    df = load_compliance()
-    # Use normalized 'qid_code' column for lookups (handles varied CSV headers)
-    result = df[df["qid_code"] == qid_code]
-    if result.empty:
-        raise HTTPException(status_code=404, detail=f"No compliance data found for {qid_code}")
-    return result.to_dict(orient="records")[0]
 
 # ── PYDANTIC MODELS ───────────────────────────────────────────────────────────
 class CompanyProfile(BaseModel):
@@ -363,36 +741,24 @@ class CompanyProfile(BaseModel):
     industry: str = Field(..., max_length=100)
     company_size: str = Field(..., max_length=50)
     regulatory_region: str = Field(..., max_length=100)
+    ai_use_cases: List[str] = Field(default_factory=list)
     ai_maturity_level: str = Field(..., max_length=100)
     assessor_name: str = Field(..., max_length=150)
     assessor_email: str = Field(..., max_length=150)
     assessor_role: Optional[str] = Field(default="", max_length=150)
 
-class AIInventoryItem(BaseModel):
-    system_name: str = Field(..., max_length=200)
-    description: str = Field(..., max_length=2000)
-    component_group: str = Field(..., max_length=100)
-    vendor_or_inhouse: str = Field(..., max_length=100)
-    vendor_name: Optional[str] = Field(default="", max_length=200)
-    deployment_status: str = Field(..., max_length=100)
-    data_sensitivity: str = Field(..., max_length=100)
-    business_criticality: str = Field(..., max_length=100)
-
 class UserResponse(BaseModel):
     question_id: str = Field(..., max_length=50)
-    component_group: str = Field(..., max_length=100)
-    answer: str = Field(..., max_length=20)
-    weight: Optional[float] = 1.0
-    max_risk_score: Optional[float] = 0.0
+    cluster_group: str = Field(default="", max_length=200)
+    answer_option: str = Field(..., max_length=500)
+    option_order: int = Field(default=1)
 
 class AssessmentPayload(BaseModel):
     company: CompanyProfile
-    inventory: List[AIInventoryItem]
     responses: List[UserResponse]
 
 class PDFReportPayload(BaseModel):
     company: CompanyProfile
-    inventory: List[AIInventoryItem]
     responses: List[UserResponse]
     score: float
     tier: str
@@ -400,472 +766,233 @@ class PDFReportPayload(BaseModel):
     tagline: str
     description: str
     findings: List[str] = []
-    # 'actions' (recommendations) removed per request — PDF will not include suggested actions
+
+# ── TIER LOGIC ────────────────────────────────────────────────────────────────
+def get_tier_info(score):
+    if score >= 80:
+        return {"tier": "Oversight Leader", "riskLevel": "LOW RISK", "color": "#38A169"}
+    if score >= 60:
+        return {"tier": "Governance Mature", "riskLevel": "LOW-MEDIUM RISK", "color": "#3182CE"}
+    if score >= 40:
+        return {"tier": "Developing Controls", "riskLevel": "MEDIUM RISK", "color": "#D69E2E"}
+    if score >= 20:
+        return {"tier": "Early Stage", "riskLevel": "HIGH RISK", "color": "#DD6B20"}
+    return {"tier": "Critical Exposure", "riskLevel": "CRITICAL RISK", "color": "#E53E3E"}
 
 # ── SCORING ENGINE ────────────────────────────────────────────────────────────
-def compute_ears_score(
-    answer: str,
-    weight: float,
-    probability: float,
-    impact: float,
-    visibility: float,
-    max_risk_score: float
-) -> float:
-    """
-    Full EARS Framework Scoring Formula:
-    Score /100 = (W × I × P × μ × e^(1−V)) / MaxRisk × 100
-    
-    Where:
-      W = Weight (question weight)
-      I = Impact (severity of impact if risks materialize)
-      P = Probability (likelihood of risk)
-      μ = Control Effectiveness (based on answer)
-        YES     → μ = 0.05  (controls in place — low residual risk)
-        PARTIAL → μ = 0.50  (partial controls)
-        NO      → μ = 1.00  (no controls — full risk exposed)
-      V = Visibility (organizational visibility of the risk)
-      MaxRisk = Maximum possible risk score for the question
-    """
-    import math
-    
-    mu_map = {"Yes": 0.05, "Partial": 0.50, "No": 1.00}
-    mu = mu_map.get(answer, None)
-    if mu is None:
-        return None   # NA — excluded
-    
-    # Ensure all parameters are floats
-    w = float(weight) if weight else 1.0
-    i = float(impact) if impact else 1.0
-    p = float(probability) if probability else 1.0
-    v = float(visibility) if visibility else 0.5
-    
-    # Calculate: (W × I × P × μ × e^(1−V)) / MaxRisk × 100
-    numerator = w * i * p * mu * math.exp(1 - v)
-    score = (numerator / max_risk_score * 100) if max_risk_score > 0 else 0
-    
-    return max(0, min(100, score))  # Clamp between 0-100
+OPTION_RISK_MAP = {1: 0.0, 2: 33.0, 3: 67.0, 4: 0.0}  # Option 4 = NA, excluded
 
 @app.post("/api/generate-report")
-async def generate_report(payload: AssessmentPayload, user: str = Depends(get_current_user)):
-    """
-    Core scoring engine with TRIGGER POINT logic.
-    Only "No" or "Partial" answers trigger risk and compliance assessment.
-    Returns a structured risk profile with only triggered risks.
-    """
-    q_df = load_questions()
-    r_df = load_risks()
-    c_df = load_compliance()
+async def generate_report(payload: AssessmentPayload):
+    master = build_master_lookup()
 
-    # Create lookup dictionaries
-    q_lookup = {row["qid_code"]: row for _, row in q_df.iterrows()} if not q_df.empty else {}
-    
-    # Risk lookup: group by normalized 'qid_code'
-    r_lookup = {}
-    if not r_df.empty:
-        for qid, grp in r_df.groupby("qid_code"):
-            r_lookup[qid] = grp.to_dict(orient="records")
-    
-    # Compliance lookup: use first column (question code) as key
-    c_lookup = {}
-    if not c_df.empty:
-        for _, row in c_df.iterrows():
-            qid = str(row.get("qid_code", row.iloc[0]))
-            c_lookup[qid] = row.to_dict()
-
-    total_weighted_score = 0.0
-    max_weighted_score = 0.0
-    component_scores = {}
-    triggered_risks = []  # Only risks from triggered questions (No/Partial)
+    total_risk = 0.0
+    answered_count = 0
     skipped_na = 0
+    cluster_scores = {}
+    triggered_risks = []
 
-    # ── SCORING PASS ──────────────────────────────────────────────────────────
     for resp in payload.responses:
-        q_data = q_lookup.get(resp.question_id, {})
-        weight = resp.weight or q_data.get("total_weight", 1.0) or 1.0
-        max_risk = resp.max_risk_score or q_data.get("max_risk_score", 10.0) or 10.0
-        group = resp.component_group or q_data.get("component_group", "Unknown")
+        q_data = master.get(resp.question_id, {})
+        cluster = resp.cluster_group or q_data.get("Cluster_Group", "Unknown")
 
-        # Skip NA answers
-        if resp.answer == "NA":
+        # Option 4 = NA, skip
+        if resp.option_order == 4:
             skipped_na += 1
             continue
 
-        # Per-component tracking (all answers)
-        if group not in component_scores:
-            component_scores[group] = {"earned": 0.0, "max": 0.0, "count": 0, "triggered": 0}
-        component_scores[group]["count"] += 1
+        answered_count += 1
+        risk_value = OPTION_RISK_MAP.get(resp.option_order, 50.0)
+        total_risk += risk_value
 
-        # ── TRIGGER POINT LOGIC ──────────────────────────────────────────────
-        # ONLY "No" or "Partial" answers trigger EARS calculation and risk assessment
-        if resp.answer in ("No", "Partial"):
-            component_scores[group]["triggered"] += 1
-            
-            # Get EARS parameters from risk data
-            risks_for_q = r_lookup.get(resp.question_id, [])
-            if risks_for_q:
-                # Use average of all risks for this question
-                probabilities = [float(r.get("P (Probability)", 1.0)) for r in risks_for_q]
-                impacts = [float(r.get("I (Impact)", 1.0)) for r in risks_for_q]
-                visibilities = [float(r.get("V (Visibility)", 0.5)) for r in risks_for_q]
-                
-                probability = sum(probabilities) / len(probabilities) if probabilities else 1.0
-                impact = sum(impacts) / len(impacts) if impacts else 1.0
-                visibility = sum(visibilities) / len(visibilities) if visibilities else 0.5
-            else:
-                # Defaults if no risk data available
-                probability = 1.0
-                impact = 1.0
-                visibility = 0.5
+        if cluster not in cluster_scores:
+            cluster_scores[cluster] = {"total_risk": 0.0, "count": 0, "triggered": 0}
+        cluster_scores[cluster]["count"] += 1
+        cluster_scores[cluster]["total_risk"] += risk_value
 
-            # Calculate EARS score ONLY for triggered questions
-            score = compute_ears_score(resp.answer, weight, probability, impact, visibility, max_risk)
-            
-            if score is not None:
-                total_weighted_score += score
-                max_weighted_score += 1.0 * weight * max_risk
-                component_scores[group]["earned"] += score
-                component_scores[group]["max"] += 1.0 * weight * max_risk
-            
-            # Get associated compliance from compliance_db
-            compliance_data = c_lookup.get(resp.question_id, {})
+        # Options 2 and 3 are trigger points (partial / no)
+        if resp.option_order in (2, 3):
+            cluster_scores[cluster]["triggered"] += 1
+            triggered_risks.append({
+                "question_id": resp.question_id,
+                "cluster_group": cluster,
+                "question_text": q_data.get("Question_Text", ""),
+                "risk_category": q_data.get("Risk_Category", ""),
+                "question_group": q_data.get("Question_Group", ""),
+                "answer": resp.answer_option,
+                "option_order": resp.option_order,
+                "risk_score": round(risk_value, 2),
+                "severity": "High" if resp.option_order == 3 else "Medium",
+            })
 
-            # Extract compliance framework mappings robustly by matching
-            # column name keywords (handles varied CSV header formats)
-            comp_iso = "N/A"
-            comp_nist = "N/A"
-            comp_owasp = "N/A"
-            comp_eu = "N/A"
-            if compliance_data and isinstance(compliance_data, dict):
-                for k, v in compliance_data.items():
-                    try:
-                        key = str(k).upper()
-                    except Exception:
-                        continue
-                    if "ISO" in key and comp_iso == "N/A":
-                        comp_iso = v
-                    if "NIST" in key and comp_nist == "N/A":
-                        comp_nist = v
-                    if "OWASP" in key and comp_owasp == "N/A":
-                        comp_owasp = v
-                    if "EU" in key or "AI ACT" in key or "EU AI" in key:
-                        comp_eu = v
-
-            # Add triggered risk entry (only if score was calculated)
-            if score is not None:
-                triggered_risks.append({
-                    "question_id": resp.question_id,
-                    "component_group": group,
-                    "question_text": q_data.get("question_text", "N/A"),
-                    "answer": resp.answer,
-                    "severity": q_data.get("severity", "Unknown"),
-                    "risk_score": round(score, 2),
-                    "max_risk_score": round(max_risk, 2),
-                    "weight": weight,
-                    
-                    # Associated risks from risk database
-                    "associated_risks": [
-                        {
-                            "risk_id": r.get("Risk ID", ""),
-                            "risk_description": r.get("Risk Description", ""),
-                            "probability": r.get("P (Probability)", 0),
-                            "impact": r.get("I (Impact)", 0),
-                            "risk_score": r.get("Risk Score /100", 0),
-                        }
-                        for r in risks_for_q
-                    ],
-                    
-                    # Associated compliance breaches (robust mapping)
-                    "compliance_breaches": {
-                        "iso_42001": comp_iso,
-                        "nist_rmf": comp_nist,
-                        "owasp": comp_owasp,
-                        "eu_ai_act": comp_eu,
-                    } if compliance_data else {},
-                })
-
-    # ── FINAL SCORING ──────────────────────────────────────────────────────────
-    if max_weighted_score == 0:
+    # Calculate governance score
+    if answered_count == 0:
         governance_score = 0.0
     else:
-        risk_exposure_pct = (total_weighted_score / max_weighted_score) * 100
-        governance_score = round(100 - risk_exposure_pct, 2)
+        avg_risk = total_risk / answered_count if answered_count > 0 else 0
+        # Sum all risk across answered
+        max_possible_risk = answered_count * 67.0  # worst case all Option 3
+        actual_risk = sum(cs["total_risk"] for cs in cluster_scores.values())
+        risk_pct = (actual_risk / max_possible_risk * 100) if max_possible_risk > 0 else 0
+        governance_score = round(100 - risk_pct, 2)
+        governance_score = max(0, min(100, governance_score))
 
-    # Per-component governance scores
-    component_breakdown = {}
-    for grp, data in component_scores.items():
-        if data["max"] > 0:
-            exposure = (data["earned"] / data["max"]) * 100
-            governance = round(100 - exposure, 2)
+    # Per-cluster breakdown
+    cluster_breakdown = {}
+    for cluster, data in cluster_scores.items():
+        max_risk = data["count"] * 67.0
+        if max_risk > 0:
+            exposure = (data["total_risk"] / max_risk) * 100
+            gov = round(100 - exposure, 2)
         else:
-            governance = 0.0
-        component_breakdown[grp] = {
-            "governance_score": governance,
+            gov = 0.0
+        cluster_breakdown[cluster] = {
+            "governance_score": max(0, min(100, gov)),
             "questions_asked": data["count"],
             "trigger_points": data["triggered"],
         }
 
-    # Sort triggered risks by severity and risk_score (worst first)
-    severity_order = {"Critical": 0, "High": 1, "Medium": 2, "Low": 3}
-    triggered_risks.sort(
-        key=lambda x: (
-            severity_order.get(x["severity"], 999),
-            -x["risk_score"]
-        )
-    )
-
-    # ── BUILD SUMMARY BY COMPONENT ────────────────────────────────────────────
-    triggered_summary_by_component = {}
-    for trigger in triggered_risks:
-        comp = trigger["component_group"]
-        if comp not in triggered_summary_by_component:
-            triggered_summary_by_component[comp] = []
-        
-        triggered_summary_by_component[comp].append({
-            "question_id": trigger["question_id"],
-            "question_text": trigger["question_text"],
-            "answer": trigger["answer"],
-            "severity": trigger["severity"],
-            "risk_score": trigger["risk_score"],
-            "max_risk_score": trigger["max_risk_score"],
-            "weight": trigger["weight"],
-            "risks": trigger["associated_risks"],
-            "compliance": trigger["compliance_breaches"],
-        })
+    # Sort triggered risks
+    triggered_risks.sort(key=lambda x: (-x["option_order"], -x["risk_score"]))
 
     return {
         "governance_score": governance_score,
         "risk_exposure_pct": round(100 - governance_score, 2),
-        "total_questions_answered": len(payload.responses) - skipped_na,
+        "total_questions_answered": answered_count,
         "total_trigger_points": len(triggered_risks),
         "questions_skipped_na": skipped_na,
-        "component_breakdown": component_breakdown,
-        "triggered_by_component": triggered_summary_by_component,
+        "cluster_breakdown": cluster_breakdown,
         "triggered_risks": triggered_risks,
     }
 
-# ── PDF BUILDER (single shared function) ─────────────────────────────────────
+# ── PDF BUILDER ───────────────────────────────────────────────────────────────
 def build_pdf(payload: PDFReportPayload, report_data: dict) -> io.BytesIO:
     buffer = io.BytesIO()
-    doc    = SimpleDocTemplate(
-        buffer, pagesize=letter,
+    doc = SimpleDocTemplate(buffer, pagesize=letter,
         leftMargin=0.75*inch, rightMargin=0.75*inch,
-        topMargin=0.75*inch, bottomMargin=0.75*inch,
-    )
+        topMargin=0.75*inch, bottomMargin=0.75*inch)
     styles = getSampleStyleSheet()
 
-    # Custom styles
-    title_style = ParagraphStyle(
-        "BizcomTitle", parent=styles["Title"],
-        fontSize=22, textColor=colors.HexColor("#0B1D33"),
-        spaceAfter=6, fontName="Helvetica-Bold",
-    )
-    h2_style = ParagraphStyle(
-        "BizcomH2", parent=styles["Heading2"],
-        fontSize=14, textColor=colors.HexColor("#0B1D33"),
-        spaceBefore=18, spaceAfter=6, fontName="Helvetica-Bold",
-    )
-    h3_style = ParagraphStyle(
-        "BizcomH3", parent=styles["Heading3"],
-        fontSize=11, textColor=colors.HexColor("#C49B2C"),
-        spaceBefore=12, spaceAfter=4, fontName="Helvetica-Bold",
-    )
-    body_style = ParagraphStyle(
-        "BizcomBody", parent=styles["Normal"],
-        fontSize=10, textColor=colors.HexColor("#2A3D52"),
-        spaceAfter=4, leading=15,
-    )
-    meta_style = ParagraphStyle(
-        "BizcomMeta", parent=styles["Normal"],
-        fontSize=9, textColor=colors.HexColor("#8A9BB0"),
-        spaceAfter=3,
-    )
-    risk_style = ParagraphStyle(
-        "BizcomRisk", parent=styles["Normal"],
-        fontSize=9, textColor=colors.HexColor("#4A5E72"),
-        spaceAfter=3, leading=14, leftIndent=12,
-    )
+    title_style = ParagraphStyle("BizcomTitle", parent=styles["Title"],
+        fontSize=22, textColor=colors.HexColor("#0B1D33"), spaceAfter=6, fontName="Helvetica-Bold")
+    h2_style = ParagraphStyle("BizcomH2", parent=styles["Heading2"],
+        fontSize=14, textColor=colors.HexColor("#0B1D33"), spaceBefore=18, spaceAfter=6, fontName="Helvetica-Bold")
+    body_style = ParagraphStyle("BizcomBody", parent=styles["Normal"],
+        fontSize=10, textColor=colors.HexColor("#2A3D52"), spaceAfter=4, leading=15)
+    meta_style = ParagraphStyle("BizcomMeta", parent=styles["Normal"],
+        fontSize=9, textColor=colors.HexColor("#8A9BB0"), spaceAfter=3)
+    risk_style = ParagraphStyle("BizcomRisk", parent=styles["Normal"],
+        fontSize=9, textColor=colors.HexColor("#4A5E72"), spaceAfter=3, leading=14, leftIndent=12)
 
     story = []
-
-    # ── HEADER ────────────────────────────────────────────────────────────────
     story.append(Paragraph("Bizcom AI Risk Assessment", title_style))
     story.append(Paragraph("Confidential — Generated by Bizcom AI Governance Platform", meta_style))
     story.append(HRFlowable(width="100%", thickness=2, color=colors.HexColor("#C49B2C"), spaceAfter=16))
 
-    # ── COMPANY PROFILE ───────────────────────────────────────────────────────
+    # Company Profile
     story.append(Paragraph("Company Profile", h2_style))
     c = payload.company
     profile_data = [
-        ["Company",    c.company_name,    "Industry",   c.industry],
-        ["Size",       c.company_size,    "Region",     c.regulatory_region],
-        ["AI Maturity",c.ai_maturity_level,"Assessor",  f"{c.assessor_name} ({c.assessor_role})"],
+        ["Company", c.company_name, "Industry", c.industry],
+        ["Size", c.company_size, "Region", c.regulatory_region],
+        ["AI Maturity", c.ai_maturity_level, "Assessor", f"{c.assessor_name} ({c.assessor_role})"],
     ]
     profile_table = Table(profile_data, colWidths=[1.2*inch, 2.4*inch, 1.2*inch, 2.4*inch])
     profile_table.setStyle(TableStyle([
         ("BACKGROUND", (0, 0), (-1, -1), colors.HexColor("#F4F6F9")),
         ("BACKGROUND", (0, 0), (0, -1), colors.HexColor("#0B1D33")),
         ("BACKGROUND", (2, 0), (2, -1), colors.HexColor("#0B1D33")),
-        ("TEXTCOLOR",  (0, 0), (0, -1), colors.HexColor("#C49B2C")),
-        ("TEXTCOLOR",  (2, 0), (2, -1), colors.HexColor("#C49B2C")),
-        ("FONTNAME",   (0, 0), (-1, -1), "Helvetica"),
-        ("FONTNAME",   (0, 0), (0, -1), "Helvetica-Bold"),
-        ("FONTNAME",   (2, 0), (2, -1), "Helvetica-Bold"),
-        ("FONTSIZE",   (0, 0), (-1, -1), 9),
-        ("PADDING",    (0, 0), (-1, -1), 7),
-        ("GRID",       (0, 0), (-1, -1), 0.5, colors.HexColor("#E8EDF3")),
-        ("ROWBACKGROUNDS", (0, 0), (-1, -1), [colors.HexColor("#F4F6F9"), colors.white]),
+        ("TEXTCOLOR", (0, 0), (0, -1), colors.HexColor("#C49B2C")),
+        ("TEXTCOLOR", (2, 0), (2, -1), colors.HexColor("#C49B2C")),
+        ("FONTNAME", (0, 0), (-1, -1), "Helvetica"),
+        ("FONTNAME", (0, 0), (0, -1), "Helvetica-Bold"),
+        ("FONTNAME", (2, 0), (2, -1), "Helvetica-Bold"),
+        ("FONTSIZE", (0, 0), (-1, -1), 9),
+        ("PADDING", (0, 0), (-1, -1), 7),
+        ("GRID", (0, 0), (-1, -1), 0.5, colors.HexColor("#E8EDF3")),
     ]))
     story.append(profile_table)
     story.append(Spacer(1, 12))
 
-    # ── AI INVENTORY ──────────────────────────────────────────────────────────
-    story.append(Paragraph("AI Inventory", h2_style))
-    inv_data = [["System Name", "Component Group", "Vendor/In-house", "Sensitivity", "Criticality"]]
-    for item in payload.inventory:
-        inv_data.append([
-            html.escape(item.system_name),
-            html.escape(item.component_group),
-            f"{item.vendor_or_inhouse}" + (f" — {item.vendor_name}" if item.vendor_name else ""),
-            item.data_sensitivity,
-            item.business_criticality,
-        ])
-    inv_table = Table(inv_data, colWidths=[1.8*inch, 1.6*inch, 1.6*inch, 0.9*inch, 0.9*inch])
-    inv_table.setStyle(TableStyle([
-        ("BACKGROUND",  (0, 0), (-1, 0),  colors.HexColor("#0B1D33")),
-        ("TEXTCOLOR",   (0, 0), (-1, 0),  colors.HexColor("#C49B2C")),
-        ("FONTNAME",    (0, 0), (-1, 0),  "Helvetica-Bold"),
-        ("FONTNAME",    (0, 1), (-1, -1), "Helvetica"),
-        ("FONTSIZE",    (0, 0), (-1, -1), 8),
-        ("PADDING",     (0, 0), (-1, -1), 6),
-        ("GRID",        (0, 0), (-1, -1), 0.5, colors.HexColor("#E8EDF3")),
-        ("ROWBACKGROUNDS", (1, 0), (-1, -1), [colors.HexColor("#F4F6F9"), colors.white]),
-        ("ALIGN",       (0, 0), (-1, -1), "LEFT"),
-    ]))
-    story.append(inv_table)
-    story.append(Spacer(1, 12))
-
-    # ── SCORE SUMMARY ─────────────────────────────────────────────────────────
-    story.append(HRFlowable(width="100%", thickness=1, color=colors.HexColor("#E8EDF3"), spaceAfter=12))
+    # Score Summary
     story.append(Paragraph("Assessment Score Summary", h2_style))
-
     tier_color_map = {
-        "Oversight Leader":    "#38A169",
-        "Governance Mature":   "#3182CE",
-        "Developing Controls": "#D69E2E",
-        "Early Stage":         "#DD6B20",
-        "Critical Exposure":   "#E53E3E",
+        "Oversight Leader": "#38A169", "Governance Mature": "#3182CE",
+        "Developing Controls": "#D69E2E", "Early Stage": "#DD6B20", "Critical Exposure": "#E53E3E",
     }
-    tier_color = tier_color_map.get(payload.tier, "#C49B2C")
-
     score_data = [
-        ["Governance Score", f"{payload.score:.1f} / 100",
-         "Risk Tier", payload.tier],
-        ["Risk Level", payload.risk_level,
-         "Risk Exposure", f"{report_data.get('risk_exposure_pct', 0):.1f}%"],
+        ["Governance Score", f"{payload.score:.1f} / 100", "Risk Tier", payload.tier],
+        ["Risk Level", payload.risk_level, "Risk Exposure", f"{report_data.get('risk_exposure_pct', 0):.1f}%"],
         ["Questions Answered", str(report_data.get("total_questions_answered", 0)),
          "Gaps Identified", str(report_data.get("total_trigger_points", 0))],
     ]
     score_table = Table(score_data, colWidths=[1.5*inch, 2.1*inch, 1.5*inch, 2.1*inch])
     score_table.setStyle(TableStyle([
-        ("BACKGROUND",  (0, 0), (0, -1), colors.HexColor("#0B1D33")),
-        ("BACKGROUND",  (2, 0), (2, -1), colors.HexColor("#0B1D33")),
-        ("TEXTCOLOR",   (0, 0), (0, -1), colors.HexColor("#C49B2C")),
-        ("TEXTCOLOR",   (2, 0), (2, -1), colors.HexColor("#C49B2C")),
-        ("FONTNAME",    (0, 0), (-1, -1), "Helvetica"),
-        ("FONTNAME",    (0, 0), (0, -1), "Helvetica-Bold"),
-        ("FONTNAME",    (2, 0), (2, -1), "Helvetica-Bold"),
-        ("FONTNAME",    (1, 0), (1, 0),  "Helvetica-Bold"),
-        ("FONTSIZE",    (0, 0), (-1, -1), 9),
-        ("FONTSIZE",    (1, 0), (1, 0),  13),
-        ("TEXTCOLOR",   (1, 0), (1, 0),  colors.HexColor(tier_color)),
-        ("PADDING",     (0, 0), (-1, -1), 8),
-        ("GRID",        (0, 0), (-1, -1), 0.5, colors.HexColor("#E8EDF3")),
-        ("ROWBACKGROUNDS", (0, 0), (-1, -1), [colors.HexColor("#F4F6F9"), colors.white]),
+        ("BACKGROUND", (0, 0), (0, -1), colors.HexColor("#0B1D33")),
+        ("BACKGROUND", (2, 0), (2, -1), colors.HexColor("#0B1D33")),
+        ("TEXTCOLOR", (0, 0), (0, -1), colors.HexColor("#C49B2C")),
+        ("TEXTCOLOR", (2, 0), (2, -1), colors.HexColor("#C49B2C")),
+        ("FONTNAME", (0, 0), (-1, -1), "Helvetica"),
+        ("FONTNAME", (0, 0), (0, -1), "Helvetica-Bold"),
+        ("FONTNAME", (2, 0), (2, -1), "Helvetica-Bold"),
+        ("FONTSIZE", (0, 0), (-1, -1), 9),
+        ("PADDING", (0, 0), (-1, -1), 8),
+        ("GRID", (0, 0), (-1, -1), 0.5, colors.HexColor("#E8EDF3")),
     ]))
     story.append(score_table)
     story.append(Spacer(1, 8))
-
-    # ── DESCRIPTION / EXEC SUMMARY ────────────────────────────────────────────
     story.append(Paragraph(html.escape(payload.description), body_style))
     story.append(Spacer(1, 8))
 
-    # ── COMPONENT BREAKDOWN ───────────────────────────────────────────────────
-    breakdown = report_data.get("component_breakdown", {})
+    # Cluster Breakdown
+    breakdown = report_data.get("cluster_breakdown", {})
     if breakdown:
-        story.append(Paragraph("Component Group Breakdown", h2_style))
-        bd_data = [["Component Group", "Governance Score", "Questions Asked", "Trigger Points"]]
+        story.append(Paragraph("Cluster Breakdown", h2_style))
+        bd_data = [["Cluster", "Governance Score", "Questions", "Gaps"]]
         for grp, data in sorted(breakdown.items(), key=lambda x: x[1]["governance_score"]):
-            bd_data.append([
-                grp,
-                f"{data['governance_score']:.1f}%",
-                str(data.get("questions_asked", 0)),
-                str(data.get("trigger_points", 0)),
-            ])
-        bd_table = Table(bd_data, colWidths=[2.8*inch, 1.5*inch, 1.2*inch, 1.2*inch])
+            bd_data.append([grp, f"{data['governance_score']:.1f}%",
+                str(data.get("questions_asked", 0)), str(data.get("trigger_points", 0))])
+        bd_table = Table(bd_data, colWidths=[3.2*inch, 1.3*inch, 1.0*inch, 1.0*inch])
         bd_table.setStyle(TableStyle([
-            ("BACKGROUND",  (0, 0), (-1, 0),  colors.HexColor("#0B1D33")),
-            ("TEXTCOLOR",   (0, 0), (-1, 0),  colors.HexColor("#C49B2C")),
-            ("FONTNAME",    (0, 0), (-1, 0),  "Helvetica-Bold"),
-            ("FONTNAME",    (0, 1), (-1, -1), "Helvetica"),
-            ("FONTSIZE",    (0, 0), (-1, -1), 9),
-            ("PADDING",     (0, 0), (-1, -1), 7),
-            ("GRID",        (0, 0), (-1, -1), 0.5, colors.HexColor("#E8EDF3")),
+            ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#0B1D33")),
+            ("TEXTCOLOR", (0, 0), (-1, 0), colors.HexColor("#C49B2C")),
+            ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+            ("FONTNAME", (0, 1), (-1, -1), "Helvetica"),
+            ("FONTSIZE", (0, 0), (-1, -1), 9),
+            ("PADDING", (0, 0), (-1, -1), 7),
+            ("GRID", (0, 0), (-1, -1), 0.5, colors.HexColor("#E8EDF3")),
             ("ROWBACKGROUNDS", (1, 0), (-1, -1), [colors.HexColor("#F4F6F9"), colors.white]),
-            ("ALIGN",       (1, 0), (-1, -1), "CENTER"),
+            ("ALIGN", (1, 0), (-1, -1), "CENTER"),
         ]))
         story.append(bd_table)
         story.append(Spacer(1, 12))
 
-    # ── KEY FINDINGS ──────────────────────────────────────────────────────────
+    # Key Findings
     if payload.findings:
         story.append(Paragraph("Key Findings", h2_style))
         for f in payload.findings:
             story.append(Paragraph(f"• {html.escape(str(f))}", body_style))
         story.append(Spacer(1, 8))
 
-    # ── TOP RISK GAPS ─────────────────────────────────────────────────────────
+    # Top Triggered Risks
     top_risks = report_data.get("triggered_risks", [])[:10]
     if top_risks:
-        story.append(Paragraph("Triggered Risks & Compliance Gaps (by Risk Score)", h2_style))
+        story.append(Paragraph("Triggered Risk Gaps", h2_style))
         for i, risk in enumerate(top_risks, 1):
             story.append(Paragraph(
-                f"<b>{i}. [{risk['component_group']}] {html.escape(str(risk['question_text'])[:120])}</b>",
-                risk_style
-            ))
+                f"<b>{i}. [{risk.get('cluster_group','')}] {html.escape(str(risk.get('question_text',''))[:120])}</b>",
+                risk_style))
             story.append(Paragraph(
-                f"Answer: {risk['answer']}  |  Risk Score: {risk['risk_score']}  |  Severity: {risk['severity']}",
-                meta_style
-            ))
-            compliance = risk.get("compliance_breaches", {})
-            for r in risk.get("associated_risks", []):
-                risk_desc = r.get("risk_description", "")
-                if risk_desc and str(risk_desc).lower() not in ["none", "nan"]:
-                    story.append(Paragraph(f"<font color='#D69E2E'><b>Risk:</b></font> {html.escape(str(risk_desc))}", risk_style))
-            
-            if compliance.get("iso_42001") and compliance["iso_42001"] != "N/A":
-                story.append(Paragraph(f"ISO 42001: {html.escape(str(compliance['iso_42001']))}", meta_style))
-            if compliance.get("nist_rmf") and compliance["nist_rmf"] != "N/A":
-                story.append(Paragraph(f"NIST RMF: {html.escape(str(compliance['nist_rmf']))}", meta_style))
-            if compliance.get("owasp") and compliance["owasp"] != "N/A":
-                story.append(Paragraph(f"OWASP: {html.escape(str(compliance['owasp']))}", meta_style))
-            if compliance.get("eu_ai_act") and compliance["eu_ai_act"] != "N/A":
-                story.append(Paragraph(f"EU AI Act: {html.escape(str(compliance['eu_ai_act']))}", meta_style))
+                f"Answer: {risk.get('answer','')} | Risk Score: {risk.get('risk_score',0)} | Severity: {risk.get('severity','')}",
+                meta_style))
             story.append(Spacer(1, 6))
 
-    # ── RECOMMENDED ACTIONS ───────────────────────────────────────────────────
-    if getattr(payload, "actions", None):
-        story.append(Paragraph("Recommended Actions", h2_style))
-        for i, action in enumerate(payload.actions, 1):
-            story.append(Paragraph(f"{i:02d}. {html.escape(str(action))}", body_style))
-        story.append(Spacer(1, 8))
-
-    # ── FOOTER ────────────────────────────────────────────────────────────────
+    # Footer
     story.append(HRFlowable(width="100%", thickness=1, color=colors.HexColor("#E8EDF3"), spaceBefore=20))
     story.append(Paragraph(
         "© 2026 Bizcom – Building AI Governance Frameworks for Tomorrow. "
         "This report is confidential and intended solely for the named organisation.",
-        meta_style,
-    ))
+        meta_style))
 
     doc.build(story)
     buffer.seek(0)
@@ -873,46 +1000,42 @@ def build_pdf(payload: PDFReportPayload, report_data: dict) -> io.BytesIO:
 
 # ── REPORT + PDF ENDPOINTS ────────────────────────────────────────────────────
 @app.post("/api/download-report")
-async def download_report(payload: PDFReportPayload, user: str = Depends(get_current_user)):
-    """
-    Generate and download the full PDF report.
-    Accepts the complete payload including company, inventory, responses, and tier info.
-    """
-    # Re-run scoring to get component breakdown for PDF
-    assessment = AssessmentPayload(
-        company=payload.company,
-        inventory=payload.inventory,
-        responses=payload.responses,
-    )
+async def download_report(payload: PDFReportPayload):
+    assessment = AssessmentPayload(company=payload.company, responses=payload.responses)
     report_data = await generate_report(assessment)
-
     pdf_buffer = build_pdf(payload, report_data)
-    return StreamingResponse(
-        pdf_buffer,
-        media_type="application/pdf",
-        headers={"Content-Disposition": "attachment; filename=Bizcom_AI_Risk_Report.pdf"},
-    )
+    return StreamingResponse(pdf_buffer, media_type="application/pdf",
+        headers={"Content-Disposition": "attachment; filename=Bizcom_AI_Risk_Report.pdf"})
 
 # ── HEALTH CHECK ──────────────────────────────────────────────────────────────
 @app.get("/api/health")
 async def health():
-    q_df = load_questions()
-    r_df = load_risks()
-    c_df = load_compliance()
+    q = load_questions()
+    a = load_possible_answers()
+    r = load_rationale()
+    c = load_cluster_groups()
+    qg = load_question_groups()
+    rc = load_risk_categories()
+    ind = load_industries()
+    jur = load_jurisdictions()
     return {
         "status": "ok",
         "databases": {
-            "questions_enriched": len(q_df),
-            "master_risk_db":     len(r_df),
-            "compliance_db":      len(c_df),
+            "questions": len(q),
+            "possible_answers": len(a),
+            "rationale": len(r),
+            "cluster_groups": len(c),
+            "question_groups": len(qg),
+            "risk_categories": len(rc),
+            "industries": len(ind),
+            "jurisdictions": len(jur),
         },
-        "component_groups": len(COMPONENT_GROUPS),
+        "clusters": len(get_cluster_list()),
+        "master_lookup_size": len(build_master_lookup()),
     }
 
 if __name__ == "__main__":
     import uvicorn
-    print("Starting Bizcom AI Risk Assessment API v2.0...")
-    print(f"Questions DB : {QUESTIONS_FILE}")
-    print(f"Risks DB     : {RISKS_FILE}")
-    print(f"Compliance DB: {COMPLIANCE_FILE}")
+    print("Starting Bizcom AI Risk Assessment API v3.0...")
+    print(f"Data dir: {DATA_DIR}")
     uvicorn.run(app, host="127.0.0.1", port=8000)
