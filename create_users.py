@@ -13,7 +13,8 @@ users = [
     {"email": "jerry@bizcomgrp.com", "password": "Bizcom@123"}
 ]
 
-csv_path = r'c:\Users\shanm\Desktop\Machinelearnin\Genai\Bizcom\data\users_db.csv'
+base_dir = os.path.dirname(os.path.abspath(__file__))
+csv_path = os.path.join(base_dir, "data", "users_db.csv")
 os.makedirs(os.path.dirname(csv_path), exist_ok=True)
 
 with open(csv_path, 'w', newline='', encoding='utf-8') as f:

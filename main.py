@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends, Header
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -10,7 +10,11 @@ import html
 import re
 import json
 import random
-from datetime import datetime
+import csv
+import hashlib
+import secrets
+import jwt
+from datetime import datetime, timedelta
 from pydantic import BaseModel, Field
 from typing import List, Optional, Dict, Set, Any
 from reportlab.lib import colors
@@ -43,10 +47,21 @@ RISK_CATEGORIES_FILE = os.path.join(DATA_DIR, "risk_categories.csv")
 INDUSTRIES_FILE      = os.path.join(DATA_DIR, "Industries.csv")
 JURISDICTIONS_FILE   = os.path.join(DATA_DIR, "Jurisdictions.csv")
 QUESTION_MAPPER_FILE = os.path.join(DATA_DIR, "AIRES_Question_Mapper_3.xlsx")
+USERS_DB_FILE = os.path.join(DATA_DIR, "users_db.csv")
+SYSTEM2_COHORTS_FILE = os.path.join(DATA_DIR, "system2_cohorts.json")
+SYSTEM2_SELECTIONS_FILE = os.path.join(DATA_DIR, "system2_selections.json")
 
 INDEX_FILE  = os.path.join(BASE_DIR, "index.html")
 SCRIPT_FILE = os.path.join(BASE_DIR, "Script.js")
+SYSTEM2_INDEX_FILE = os.path.join(BASE_DIR, "system2.html")
+SYSTEM2_SCRIPT_FILE = os.path.join(BASE_DIR, "system2.js")
 LOGO_FILE   = os.path.join(BASE_DIR, "logo.png")
+
+# ── AUTH SETTINGS ────────────────────────────────────────────────────────────
+JWT_SECRET = os.getenv("JWT_SECRET", "change-me-in-production")
+JWT_ALGORITHM = "HS256"
+JWT_EXPIRY_HOURS = int(os.getenv("JWT_EXPIRY_HOURS", "24"))
+SYSTEM1_PROVISION_KEY = os.getenv("SYSTEM1_PROVISION_KEY", "dev-system1-key")
 
 # ── STATIC ASSETS ─────────────────────────────────────────────────────────────
 @app.get("/logo.png")
@@ -69,6 +84,141 @@ def df_to_json_safe(df: pd.DataFrame) -> list:
                 record[col] = val
         records.append(record)
     return records
+
+def hash_password(password: str, salt: Optional[str] = None) -> str:
+    use_salt = salt or secrets.token_hex(16)
+    key = hashlib.pbkdf2_hmac("sha256", password.encode("utf-8"), use_salt.encode("utf-8"), 100000)
+    return f"{use_salt}:{key.hex()}"
+
+def verify_password(password: str, stored: str) -> bool:
+    try:
+        salt, expected = stored.split(":", 1)
+    except ValueError:
+        return False
+    candidate = hash_password(password, salt)
+    return secrets.compare_digest(candidate, f"{salt}:{expected}")
+
+@lru_cache(maxsize=1)
+def load_users_lookup() -> Dict[str, str]:
+    if not os.path.exists(USERS_DB_FILE):
+        return {}
+    users = {}
+    with open(USERS_DB_FILE, "r", encoding="utf-8", newline="") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            email = (row.get("email") or "").strip().lower()
+            hashed = (row.get("hashed_password") or "").strip()
+            if email and hashed:
+                users[email] = hashed
+    return users
+
+def create_access_token(email: str, extra_claims: Optional[Dict[str, Any]] = None) -> str:
+    expires = datetime.utcnow() + timedelta(hours=JWT_EXPIRY_HOURS)
+    payload = {
+        "sub": email,
+        "exp": expires,
+        "iat": datetime.utcnow(),
+    }
+    if extra_claims:
+        payload.update(extra_claims)
+    return jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
+
+def decode_token(authorization: Optional[str]) -> Dict[str, Any]:
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Missing or invalid authorization token.")
+
+    token = authorization.split(" ", 1)[1].strip()
+    try:
+        payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
+    except Exception:
+        raise HTTPException(status_code=401, detail="Invalid or expired token.")
+    return payload
+
+def get_current_user(authorization: Optional[str] = Header(default=None)) -> str:
+    payload = decode_token(authorization)
+
+    email = (payload.get("sub") or "").strip().lower()
+    if not email:
+        raise HTTPException(status_code=401, detail="Invalid token payload.")
+    return email
+
+def read_system2_cohorts() -> Dict[str, Any]:
+    if not os.path.exists(SYSTEM2_COHORTS_FILE):
+        return {}
+    with open(SYSTEM2_COHORTS_FILE, "r", encoding="utf-8") as f:
+        data = json.load(f)
+        return data if isinstance(data, dict) else {}
+
+def write_system2_cohorts(data: Dict[str, Any]) -> None:
+    os.makedirs(os.path.dirname(SYSTEM2_COHORTS_FILE), exist_ok=True)
+    with open(SYSTEM2_COHORTS_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2)
+
+def read_system2_selections() -> Dict[str, Any]:
+    if not os.path.exists(SYSTEM2_SELECTIONS_FILE):
+        return {}
+    with open(SYSTEM2_SELECTIONS_FILE, "r", encoding="utf-8") as f:
+        data = json.load(f)
+        return data if isinstance(data, dict) else {}
+
+def write_system2_selections(data: Dict[str, Any]) -> None:
+    os.makedirs(os.path.dirname(SYSTEM2_SELECTIONS_FILE), exist_ok=True)
+    with open(SYSTEM2_SELECTIONS_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2)
+
+def persist_system2_selection(cohort_id: str, user_role: str, user_email: str, use_cases: List[str]) -> None:
+    store = read_system2_selections()
+    cohort_bucket = store.setdefault(cohort_id, {
+        "updated_at": "",
+        "users": {
+            "primary": {"email": "", "selected_use_cases": [], "updated_at": ""},
+            "secondary": {"email": "", "selected_use_cases": [], "updated_at": ""},
+        },
+    })
+
+    ts = datetime.utcnow().isoformat() + "Z"
+    role_bucket = cohort_bucket.setdefault("users", {}).setdefault(user_role, {})
+    role_bucket["email"] = user_email
+    role_bucket["selected_use_cases"] = list(use_cases)
+    role_bucket["updated_at"] = ts
+    cohort_bucket["updated_at"] = ts
+    write_system2_selections(store)
+
+def evaluate_system2_unlock(cohort: Dict[str, Any]) -> bool:
+    selections = cohort.get("selections", {})
+    primary = selections.get("primary", [])
+    secondary = selections.get("secondary", [])
+    unlocked = bool(primary) and bool(secondary)
+    cohort["survey_unlocked"] = unlocked
+    if unlocked and not cohort.get("survey_link"):
+        cohort["survey_link"] = f"/system2"
+    return unlocked
+
+def generate_temp_password(length: int = 12) -> str:
+    alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789@#$%"
+    return "".join(secrets.choice(alphabet) for _ in range(length))
+
+def get_system2_context(authorization: Optional[str] = Header(default=None)) -> Dict[str, str]:
+    payload = decode_token(authorization)
+    if payload.get("scope") != "system2":
+        raise HTTPException(status_code=401, detail="System 2 token required.")
+
+    email = (payload.get("sub") or "").strip().lower()
+    cohort_id = (payload.get("cohort_id") or "").strip()
+    user_role = (payload.get("user_role") or "").strip().lower()
+    if not email or not cohort_id or user_role not in {"primary", "secondary"}:
+        raise HTTPException(status_code=401, detail="Invalid System 2 token payload.")
+
+    cohorts = read_system2_cohorts()
+    cohort = cohorts.get(cohort_id)
+    if not cohort:
+        raise HTTPException(status_code=401, detail="Cohort not found.")
+
+    user_record = (cohort.get("users", {}) or {}).get(user_role, {})
+    if (user_record.get("email") or "").strip().lower() != email:
+        raise HTTPException(status_code=401, detail="User not mapped to cohort.")
+
+    return {"email": email, "cohort_id": cohort_id, "user_role": user_role}
 
 # ── DB LOADERS ────────────────────────────────────────────────────────────────
 def _safe_load(path, **kwargs):
@@ -670,20 +820,277 @@ async def serve_script():
         return FileResponse(SCRIPT_FILE)
     raise HTTPException(status_code=404, detail="Script.js not found")
 
+@app.get("/system2")
+async def read_system2_root():
+    if not os.path.exists(SYSTEM2_INDEX_FILE) or not os.path.exists(SYSTEM2_SCRIPT_FILE):
+        return HTMLResponse(content="<h1>System 2</h1><p>system2.html or system2.js not found.</p>")
+    with open(SYSTEM2_INDEX_FILE, "r", encoding="utf-8") as f:
+        html_content = f.read()
+    with open(SYSTEM2_SCRIPT_FILE, "r", encoding="utf-8") as f:
+        script_content = f.read()
+    pattern = re.compile(r'<script\s+type=["\']text/babel["\']\s+src=["\']/?system2\.js["\']></script>', re.IGNORECASE)
+    inlined = f'<script type="text/babel">\n{script_content}\n</script>'
+    match = pattern.search(html_content)
+    if match:
+        html_content = html_content.replace(match.group(0), inlined)
+    else:
+        html_content = html_content.replace("</body>", f"{inlined}\n</body>")
+    return HTMLResponse(content=html_content)
+
+@app.get("/system2.js")
+async def serve_system2_script():
+    if os.path.exists(SYSTEM2_SCRIPT_FILE):
+        return FileResponse(SYSTEM2_SCRIPT_FILE)
+    raise HTTPException(status_code=404, detail="system2.js not found")
+
+class LoginRequest(BaseModel):
+    email: str = Field(..., max_length=200)
+    password: str = Field(..., max_length=200)
+
+@app.post("/api/login")
+async def login(payload: LoginRequest):
+    users = load_users_lookup()
+    if not users:
+        raise HTTPException(status_code=500, detail="User database not found. Create data/users_db.csv first.")
+
+    email = payload.email.strip().lower()
+    stored_hash = users.get(email)
+    if not stored_hash or not verify_password(payload.password, stored_hash):
+        raise HTTPException(status_code=401, detail="Invalid email or password.")
+
+    token = create_access_token(email)
+    return {"access_token": token, "token_type": "bearer", "email": email}
+
+class System2UseCaseSelectionPayload(BaseModel):
+    ai_use_cases: List[str] = Field(default_factory=list)
+
+class System2ProvisionPayload(BaseModel):
+    cohort_id: str = Field(..., max_length=120)
+    company_name: str = Field(..., max_length=200)
+    primary_email: str = Field(..., max_length=200)
+    secondary_email: str = Field(..., max_length=200)
+    primary_name: Optional[str] = Field(default="", max_length=150)
+    secondary_name: Optional[str] = Field(default="", max_length=150)
+    payment_reference: Optional[str] = Field(default="", max_length=150)
+
+@app.post("/api/system2/provision")
+async def system2_provision_from_system1(
+    payload: System2ProvisionPayload,
+    x_system1_key: Optional[str] = Header(default=None),
+):
+    if x_system1_key != SYSTEM1_PROVISION_KEY:
+        raise HTTPException(status_code=401, detail="Invalid System 1 provision key.")
+
+    primary_email = payload.primary_email.strip().lower()
+    secondary_email = payload.secondary_email.strip().lower()
+    if not primary_email or not secondary_email:
+        raise HTTPException(status_code=400, detail="Both primary and secondary email are required.")
+    if primary_email == secondary_email:
+        raise HTTPException(status_code=400, detail="Primary and secondary emails must be different.")
+
+    primary_password = generate_temp_password()
+    secondary_password = generate_temp_password()
+
+    cohorts = read_system2_cohorts()
+    cohort = cohorts.get(payload.cohort_id, {})
+
+    cohort["company_name"] = payload.company_name.strip()
+    cohort["payment_reference"] = (payload.payment_reference or "").strip()
+    cohort["created_at"] = cohort.get("created_at", datetime.utcnow().isoformat() + "Z")
+    cohort["provisioned_at"] = datetime.utcnow().isoformat() + "Z"
+    cohort["users"] = {
+        "primary": {
+            "email": primary_email,
+            "name": (payload.primary_name or "").strip(),
+            "hashed_password": hash_password(primary_password),
+        },
+        "secondary": {
+            "email": secondary_email,
+            "name": (payload.secondary_name or "").strip(),
+            "hashed_password": hash_password(secondary_password),
+        },
+    }
+    cohort["selections"] = {"primary": [], "secondary": []}
+    cohort["survey_unlocked"] = False
+    cohort["survey_link"] = ""
+
+    cohorts[payload.cohort_id] = cohort
+    write_system2_cohorts(cohorts)
+
+    return {
+        "cohort_id": payload.cohort_id,
+        "portal_url": "/system2",
+        "users": {
+            "primary": {
+                "email": primary_email,
+                "password": primary_password,
+            },
+            "secondary": {
+                "email": secondary_email,
+                "password": secondary_password,
+            },
+        },
+        "message": "System 2 users provisioned from System 1 webform data.",
+    }
+
+@app.post("/api/system2/login")
+async def system2_login(payload: LoginRequest):
+    cohorts = read_system2_cohorts()
+    email = payload.email.strip().lower()
+
+    for cohort_id, cohort in cohorts.items():
+        users = cohort.get("users", {})
+        for role in ("primary", "secondary"):
+            user = users.get(role, {})
+            if (user.get("email") or "").strip().lower() != email:
+                continue
+            if not verify_password(payload.password, user.get("hashed_password", "")):
+                raise HTTPException(status_code=401, detail="Invalid email or password.")
+
+            token = create_access_token(email, {
+                "scope": "system2",
+                "cohort_id": cohort_id,
+                "user_role": role,
+            })
+            return {
+                "access_token": token,
+                "token_type": "bearer",
+                "email": email,
+                "cohort_id": cohort_id,
+                "user_role": role,
+            }
+
+    raise HTTPException(status_code=401, detail="Invalid email or password.")
+
+@app.get("/api/system2/me")
+async def system2_me(ctx: Dict[str, str] = Depends(get_system2_context)):
+    cohorts = read_system2_cohorts()
+    cohort = cohorts.get(ctx["cohort_id"], {})
+    evaluate_system2_unlock(cohort)
+    write_system2_cohorts(cohorts)
+
+    selections = cohort.get("selections", {})
+    my_selection = selections.get(ctx["user_role"], [])
+    other_role = "secondary" if ctx["user_role"] == "primary" else "primary"
+    other_done = bool(selections.get(other_role, []))
+
+    return {
+        "email": ctx["email"],
+        "cohort_id": ctx["cohort_id"],
+        "user_role": ctx["user_role"],
+        "my_use_cases": my_selection,
+        "my_selection_done": bool(my_selection),
+        "other_selection_done": other_done,
+        "survey_unlocked": bool(cohort.get("survey_unlocked", False)),
+        "survey_link": cohort.get("survey_link", "/system2"),
+    }
+
+@app.post("/api/system2/select-use-cases")
+async def system2_select_use_cases(payload: System2UseCaseSelectionPayload, ctx: Dict[str, str] = Depends(get_system2_context)):
+    use_cases = sorted(set([uc.strip() for uc in payload.ai_use_cases if str(uc).strip()]))
+    if len(use_cases) < 1 or len(use_cases) > 5:
+        raise HTTPException(status_code=400, detail="Select a minimum of 1 and a maximum of 5 AI use cases.")
+    if "UC27" in use_cases and len(use_cases) > 1:
+        raise HTTPException(status_code=400, detail="UC27 (No AI) must be selected alone.")
+
+    cohorts = read_system2_cohorts()
+    cohort = cohorts.get(ctx["cohort_id"], {})
+    selections = cohort.setdefault("selections", {})
+    selections[ctx["user_role"]] = use_cases
+    persist_system2_selection(ctx["cohort_id"], ctx["user_role"], ctx["email"], use_cases)
+    unlocked = evaluate_system2_unlock(cohort)
+    write_system2_cohorts(cohorts)
+
+    return {
+        "saved": True,
+        "my_use_cases": use_cases,
+        "survey_unlocked": unlocked,
+    }
+
+@app.get("/api/system2/status")
+async def system2_status(ctx: Dict[str, str] = Depends(get_system2_context)):
+    cohorts = read_system2_cohorts()
+    cohort = cohorts.get(ctx["cohort_id"], {})
+    unlocked = evaluate_system2_unlock(cohort)
+    write_system2_cohorts(cohorts)
+
+    selections = cohort.get("selections", {})
+    role = ctx["user_role"]
+    other_role = "secondary" if role == "primary" else "primary"
+    return {
+        "survey_unlocked": unlocked,
+        "my_selection_done": bool(selections.get(role, [])),
+        "other_selection_done": bool(selections.get(other_role, [])),
+    }
+
+@app.get("/api/system2/questions")
+async def system2_questions(ctx: Dict[str, str] = Depends(get_system2_context)):
+    cohorts = read_system2_cohorts()
+    cohort = cohorts.get(ctx["cohort_id"], {})
+    if not evaluate_system2_unlock(cohort):
+        raise HTTPException(status_code=403, detail="Survey is locked until both users submit use-case selections.")
+
+    master = build_master_lookup()
+    questions = sorted(list(master.values()), key=lambda q: str(q.get("QID", "")))
+    return {
+        "count": len(questions),
+        "data": questions,
+    }
+
+@app.post("/api/system2/generate-report")
+async def system2_generate_report(payload: Dict[str, Any], ctx: Dict[str, str] = Depends(get_system2_context)):
+    cohorts = read_system2_cohorts()
+    cohort = cohorts.get(ctx["cohort_id"], {})
+    if not evaluate_system2_unlock(cohort):
+        raise HTTPException(status_code=403, detail="Survey is locked until both users submit use-case selections.")
+
+    raw_responses = payload.get("responses", [])
+    if not isinstance(raw_responses, list) or not raw_responses:
+        raise HTTPException(status_code=400, detail="responses must be a non-empty list.")
+
+    company = CompanyProfile(
+        company_name=cohort.get("company_name", "System 2 Organisation"),
+        industry="All Industries",
+        company_size="Unknown",
+        regulatory_region="All Jurisdictions",
+        ai_use_cases=[],
+        ai_maturity_level="Unknown",
+        assessor_name=ctx["email"],
+        assessor_email=ctx["email"],
+        assessor_role=ctx["user_role"],
+    )
+
+    responses: List[UserResponse] = []
+    for item in raw_responses:
+        try:
+            responses.append(UserResponse(
+                question_id=str(item.get("question_id", "")),
+                answer_option=str(item.get("answer_option", "")),
+                option_order=int(item.get("option_order", 1)),
+            ))
+        except Exception:
+            continue
+
+    if not responses:
+        raise HTTPException(status_code=400, detail="No valid responses provided.")
+
+    assessment_payload = AssessmentPayload(company=company, responses=responses)
+    return await generate_report(assessment_payload, ctx["email"])
+
 # ── API ENDPOINTS ─────────────────────────────────────────────────────────────
 @app.get("/api/clusters")
-async def get_clusters():
+async def get_clusters(current_user: str = Depends(get_current_user)):
     clusters = get_cluster_list()
     return {"count": len(clusters), "data": clusters}
 
 @app.get("/api/questions")
-async def get_all_questions():
+async def get_all_questions(current_user: str = Depends(get_current_user)):
     master = build_master_lookup()
     data = list(master.values())
     return {"count": len(data), "data": data}
 
 @app.get("/api/questions/cluster/{cluster_name:path}")
-async def get_questions_by_cluster(cluster_name: str):
+async def get_questions_by_cluster(cluster_name: str, current_user: str = Depends(get_current_user)):
     master = build_master_lookup()
     filtered = [q for q in master.values() if q["Cluster_Group"] == cluster_name]
     if not filtered:
@@ -691,7 +1098,7 @@ async def get_questions_by_cluster(cluster_name: str):
     return {"cluster": cluster_name, "count": len(filtered), "data": filtered}
 
 @app.get("/api/rationale/{qid}")
-async def get_rationale(qid: str):
+async def get_rationale(qid: str, current_user: str = Depends(get_current_user)):
     master = build_master_lookup()
     q = master.get(qid)
     if not q:
@@ -699,7 +1106,7 @@ async def get_rationale(qid: str):
     return {"QID": qid, "Question_Text": q["Question_Text"], "Rationale": q["Rationale"]}
 
 @app.get("/api/industries")
-async def get_industries():
+async def get_industries(current_user: str = Depends(get_current_user)):
     df = load_industries()
     if df.empty:
         return {"count": 0, "data": []}
@@ -707,7 +1114,7 @@ async def get_industries():
     return {"count": len(unique), "data": unique}
 
 @app.get("/api/jurisdictions")
-async def get_jurisdictions():
+async def get_jurisdictions(current_user: str = Depends(get_current_user)):
     df = load_jurisdictions()
     if df.empty:
         return {"count": 0, "data": []}
@@ -715,7 +1122,7 @@ async def get_jurisdictions():
     return {"count": len(unique), "data": unique}
 
 @app.get("/api/ai-use-cases")
-async def get_ai_use_cases():
+async def get_ai_use_cases(current_user: str = Depends(get_current_user)):
     use_cases = load_use_cases_from_mapper()
     return {"count": len(use_cases), "data": use_cases}
 
@@ -724,11 +1131,15 @@ class QuestionnaireBuildPayload(BaseModel):
     seed: Optional[int] = None
 
 @app.post("/api/questionnaire/build")
-async def build_questionnaire(payload: QuestionnaireBuildPayload):
+async def build_questionnaire(payload: QuestionnaireBuildPayload, current_user: str = Depends(get_current_user)):
     if not payload.ai_use_cases:
         raise HTTPException(status_code=400, detail="At least one AI use case must be provided.")
 
-    result = build_mapper_questionnaire(payload.ai_use_cases, payload.seed)
+    unique_cases = sorted(set([uc.strip() for uc in payload.ai_use_cases if str(uc).strip()]))
+    if len(unique_cases) < 1 or len(unique_cases) > 5:
+        raise HTTPException(status_code=400, detail="Select a minimum of 1 and a maximum of 5 AI use cases.")
+
+    result = build_mapper_questionnaire(unique_cases, payload.seed)
     return {
         "count": len(result["questions"]),
         "data": result["questions"],
@@ -783,7 +1194,7 @@ def get_tier_info(score):
 OPTION_RISK_MAP = {1: 0.0, 2: 33.0, 3: 67.0, 4: 0.0}  # Option 4 = NA, excluded
 
 @app.post("/api/generate-report")
-async def generate_report(payload: AssessmentPayload):
+async def generate_report(payload: AssessmentPayload, current_user: str = Depends(get_current_user)):
     master = build_master_lookup()
 
     total_risk = 0.0
@@ -1000,9 +1411,9 @@ def build_pdf(payload: PDFReportPayload, report_data: dict) -> io.BytesIO:
 
 # ── REPORT + PDF ENDPOINTS ────────────────────────────────────────────────────
 @app.post("/api/download-report")
-async def download_report(payload: PDFReportPayload):
+async def download_report(payload: PDFReportPayload, current_user: str = Depends(get_current_user)):
     assessment = AssessmentPayload(company=payload.company, responses=payload.responses)
-    report_data = await generate_report(assessment)
+    report_data = await generate_report(assessment, current_user)
     pdf_buffer = build_pdf(payload, report_data)
     return StreamingResponse(pdf_buffer, media_type="application/pdf",
         headers={"Content-Disposition": "attachment; filename=Bizcom_AI_Risk_Report.pdf"})

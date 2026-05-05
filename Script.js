@@ -6,7 +6,7 @@ function getClusterIcon(name){for(let k in CLUSTER_ICONS)if(name&&name.includes(
 const TIER_COLORS={"Oversight Leader":"#38A169","Governance Mature":"#3182CE","Developing Controls":"#D69E2E","Early Stage":"#DD6B20","Critical Exposure":"#E53E3E"};
 function getTierInfo(s){if(s>=80)return{tier:"Oversight Leader",riskLevel:"LOW RISK",color:"#38A169",tagline:"Exemplary AI governance maturity",description:"Your organisation demonstrates exceptional AI oversight with robust controls and mature risk culture.",findings:["Comprehensive governance frameworks embedded","AI risks systematically identified and mitigated","Human oversight mechanisms operational","Ethical principles operationalised"]};if(s>=60)return{tier:"Governance Mature",riskLevel:"LOW-MEDIUM RISK",color:"#3182CE",tagline:"Strong foundations with targeted gaps",description:"Solid AI governance structures in place. Most controls operational with focused gaps remaining.",findings:["Core governance policies documented","Risk assessments conducted broadly","Human-in-the-loop controls exist","Ethics principles documented"]};if(s>=40)return{tier:"Developing Controls",riskLevel:"MEDIUM RISK",color:"#D69E2E",tagline:"Foundational work in progress",description:"AI oversight recognised but implementation inconsistent. Key controls missing or unevenly applied.",findings:["Governance policies not consistently enforced","Risk assessments reactive not proactive","Monitoring largely ad hoc","Ethics not systematically applied"]};if(s>=20)return{tier:"Early Stage",riskLevel:"HIGH RISK",color:"#DD6B20",tagline:"Significant gaps requiring urgent attention",description:"AI oversight posture presents material risk. Governance largely informal and controls insufficient.",findings:["No comprehensive AI governance framework","Risks not systematically managed","Systems may lack human oversight","Compliance cannot be demonstrated"]};return{tier:"Critical Exposure",riskLevel:"CRITICAL RISK",color:"#E53E3E",tagline:"Immediate executive intervention required",description:"AI oversight represents critical risk with absence of governance creating severe exposure.",findings:["No governance structure exists","Systems deployed without assessment","No human oversight mechanisms","Compliance entirely unaddressed"]};}
 function BizcomLogo({style={}}){return React.createElement("img",{src:B.logoUrl,alt:"Bizcom",style:{height:44,objectFit:"contain",...style},onError:e=>{e.target.style.display="none"}});}
-function NavBar({showContact=true}){return React.createElement("div",{style:{background:B.navy,borderBottom:"1px solid "+B.navyLight,padding:"0 32px",display:"flex",alignItems:"center",justifyContent:"space-between",height:68,position:"sticky",top:0,zIndex:100}},React.createElement(BizcomLogo),showContact&&React.createElement("a",{href:"https://bizcomgrp.com/contact/",target:"_blank",rel:"noreferrer",style:{background:B.gold,color:B.navy,fontSize:12,fontWeight:700,letterSpacing:"0.06em",padding:"9px 20px",borderRadius:6,textDecoration:"none"}},"Contact Us"));}
+function NavBar({showContact=true,onLogout=null}){return React.createElement("div",{style:{background:B.navy,borderBottom:"1px solid "+B.navyLight,padding:"0 32px",display:"flex",alignItems:"center",justifyContent:"space-between",height:68,position:"sticky",top:0,zIndex:100}},React.createElement(BizcomLogo),React.createElement("div",{style:{display:"flex",alignItems:"center",gap:10}},showContact&&React.createElement("a",{href:"https://bizcomgrp.com/contact/",target:"_blank",rel:"noreferrer",style:{background:B.gold,color:B.navy,fontSize:12,fontWeight:700,letterSpacing:"0.06em",padding:"9px 20px",borderRadius:6,textDecoration:"none"}},"Contact Us"),onLogout&&React.createElement("button",{onClick:onLogout,style:{background:"transparent",color:B.white,border:"1px solid "+B.greyDark,borderRadius:6,padding:"8px 14px",fontSize:11,fontWeight:700,cursor:"pointer",letterSpacing:"0.05em"}},"Log Out")));}
 function Footer(){return React.createElement("div",{style:{background:B.navy,borderTop:"1px solid "+B.navyLight,padding:"28px 32px",display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:12}},React.createElement(BizcomLogo,{style:{height:36}}),React.createElement("p",{style:{fontSize:11,color:B.greyDark,margin:0}},"© 2026 Bizcom – Building AI Governance Frameworks for Tomorrow."),React.createElement("a",{href:"https://bizcomgrp.com",target:"_blank",rel:"noreferrer",style:{fontSize:11,color:B.gold,textDecoration:"none"}},"bizcomgrp.com →"));}
 function GoldBtn({onClick,disabled,children,outline=false}){return React.createElement("button",{onClick,disabled,style:{background:outline?"transparent":disabled?B.lightGrey:B.gold,color:outline?B.greyDark:disabled?B.grey:B.navy,border:outline?"1px solid "+B.lightGrey:"none",borderRadius:8,padding:"12px 28px",fontSize:13,fontWeight:700,letterSpacing:"0.05em",cursor:disabled?"not-allowed":"pointer",transition:"all 0.2s",boxShadow:!outline&&!disabled?"0 4px 16px "+B.gold+"44":"none"}},children);}
 function FieldRow({label,children}){return React.createElement("div",{style:{marginBottom:18}},React.createElement("label",{style:{display:"block",fontSize:11,fontWeight:700,color:B.greyDark,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:6}},label),children);}
@@ -17,12 +17,12 @@ function UseCaseSelect({value,onChange,options}){return React.createElement("sel
 function makeAiUsageItem(){
     return { description: "", useCase: "" };
 }
-function RationaleModal({ qid, onClose }) {
+function RationaleModal({ qid, onClose, authFetch }) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
-        fetch("/api/rationale/" + qid).then(r => r.json()).then(d => { setData(d); setLoading(false); });
-    }, [qid]);
+        authFetch("/api/rationale/" + qid).then(r => r.json()).then(d => { setData(d); setLoading(false); }).catch(() => setLoading(false));
+    }, [qid, authFetch]);
     return React.createElement("div", { style: { position: "fixed", inset: 0, background: "rgba(11,29,51,0.85)", backdropFilter: "blur(4px)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000, padding: 20 } },
         React.createElement("div", { style: { background: "white", borderRadius: 16, width: "100%", maxWidth: 600, maxHeight: "90vh", display: "flex", flexDirection: "column", overflow: "hidden", boxShadow: "0 20px 50px rgba(0,0,0,0.3)" } },
             React.createElement("div", { style: { padding: "20px 24px", borderBottom: "1px solid #eee", display: "flex", justifyContent: "space-between", alignItems: "center", background: B.navy } },
@@ -44,7 +44,12 @@ function RationaleModal({ qid, onClose }) {
 
 function App() {
     const MAX_AI_USAGES = 5;
-    const [phase, setPhase] = useState("intro");
+    const [phase, setPhase] = useState(() => localStorage.getItem("bizcom_token") ? "intro" : "login");
+    const [authToken, setAuthToken] = useState(() => localStorage.getItem("bizcom_token") || "");
+    const [loginEmail, setLoginEmail] = useState("");
+    const [loginPassword, setLoginPassword] = useState("");
+    const [loginLoading, setLoginLoading] = useState(false);
+    const [loginError, setLoginError] = useState("");
     const [company, setCompany] = useState({ 
         company_name: "", 
         industry: "All Industries", 
@@ -67,13 +72,61 @@ function App() {
     const [loading, setLoading] = useState(false);
     const [useCases, setUseCases] = useState([]);
 
+    const authFetch = useCallback(async (url, options = {}) => {
+        const headers = { ...(options.headers || {}) };
+        if (authToken) headers.Authorization = "Bearer " + authToken;
+        const response = await fetch(url, { ...options, headers });
+        if (response.status === 401) {
+            localStorage.removeItem("bizcom_token");
+            setAuthToken("");
+            setPhase("login");
+            throw new Error("Your session expired. Please log in again.");
+        }
+        return response;
+    }, [authToken]);
+
+    async function handleLogin() {
+        if (!loginEmail.trim() || !loginPassword) {
+            setLoginError("Enter both email and password.");
+            return;
+        }
+        setLoginLoading(true);
+        setLoginError("");
+        try {
+            const res = await fetch("/api/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: loginEmail.trim(), password: loginPassword })
+            });
+            const payload = await res.json();
+            if (!res.ok) throw new Error(payload?.detail || "Login failed.");
+            localStorage.setItem("bizcom_token", payload.access_token);
+            setAuthToken(payload.access_token);
+            setLoginPassword("");
+            setPhase("intro");
+        } catch (err) {
+            setLoginError(err?.message || "Login failed.");
+        } finally {
+            setLoginLoading(false);
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem("bizcom_token");
+        setAuthToken("");
+        setLoginPassword("");
+        setPhase("login");
+    }
+
     useEffect(() => {
-        fetch("/api/ai-use-cases")
+        if (!authToken) return;
+        authFetch("/api/ai-use-cases")
             .then(r => r.json())
             .then(d => {
                 setUseCases(d.data || []);
-            });
-    }, []);
+            })
+            .catch(() => setUseCases([]));
+    }, [authToken, authFetch]);
 
     async function startAssessment() {
         const normalized = aiInventory.map(i => ({
@@ -108,7 +161,7 @@ function App() {
         setLoading(true);
         let filtered = [];
         try {
-            const res = await fetch("/api/questionnaire/build", {
+            const res = await authFetch("/api/questionnaire/build", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ ai_use_cases: selectedUseCases })
@@ -165,7 +218,7 @@ function App() {
 
     function submitAssessment() {
         setLoading(true);
-        fetch("/api/generate-report", {
+        authFetch("/api/generate-report", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ 
@@ -176,17 +229,35 @@ function App() {
                     option_order: a.Option_Order 
                 })) 
             })
-        }).then(r => r.json()).then(d => { 
-            setReportData(d); 
-            goTo("result"); 
-            setLoading(false); 
+        }).then(r => r.json()).then(d => {
+            setReportData(d);
+            goTo("result");
+            setLoading(false);
+        }).catch(err => {
+            setLoading(false);
+            alert(err?.message || "Failed to submit assessment.");
         });
     }
 
     function goTo(p) { setPhase(p); window.scrollTo(0, 0); }
 
+    if (phase === "login") return React.createElement("div", { style: { minHeight: "100vh", background: B.offWhite } },
+        React.createElement(NavBar, { showContact: false }),
+        React.createElement("div", { style: { maxWidth: 460, margin: "70px auto", background: "white", padding: 30, borderRadius: 16, boxShadow: "0 8px 30px rgba(0,0,0,0.08)" } },
+            React.createElement("h2", { style: { margin: "0 0 8px", color: B.navy } }, "Intervene System Login"),
+            React.createElement("p", { style: { margin: "0 0 22px", color: B.greyDeep, fontSize: 13 } }, "Sign in to access the AI use-case assessment form."),
+            React.createElement(FieldRow, { label: "Email" }, React.createElement(Input, { value: loginEmail, onChange: setLoginEmail, placeholder: "name@company.com", type: "email" })),
+            React.createElement(FieldRow, { label: "Password" }, React.createElement(Input, { value: loginPassword, onChange: setLoginPassword, placeholder: "Enter password", type: "password" })),
+            loginError && React.createElement("div", { style: { marginBottom: 12, color: "#B91C1C", fontSize: 12, fontWeight: 700 } }, loginError),
+            React.createElement("div", { style: { display: "flex", justifyContent: "flex-end" } },
+                React.createElement(GoldBtn, { onClick: handleLogin, disabled: loginLoading }, loginLoading ? "Signing In..." : "Login")
+            )
+        ),
+        React.createElement(Footer)
+    );
+
     if (phase === "intro") return React.createElement("div", { style: { minHeight: "100vh", background: B.offWhite } },
-        React.createElement(NavBar),
+        React.createElement(NavBar, { onLogout: logout }),
         React.createElement("div", { style: { background: B.navy, padding: "80px 24px", textAlign: "center" } },
             React.createElement("h1", { style: { color: "white", fontSize: 48, margin: 0 } }, "AI Risk Assessment"),
             React.createElement("h1", { style: { color: B.gold, fontSize: 48, margin: "0 0 24px" } }, "Powered by Bizcom"),
@@ -197,7 +268,7 @@ function App() {
     );
 
     if (phase === "profile") return React.createElement("div", { style: { minHeight: "100vh", background: B.offWhite } },
-        React.createElement(NavBar),
+        React.createElement(NavBar, { onLogout: logout }),
         React.createElement("div", { style: { maxWidth: 760, margin: "40px auto", background: "white", padding: 28, borderRadius: 16, boxShadow: "0 4px 20px rgba(0,0,0,0.05)" } },
             React.createElement("div", { style: { marginBottom: 16, borderLeft: "3px solid #1F6FE5", paddingLeft: 10 } },
                 React.createElement("h2", { style: { color: B.navy, margin: 0, fontSize: 13, letterSpacing: "0.08em", textTransform: "uppercase" } }, "AI Inventory"),
@@ -230,7 +301,7 @@ function App() {
         const allDone = answeredQs === totalQs && totalQs > 0;
 
         return React.createElement("div", { style: { minHeight: "100vh", background: B.offWhite } },
-            React.createElement(NavBar),
+            React.createElement(NavBar, { onLogout: logout }),
             React.createElement("div", { style: { maxWidth: 900, margin: "40px auto", padding: "0 20px" } },
                 React.createElement("div", { style: { marginBottom: 32 } },
                     React.createElement("h2", { style: { color: B.navy, margin: 0 } }, "Assessment Modules"),
@@ -267,7 +338,7 @@ function App() {
         const progress = ((current + 1) / questions.length) * 100;
 
         return React.createElement("div", { style: { minHeight: "100vh", background: B.offWhite } },
-            React.createElement(NavBar),
+            React.createElement(NavBar, { onLogout: logout }),
             React.createElement("div", { style: { height: 4, background: "#eee" } }, React.createElement("div", { style: { height: "100%", width: progress + "%", background: B.gold, transition: "width 0.3s" } })),
             React.createElement("div", { style: { maxWidth: 1000, margin: "40px auto", padding: "0 24px" } },
                 // Hero Section (Metadata Tags)
@@ -309,14 +380,14 @@ function App() {
                     }, disabled: !answers[q.QID] }, current < questions.length - 1 ? "Next Question →" : "Finish Cluster & Return")
                 )
             ),
-            showRationale && React.createElement(RationaleModal, { qid: showRationale, onClose: () => setShowRationale(null) }),
+            showRationale && React.createElement(RationaleModal, { qid: showRationale, onClose: () => setShowRationale(null), authFetch }),
             React.createElement(Footer)
         );
     }
     if (phase === "result") {
         const tier = getTierInfo(reportData.governance_score);
         return React.createElement("div", { style: { minHeight: "100vh", background: B.offWhite } },
-            React.createElement(NavBar),
+            React.createElement(NavBar, { onLogout: logout }),
             React.createElement("div", { style: { background: B.navy, padding: "60px 24px", textAlign: "center", borderBottom: "4px solid " + tier.color } },
                 React.createElement("div", { style: { fontSize: 80, fontWeight: 900, color: tier.color, marginBottom: 8 } }, Math.round(reportData.governance_score)),
                 React.createElement("h2", { style: { color: "white", margin: 0 } }, tier.tier),
